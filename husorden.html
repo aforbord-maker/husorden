@@ -203,15 +203,15 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .kcards { display: flex; flex-direction: column; gap: 14px; }
 .kcard { position: relative; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 12px; display: flex; gap: 14px; align-items: center; }
 .kcard.done { background: var(--skumaqua); }
-.kcard.ledig { background: var(--lysrosa); }
-.kcard.ledig .btn { flex: none; }
+.kcard.ledig { background: var(--lysrosa); display: grid; grid-template-columns: 84px minmax(0, 1fr); align-items: center; }
+.kcard.ledig .btn { grid-column: 2; justify-self: start; }
 #kidView h2 { margin-top: 6px; }
 .kbilde { width: 84px; height: 84px; flex: none; display: grid; place-content: center; box-sizing: border-box; }
 .kbilde img { display: block; width: 84px; height: 84px; }
 .kbilde.tom { width: 76px; height: 76px; margin: 4px; border-radius: 16px; background: var(--kort); border: var(--strek); }
 .kbilde.ferdig { border: 3px solid var(--skiltturkis); }
 .kbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.kbody h3 { margin: 0; font-size: 18px; font-weight: 800; overflow-wrap: anywhere; }
+.kbody h3 { margin: 0; font-size: 18px; font-weight: 800; overflow-wrap: break-word; hyphens: auto; }
 .kcard.done h3 { text-decoration: line-through; color: var(--krom); }
 .kmeta { font-size: 14px; color: var(--krom); }
 .kcard.done .kmeta { color: var(--skiltturkis); font-weight: 800; }
@@ -764,7 +764,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     ['brette', ['brette', 'tørkestativ', 'tørre klær', 'rent tøy']],
     /* Spesialtilfeller flyttet opp: «sortere leker» skal ikke gi søppelbøtte, og «sko … på plass» skal gi sko. */
     ['leker', ['leker', 'spill']],
-    ['sko', ['sko', 'jakker', 'ytterklær', /\bgang\b/]],
+    ['sko', ['sko', 'jakker', 'ytterklær']],
     ['kurv', ['kveldsrydd', 'skittentøy', 'på plass', 'rydde flater', 'ryddeoppgave']],
     ['sokker', ['sokker', 'pare']],
     ['seng', ['re opp', 'sengetøy', 'madrass']],
@@ -776,6 +776,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     ['ovn', ['stekeovn', 'mikrobølgeovn', 'kjøkkenvifte']],
     ['klut', ['tørke', 'støv', 'fronter', 'dører', 'lister', 'lamper', 'karmer', 'håndtak']],
     ['sopla', ['søppel', 'sortere', 'søppelbøtte']],
+    ['sko', [/^gang\b/]],
     ['klesskap', ['klesskap', 'garderobe']],
     ['papirer', ['post', 'papirer']],
     ['vindu', ['vinduer', 'vinduskarmer']],
@@ -933,6 +934,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   /* ---------- start ---------- */
   $('logo').innerHTML = skilt({ tekst: 'HUSORDEN', undertekst: '— VASK • RYDD • GLITRE —', bredde: 210 });
+  document.documentElement.lang = 'nb';
   store = { newId: () => '', set: () => Promise.reject({}), del: () => Promise.reject({}) };
   render();
   (window.claude && window.claude.use ? window.claude.use('db').catch(() => null) : Promise.resolve(null)).then(db => {
