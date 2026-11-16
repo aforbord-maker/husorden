@@ -12,6 +12,7 @@ Svar og skriv brukertekst på **norsk bokmål**. All tekst i appen er på norsk.
 | `data/tasks/*.json` | Familiens oppgaver slik de ligger i appens lager. Bruk titlene til å teste ikon-gjettingen. Ikke endre dem. |
 | `docs/design.md` | **Designspesifikasjonen.** Les den helt før du begynner. Den er fasiten. |
 | `docs/oppgaver.md` | Implementeringsplanen, steg for steg. Følg rekkefølgen og kryss av. |
+| `docs/vaskeplan.md` | Spesifikasjon for VaskMedMeg-planen (30 min om dagen, månedlige sjekklister). Data i `data/sjekklister/`. |
 | `docs/navigasjon.md` | Navigasjonsikonene (bunnmeny, plussknapp, barnevisning) og hvordan de brukes. |
 | `docs/illustrasjoner.md` | Motivliste, nøkkelord for å koble oppgaver til bilder, og prompt for nye bilder. |
 | `design/tokens.css` | Alle farger, fonter, radier og skygger som CSS-variabler. Kopier inn i appen. |

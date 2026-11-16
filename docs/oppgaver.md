@@ -26,3 +26,11 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **15. Ytelse.** Bilder med `loading="lazy"` og faste mål. Vurder å komprimere PNG-ene (f.eks. `pngquant`) til under 100 KB hver.
   - Gjort: `loading="lazy"`, `decoding="async"` og faste mål (84×84) på alle oppgavebilder. Ikke gjort: komprimering. Ingen bildeverktøy (pngquant o.l.) var tilgjengelig lokalt; 14 av 23 PNG-er er over 100 KB (største ca. 140 KB).
 - [x] **16. Gjennomgang.** Sammenlign med mockupene i `design/mockups/` og ta skjermbilder av begge visningene i 390 px til brukeren.
+
+## Fase 5 – VaskMedMeg-planen (se `docs/vaskeplan.md`)
+- [ ] **17. Data inn.** Bygg inn `data/sjekklister/*.json` i appen; nye samlinger `sjekk` og `planvalg`.
+- [ ] **18. «Dagens 30 minutter».** Kort på «I dag» med rom og fokusområde for dagen, egen skjerm med punkter («Vasket» / «Ser fint ut»), «Ta den» og stjerner for barn.
+- [ ] **19. Helg og «Ta igjen».** «Chillax» med startsvanene lørdag/søndag; dag 29–31 viser det som mangler.
+- [ ] **20. «Sjekklister»-skjermen** fra «Uka», med fremdrift per rom for måneden.
+- [ ] **21. Innstillinger under «Familien»:** rom av/på og ukedag per rom. Tak-påminnelse i mars og september.
+- [ ] **22. Test og publiser** med falske datoer (uke 1–4, dag 30, lørdag) i 390 px.
