@@ -130,7 +130,10 @@ button { cursor: pointer; }
 .group h3 { margin: 0; font: 400 16px/1.25 var(--font-overskrift); text-transform: uppercase; letter-spacing: .08em; color: var(--skiltturkis); }
 .tasks { list-style: none; margin: 0; padding: 0; background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); overflow: hidden; }
 .task { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0 12px; align-items: center; padding: 8px 14px; }
-.tekst { display: flex; flex-direction: column; min-width: 0; }
+.tekst { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.tekst .linjer { display: flex; flex-direction: column; min-width: 0; }
+.miniikon { width: 44px; height: 44px; flex: none; display: block; }
+.miniikon.tom { display: grid; place-content: center; border-radius: 12px; background: var(--kort); border: var(--strek); box-sizing: border-box; width: 40px; height: 40px; margin: 2px; }
 .hoyre { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .hoyre .who { max-width: 128px; text-overflow: ellipsis; }
 .task + .task { border-top: var(--strek); }
@@ -621,8 +624,10 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     return h('li', { class: 'task' + (done ? ' done' : '') },
       h('input', { type: 'checkbox', class: 'cb', id: 'chk-' + t.id, checked: done, onchange: e => toggleDone(t, e.target.checked) }),
       h('div', { class: 'tekst' },
-        h('label', { class: 'title', htmlFor: 'chk-' + t.id, text: (opt ? opt.n + '. ' : '') + t.title }),
-        h('span', { class: 'meta', text: (t.minutes ? t.minutes + ' min · ' : '') + schedule(t) + rotLabel(t) })),
+        miniIkon(t),
+        h('div', { class: 'linjer' },
+          h('label', { class: 'title', htmlFor: 'chk-' + t.id, text: (opt ? opt.n + '. ' : '') + t.title }),
+          h('span', { class: 'meta', text: (t.minutes ? t.minutes + ' min · ' : '') + schedule(t) + rotLabel(t) }))),
       /* Navnemerket: hvem som tar oppgaven i dag. «Ledig» betyr at noen kan ta den. */
       h('div', { class: 'hoyre' },
         done && h('span', { class: 'ico', innerHTML: GLITTER }),
@@ -807,6 +812,15 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     if (!navn) return tomtBilde(ferdig);
     return h('div', { class: 'kbilde' }, h('img', { src: 'assets/illustrasjoner/' + navn + '.png', alt: '', width: 84, height: 84, loading: 'lazy', decoding: 'async',
       onerror: e => { e.target.parentNode.replaceWith(tomtBilde(false)); } }));
+  }
+
+  /* Lite bilde i voksenradene (44 px). Ukjent motiv gir en liten glitterrute. */
+  function miniIkon(t) {
+    const navn = ikonFor(t);
+    const tom = () => h('span', { class: 'miniikon tom', 'aria-hidden': 'true' }, glitterIkon(20));
+    if (!navn) return tom();
+    return h('img', { class: 'miniikon', src: 'assets/illustrasjoner/' + navn + '.png', alt: '', width: 44, height: 44, loading: 'lazy', decoding: 'async',
+      onerror: e => { e.target.replaceWith(tom()); } });
   }
 
   function kidCard(t, day) {
