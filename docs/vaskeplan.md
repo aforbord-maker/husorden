@@ -23,6 +23,16 @@ Fra VaskMedMeg-artikkelen «Vaskefilosofien: litt og ofte». Funksjonen skal kje
 - **Startsvanene er grunnmuren.** Hver tar 1–5 minutter. Koble dem til eksisterende daglige vaner i appen der de finnes (f.eks. «Re opp sengen») i stedet for å lage duplikater; vis dem som en egen liten gruppe «Startsvaner» på «I dag» hver dag, ikke bare i helgen.
 - **Hele familien.** Husarbeid er ikke én persons jobb – punkter fordeles og tas av alle, og «Hvem gjør mest?» teller også punkter fra planen.
 
+## Hverdagsflasken
+Fra VaskMedMeg-artikkelen «Hverdagsflasken»: én hjemmelaget sprayflaske til det meste av hverdagsvasken.
+
+- **Oppskrift (vis som tips-kort, ikon `klut`):** 500 ml sprayflaske, vann og **én dråpe** oppvaskmiddel – mer gir skum som må skylles bort. Valgfritt noen dråper eterisk olje (sitron på kjøkkenet, eukalyptus på badet, lavendel i stue/soverom). Rist lett.
+- **Brukes til:** vinduer, benkeplater, bad, laminat, fliser og koketopp.
+- **Fast oppgave:** «Lag ny hverdagsflaske» annenhver uke (blandingen byttes når den lukter dårlig, vanligvis etter 1–2 uker). Ikon `klut`, 2 min, passer for barn.
+- **Kobling til planen:** på punktene der flasken passer (vinduer, benkeplate, fliser, koketopp, flekkfjerning) vises «Husk: bruk hverdagsflasken» i tillegg til punktets egen husk-tekst. Trykk åpner tips-kortet.
+- **Litt og ofte:** tips-kortet sier at søl, fingeravtrykk og flekker tørkes med en gang – da trengs sjelden sterkere midler.
+- Merk flasken («Hverdagsflaske – vann + 1 dråpe oppvaskmiddel») og oppbevar den slik dere oppbevarer annet vaskemiddel.
+
 ## Data
 - Bygg inn JSON-filene i `husorden.html` ved oppstart (ingen nettverkskall – artefakten har ikke tilgang til repoet).
 - Ny samling `sjekk`: nøkkel `<rom>-<ÅÅÅÅ-MM>` → `{ <punktId>: { status: 'vasket' | 'fint', av: medlemsId | null, dato } }`.
