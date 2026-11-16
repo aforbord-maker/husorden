@@ -775,8 +775,8 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     ['seng', ['re opp', 'sengetøy', 'madrass']],
     ['stovsuger', ['støvsuge', 'sofa']],
     ['mopp', ['vaske gulv', 'gulvene']],
-    ['bad', ['bad', 'dusj', 'toalett', 'sluk', 'fliser']],
     ['kjokkenbenk', ['benker', 'benkene', 'vasken', 'komfyr', 'kran']],
+    ['bad', ['bad', 'dusj', 'toalett', 'sluk', 'fliser']],
     ['kjoleskap', ['kjøleskap', 'fryser']],
     ['ovn', ['stekeovn', 'mikrobølgeovn', 'kjøkkenvifte']],
     ['klut', ['tørke', 'støv', 'fronter', 'dører', 'lister', 'lamper', 'karmer', 'håndtak']],
@@ -787,8 +787,12 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     ['vindu', ['vinduer', 'vinduskarmer']],
     ['plante', ['planter']]
   ];
-  /* Motivene som finnes som bilde i assets/illustrasjoner/. Resten faller tilbake til glitter-ikonet. */
-  const BILDER = { vask: 'Vaskemaskin', oppvaskmaskin: 'Oppvask', 'dekke-bordet': 'Dekke bordet', brette: 'Brette tøy', kurv: 'Kurv', seng: 'Seng', stovsuger: 'Støvsuger', mopp: 'Mopp', klut: 'Klut', sopla: 'Søppel', sko: 'Sko', plante: 'Plante' };
+  /* Motivene som finnes som bilde i assets/illustrasjoner/ (alle 23). Ukjent navn eller manglende fil gir glitter-ikonet. */
+  const BILDER = {
+    bad: 'Bad', brette: 'Brette tøy', 'dekke-bordet': 'Dekke bordet', kjokkenbenk: 'Kjøkkenbenk', kjoleskap: 'Kjøleskap', klesskap: 'Klesskap',
+    klut: 'Klut', kurv: 'Kurv', leker: 'Leker', mopp: 'Mopp', oppvaskmaskin: 'Oppvask', ovn: 'Ovn', papirer: 'Papirer', plan: 'Ukeplan',
+    plante: 'Plante', seng: 'Seng', sko: 'Sko', skuffer: 'Skuffer', sokker: 'Sokker', sopla: 'Søppel', stovsuger: 'Støvsuger', vask: 'Vaskemaskin', vindu: 'Vindu'
+  };
   function ikonFor(t) {
     if (t.ikon) return BILDER[t.ikon] ? t.ikon : null;
     const tittel = String(t.title || '').toLowerCase();
