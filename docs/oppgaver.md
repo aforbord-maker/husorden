@@ -11,7 +11,7 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **4. Toppfelt.** Tapet-bakgrunn, skiltet (210 px) til venstre, runde uke-knapper til høyre, sjakkbånd under. Behold ukenummer/dato som tekst (f.eks. under skiltet eller i dagskortet).
 - [x] **5. Ukestripe og dagskort.** Piller og fremdriftsring etter §5.
 - [x] **6. Filterchips.**
-- [ ] **7. Oppgavelister.** Seksjonstitler, rader, vaskemaskindør-avkrysning (stil `input[type=checkbox]` med `appearance: none` – behold ekte checkbox), ferdig-tilstand, tildelt-merker, tips, slett.
+- [x] **7. Oppgavelister.** Seksjonstitler, rader, vaskemaskindør-avkrysning (stil `input[type=checkbox]` med `appearance: none` – behold ekte checkbox), ferdig-tilstand, tildelt-merker, tips, slett.
 - [ ] **8. Øvrige seksjoner.** «Hvem gjør mest?», «Ny oppgave», «Familien», stjernemål-redigering: samme kort, knapper og felt. Bruk `merker/puslespill.png` i «Hvem gjør mest?» og `merker/ide.png` i «Ny oppgave» (små, 64 px, dekor).
 - [ ] **9. Bunnmeny + ny oppgave-knapp** (knappen hopper til «Ny oppgave»-skjemaet).
 
