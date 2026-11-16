@@ -70,7 +70,7 @@ body { background: var(--vegg); color: var(--blekk); font: 400 16px/1.45 var(--f
   display: flex; flex-direction: column; gap: 20px; }
 h1, h2 { margin: 0; text-wrap: balance; }
 h1 { font-family: var(--font-skilt); font-weight: 400; font-size: 2.25rem; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; display: flex; align-items: flex-start; gap: 6px; }
-h2 { font-family: var(--font-overskrift); font-weight: 400; font-size: 1.4rem; line-height: 1.2; }
+h2 { font-family: var(--font-overskrift); font-weight: 400; font-size: 22px; line-height: 1.2; letter-spacing: .02em; text-transform: uppercase; }
 p { margin: 0; }
 .muted { color: var(--krom); }
 .small { font-size: .85rem; }
@@ -90,13 +90,14 @@ button { cursor: pointer; }
 .ikonknapp { width: 44px; height: 44px; background: var(--kort); border: var(--strek); border-radius: 50%; display: grid; place-content: center; color: var(--blekk); flex: none; }
 .ikonknapp.tekst { width: auto; padding: 0 14px; border-radius: var(--radius-pille); font-weight: 700; font-size: .9rem; }
 .ikonknapp:hover { background: var(--skumaqua); }
-.btn { background: var(--kort); border: var(--strek); border-radius: 12px; padding: 8px 14px; min-height: 44px; min-width: 44px; font-weight: 600; display: inline-grid; place-content: center; }
+.btn { background: var(--kort); color: var(--blekk); border: var(--strek); border-radius: var(--radius-pille); padding: 8px 18px; min-height: 48px; min-width: 44px; font-weight: 700; display: inline-grid; place-content: center; box-shadow: var(--skygge-knapp-sek); margin-bottom: 5px; }
 .btn:hover { background: var(--skumaqua); }
-.btn.primary { background: var(--skapturkis); color: var(--blekk); box-shadow: 3px 3px 0 var(--blekk); font-weight: 700; }
+.btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--maskinmint); }
+.btn.primary { background: var(--skapturkis); font-weight: 800; min-height: 52px; padding: 8px 22px; box-shadow: var(--skygge-knapp); }
 .btn.primary:hover { background: var(--skapturkis); }
-.btn.primary:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--blekk); }
+.btn.primary:active { box-shadow: 0 2px 0 var(--skiltturkis); }
 
-.note { background: var(--lysrosa); border: var(--strek); border-radius: 12px; padding: 10px 12px; font-size: .9rem; }
+.note { background: var(--lysrosa); border: var(--strek); border-radius: 14px; padding: 10px 14px; font-size: 14px; }
 
 .week { list-style: none; margin: 0; padding: 0 0 4px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
 .daybtn { width: 100%; background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 8px 0; min-height: 44px;
@@ -109,7 +110,6 @@ button { cursor: pointer; }
 .daybtn[aria-pressed="true"] .abbr, .daybtn[aria-pressed="true"] .cnt { color: var(--blekk); font-weight: 700; }
 
 .card { background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 14px 16px; display: flex; align-items: center; gap: 16px; }
-.card h2 { font-size: 22px; letter-spacing: .02em; text-transform: uppercase; }
 .daytxt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .daytxt p { font-size: 15px; }
 .ring { width: 76px; height: 76px; flex: none; box-sizing: border-box; border-radius: 50%; border: var(--strek); display: grid; place-content: center;
@@ -117,7 +117,7 @@ button { cursor: pointer; }
 .ringin { width: 52px; height: 52px; box-sizing: border-box; border-radius: 50%; background: var(--kort); border: var(--strek); display: grid; place-content: center;
   font-family: var(--font-overskrift); font-size: 18px; font-variant-numeric: tabular-nums; }
 .ringin.lang { font-size: 14px; }
-.bar { height: 16px; border: var(--strek); border-radius: var(--radius-pille); background: var(--vegg); overflow: hidden; display: flex; }
+.bar { height: 16px; border: var(--strek); border-radius: var(--radius-pille); background: var(--skumaqua); overflow: hidden; display: flex; }
 .bar > span { background: var(--skapturkis); border-right: var(--strek); transition: width .25s; }
 .bar > span[data-zero] { border-right: 0; }
 
@@ -156,25 +156,27 @@ button { cursor: pointer; }
 .tips ol { margin: 2px 0 6px; padding: 10px 12px 10px 2.2em; display: flex; flex-direction: column; gap: 4px; max-width: 60ch; box-sizing: border-box; background: var(--lysrosa); border: var(--strek); border-radius: 14px; }
 .tips p { margin: 6px 0; }
 .tips .ctl { margin-top: 8px; }
-textarea { background: var(--kort); border: var(--strek); border-radius: 12px; padding: 8px 10px; width: 100%; box-sizing: border-box; resize: vertical; }
+textarea { background: var(--kort); border: var(--strek); border-radius: 14px; padding: 10px 12px; width: 100%; box-sizing: border-box; resize: vertical; }
 .empty { color: var(--krom); padding: 16px; background: var(--kort); border: 2px dashed var(--blekk); border-radius: var(--radius-kort); }
 
-.panel { display: flex; flex-direction: column; gap: 12px; border-top: var(--strek); padding-top: 20px; }
+.panel { display: flex; flex-direction: column; gap: 12px; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 16px; scroll-margin-top: 12px; }
+.panelhode { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.panelhode img { flex: none; width: 64px; height: 64px; }
 .cmp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .cmp li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; }
 .cmp .name { font-weight: 700; display: flex; align-items: center; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
 .cmp .val { font-size: .85rem; color: var(--krom); font-variant-numeric: tabular-nums; text-align: right; }
 .cmp .bar { grid-column: 1 / -1; height: 20px; }
-.cmp .bar > span.adult { background: var(--kort); }
+.cmp .bar > span.adult { background: var(--maskinmint); }
 .cmp .bar > span.kid { background: var(--handklerosa); }
-.cmp .bar > span.nobody { background: var(--skumaqua); }
-.lead { font-family: var(--font-overskrift); font-weight: 400; font-size: 1.1rem; }
+.cmp .bar > span.nobody { background: var(--kort); }
+.lead { font-family: var(--font-overskrift); font-weight: 400; font-size: 18px; }
 
 form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
-.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: .85rem; font-weight: 600; color: var(--krom); }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: 14px; font-weight: 700; color: var(--krom); }
 .field.grow { flex: 1 1 220px; }
 .field.full { flex-basis: 100%; }
-.field input[type="text"], .field input[type="number"], .field select { background: var(--kort); color: var(--blekk); border: var(--strek); border-radius: 12px; padding: 8px 10px; min-height: 44px; font-size: 1rem; font-weight: 400; width: 100%; box-sizing: border-box; }
+.field input[type="text"], .field input[type="number"], .field select { background: var(--kort); color: var(--blekk); border: var(--strek); border-radius: 14px; padding: 8px 12px; min-height: 48px; font-size: 1rem; font-weight: 400; width: 100%; box-sizing: border-box; }
 .field textarea { color: var(--blekk); font-size: 1rem; font-weight: 400; }
 .field.num { width: 90px; }
 .check { display: flex; align-items: center; gap: 8px; min-height: 44px; color: var(--blekk); font-size: .95rem; font-weight: 500; }
@@ -182,7 +184,7 @@ form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
 fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; flex-basis: 100%; }
 legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; margin-bottom: 4px; }
 .people { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.person { display: flex; align-items: center; gap: 8px; background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 2px 6px 2px 14px; font-weight: 700; }
+.person { display: flex; align-items: center; gap: 8px; background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 0 6px 0 14px; font-weight: 800; }
 .person.kid { background: var(--handklerosa); }
 .person .role { font-size: .8rem; font-weight: 600; }
 .person .del { color: var(--blekk); }
@@ -213,7 +215,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .kcheck { width: 60px; height: 60px; flex: none; border-radius: 16px; background: var(--kort); border: var(--strek); display: grid; place-content: center; color: var(--blekk); }
 .kcheck[aria-pressed="true"] { background: var(--skapturkis); }
 .sticker { position: absolute; top: -18px; right: 64px; background: var(--kort); border: var(--strek); border-radius: 10px; padding: 4px 14px; font-family: var(--font-skilt); font-size: 1.1rem; box-shadow: 3px 3px 0 var(--blekk); transform: rotate(-4deg); }
-.goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); padding: 12px; }
+.goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--lysrosa); border: var(--strek); border-radius: var(--radius-kort); padding: 14px; }
 .goal strong { flex-basis: 100%; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--blekk); color: var(--vegg); padding: 10px 16px; border-radius: 12px; max-width: calc(100% - 32px); z-index: 20; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
@@ -256,16 +258,22 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     <div class="day" id="lists"></div>
   </section>
 
-  <section class="panel">
-    <h2>Hvem gjør mest?</h2>
+  <section class="panel" id="sek-uka">
+    <div class="panelhode">
+      <h2>Hvem gjør mest?</h2>
+      <img src="assets/illustrasjoner/merker/puslespill.png" alt="" width="64" height="64" loading="lazy">
+    </div>
     <div class="filters" id="cmpPeriod"></div>
     <p class="lead" id="cmpLead"></p>
     <ul class="cmp" id="cmpList"></ul>
     <p class="muted small">Regnet fra avkryssede oppgaver og minuttene de er satt til. En oppgave teller for den som var tildelt da den ble krysset av.</p>
   </section>
 
-  <section class="panel">
-    <h2>Ny oppgave</h2>
+  <section class="panel" id="sek-ny">
+    <div class="panelhode">
+      <h2>Ny oppgave</h2>
+      <img src="assets/illustrasjoner/merker/ide.png" alt="" width="64" height="64" loading="lazy">
+    </div>
     <form id="taskForm" autocomplete="off">
       <label class="field grow">Hva skal gjøres?
         <input type="text" id="f-title" maxlength="120" required placeholder="F.eks. tørke av kjøkkenbenken">
@@ -303,7 +311,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     </form>
   </section>
 
-  <section class="panel">
+  <section class="panel" id="sek-familien">
     <h2>Familien</h2>
     <ul class="people" id="members"></ul>
     <div class="goal" id="goalEdit" hidden></div>

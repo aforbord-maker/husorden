@@ -12,7 +12,7 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **5. Ukestripe og dagskort.** Piller og fremdriftsring etter §5.
 - [x] **6. Filterchips.**
 - [x] **7. Oppgavelister.** Seksjonstitler, rader, vaskemaskindør-avkrysning (stil `input[type=checkbox]` med `appearance: none` – behold ekte checkbox), ferdig-tilstand, tildelt-merker, tips, slett.
-- [ ] **8. Øvrige seksjoner.** «Hvem gjør mest?», «Ny oppgave», «Familien», stjernemål-redigering: samme kort, knapper og felt. Bruk `merker/puslespill.png` i «Hvem gjør mest?» og `merker/ide.png` i «Ny oppgave» (små, 64 px, dekor).
+- [x] **8. Øvrige seksjoner.** «Hvem gjør mest?», «Ny oppgave», «Familien», stjernemål-redigering: samme kort, knapper og felt. Bruk `merker/puslespill.png` i «Hvem gjør mest?» og `merker/ide.png` i «Ny oppgave» (små, 64 px, dekor).
 - [ ] **9. Bunnmeny + ny oppgave-knapp** (knappen hopper til «Ny oppgave»-skjemaet).
 
 ## Fase 3 – Barnevisning
