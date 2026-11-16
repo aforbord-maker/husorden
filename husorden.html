@@ -98,19 +98,25 @@ button { cursor: pointer; }
 
 .note { background: var(--lysrosa); border: var(--strek); border-radius: 12px; padding: 10px 12px; font-size: .9rem; }
 
-.week { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-.daybtn { width: 100%; background: var(--kort); border: var(--strek); border-radius: 12px; padding: 6px 0;
+.week { list-style: none; margin: 0; padding: 0 0 4px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+.daybtn { width: 100%; background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 8px 0; min-height: 44px;
   display: flex; flex-direction: column; align-items: center; gap: 1px; font-variant-numeric: tabular-nums; }
-.daybtn .abbr { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--krom); }
-.daybtn .num { font-family: var(--font-overskrift); font-size: 1.2rem; font-weight: 400; line-height: 1.1; }
-.daybtn .cnt { font-size: .7rem; color: var(--krom); }
-.daybtn.today { background: var(--handklerosa); }
-.daybtn.today .abbr, .daybtn.today .cnt { color: var(--blekk); }
-.daybtn[aria-pressed="true"] { background: var(--skapturkis); color: var(--blekk); box-shadow: 3px 3px 0 var(--blekk); }
-.daybtn[aria-pressed="true"] .abbr, .daybtn[aria-pressed="true"] .cnt { color: var(--blekk); }
+.daybtn .abbr { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--krom); }
+.daybtn .num { font-family: var(--font-overskrift); font-size: 19px; font-weight: 400; line-height: 1.1; }
+.daybtn .cnt { font-size: 11px; color: var(--krom); }
+.daybtn.today { border-width: 4px; padding: 6px 0; }
+.daybtn[aria-pressed="true"] { background: var(--skapturkis); color: var(--blekk); box-shadow: var(--skygge-valgt); }
+.daybtn[aria-pressed="true"] .abbr, .daybtn[aria-pressed="true"] .cnt { color: var(--blekk); font-weight: 700; }
 
-.card { background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-.card h2::first-letter { text-transform: uppercase; }
+.card { background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 14px 16px; display: flex; align-items: center; gap: 16px; }
+.card h2 { font-size: 22px; letter-spacing: .02em; text-transform: uppercase; }
+.daytxt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.daytxt p { font-size: 15px; }
+.ring { width: 76px; height: 76px; flex: none; box-sizing: border-box; border-radius: 50%; border: var(--strek); display: grid; place-content: center;
+  background: conic-gradient(var(--skapturkis) 0 var(--p, 0%), var(--skumaqua) 0 100%); }
+.ringin { width: 52px; height: 52px; box-sizing: border-box; border-radius: 50%; background: var(--kort); border: var(--strek); display: grid; place-content: center;
+  font-family: var(--font-overskrift); font-size: 18px; font-variant-numeric: tabular-nums; }
+.ringin.lang { font-size: 14px; }
 .bar { height: 16px; border: var(--strek); border-radius: var(--radius-pille); background: var(--vegg); overflow: hidden; display: flex; }
 .bar > span { background: var(--skapturkis); border-right: var(--strek); transition: width .25s; }
 .bar > span[data-zero] { border-right: 0; }
@@ -182,7 +188,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
 .sel { display: inline-flex; align-items: center; gap: 4px; font-size: .8rem; font-weight: 600; color: var(--krom); max-width: 100%; }
 .who.free { border-style: dashed; background: var(--handklerosa); }
-.free { font-weight: 700; background: var(--handklerosa); border: var(--strek); border-radius: 10px; padding: 4px 10px; width: fit-content; font-size: .9rem; }
+.daytxt .free { font-weight: 700; background: var(--lysrosa); border: var(--strek); border-radius: 14px; padding: 4px 12px; width: fit-content; font-size: 14px; }
 .del:disabled { opacity: .35; cursor: default; }
 .kidlabel { align-self: center; font-size: .85rem; font-weight: 700; color: var(--krom); }
 .chip.go { background: var(--handklerosa); }
@@ -209,7 +215,6 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); padding: 12px; }
 .goal strong { flex-basis: 100%; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--blekk); color: var(--vegg); padding: 10px 16px; border-radius: 12px; max-width: calc(100% - 32px); z-index: 20; font-weight: 600; }
-@media (max-width: 420px) { h1 { font-size: 2rem; } .daybtn .num { font-size: 1.1rem; } }
 @media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
 </style>
 
@@ -239,10 +244,12 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   <section class="day" aria-live="polite">
     <div class="card">
-      <h2 id="dayTitle"></h2>
-      <p class="muted" id="daySummary"></p>
-      <p class="free" id="dayFree" hidden></p>
-      <div class="bar" id="dayBar" role="img"><span></span></div>
+      <div class="ring" id="dayRing" role="img"><div class="ringin" id="dayCount" aria-hidden="true"></div></div>
+      <div class="daytxt">
+        <h2 id="dayTitle"></h2>
+        <p class="muted" id="daySummary"></p>
+        <p class="free" id="dayFree" hidden></p>
+      </div>
     </div>
     <div class="filters" id="filters"></div>
     <div class="day" id="lists"></div>
@@ -608,19 +615,20 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   function renderDay() {
     const d = parse(state.sel);
-    $('dayTitle').textContent = DAYS_LONG[wd(d) - 1] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()];
+    $('dayTitle').textContent = DAYS_LONG[wd(d) - 1] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()].slice(0, 3);
     $('f-once-opt').textContent = 'Bare ' + DAYS[wd(d) - 1] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()].slice(0, 3);
     const list = tasksOn(state.sel).filter(visible);
     const doneN = list.filter(t => isDone(t, state.sel)).length;
     const left = list.filter(t => !isDone(t, state.sel)).reduce((s, t) => s + (Number(t.minutes) || 0), 0);
-    $('daySummary').textContent = !state.ready ? 'Henter oppgaver …' : !list.length ? 'Ingen oppgaver i dette utvalget.' : doneN === list.length ? 'Tom liste! Alle ' + list.length + ' er gjort.' : doneN + ' av ' + list.length + ' gjort · ca. ' + left + ' min igjen. Målet er tom liste i kveld.';
+    $('daySummary').textContent = !state.ready ? 'Henter oppgaver …' : !list.length ? 'Ingen oppgaver i dette utvalget.' : doneN === list.length ? 'Tom liste! Alt er gjort.' : 'ca. ' + left + ' min igjen · målet er tom liste i kveld';
     const free = state.ready ? tasksOn(state.sel).filter(t => !eff(t, state.sel) && !isDone(t, state.sel)).length : 0;
     $('dayFree').textContent = free ? free + (free === 1 ? ' ledig oppgave venter' : ' ledige oppgaver venter') + ' på at noen tar ' + (free === 1 ? 'den.' : 'dem.') : '';
     $('dayFree').hidden = !free;
-    const pct = list.length ? Math.round(100 * doneN / list.length) : 0, fill = $('dayBar').firstElementChild;
-    fill.style.width = pct + '%';
-    if (pct === 0 || pct === 100) fill.setAttribute('data-zero', ''); else fill.removeAttribute('data-zero');
-    $('dayBar').setAttribute('aria-label', doneN + ' av ' + list.length + ' oppgaver gjort');
+    const pct = list.length ? Math.round(100 * doneN / list.length) : 0, telling = doneN + '/' + list.length;
+    $('dayRing').style.setProperty('--p', pct + '%');
+    $('dayRing').setAttribute('aria-label', doneN + ' av ' + list.length + ' oppgaver gjort');
+    $('dayCount').textContent = telling;
+    $('dayCount').className = 'ringin' + (telling.length > 4 ? ' lang' : '');
     const out = [];
     if (!state.ready) out.push(h('p', { class: 'empty', text: 'Henter oppgaver …' }));
     else if (!state.tasks.length) out.push(h('p', { class: 'empty', text: 'Ingen oppgaver ennå. Legg til den første under «Ny oppgave».' }));
