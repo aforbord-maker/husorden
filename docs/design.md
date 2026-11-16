@@ -100,7 +100,7 @@ Oppbygning (viewBox 0 0 1040 760):
 
 Alle i `assets/illustrasjoner/`. Laget med ChatGPT og fargejustert til paletten. Stil: skrå sticker-ramme med mint kant, rosa eller aqua flate, to stjerner (mint + rosa) oppe til venstre, hvitt glitter, mørk kontur.
 
-**Oppgaver** (PNG 480×480 i appen, SVG som master): status, filnavn og nøkkelord står i `docs/illustrasjoner.md`. 12 av 23 motiver er ferdige. Koden skal tåle at et bilde mangler (vis glitter-ikonet).
+**Oppgaver** (PNG 480×480 i appen, SVG som master): status, filnavn og nøkkelord står i `docs/illustrasjoner.md`. Alle 23 motiver er ferdige. Koden skal tåle at et bilde mangler (vis glitter-ikonet).
 
 **Regel for alle illustrasjoner:** én gjenstand som viser hva oppgaven handler om. Ingen mennesker, ingen metaforer (trapper, raketter, puslespill, lyspærer o.l.). Barnet skal skjønne oppgaven uten å lese.
 

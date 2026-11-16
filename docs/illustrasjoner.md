@@ -10,28 +10,28 @@ Hvert motiv finnes som `.svg` (vektor, masterfil – store filer, 400–700 KB) 
 
 | Filnavn | Status | Nøkkelord i oppgavetittel |
 |---|---|---|
-| `plan` | ❌ Mangler | plan for neste uke, kjøleskapsjekk |
-| `skuffer` | ❌ Mangler | skuffer, rotskuff, baderomsskap, kjøkkenskap, skap innvendig |
+| `plan` | ✅ | plan for neste uke, kjøleskapsjekk |
+| `skuffer` | ✅ | skuffer, rotskuff, baderomsskap, kjøkkenskap, skap innvendig |
 | `vask` | ✅ | sette på vask, vaske pledd, gardiner, putetrekk |
 | `oppvaskmaskin` | ✅ (tallerkener) | oppvaskmaskin, oppvask |
 | `dekke-bordet` | ✅ | rydde kjøkkenet etter middag, dekke bordet |
 | `brette` | ✅ | brette, tørkestativ, tørre klær, rent tøy |
 | `kurv` | ✅ (kurv med tøy) | kveldsrydd, skittentøy, på plass, rydde flater, ryddeoppgave |
-| `sokker` | ❌ Mangler | sokker, pare |
+| `sokker` | ✅ | sokker, pare |
 | `seng` | ✅ | re opp, sengetøy, madrass |
 | `stovsuger` | ✅ | støvsuge, sofa |
 | `mopp` | ✅ | vaske gulv, gulvene |
-| `bad` | ❌ Mangler | bad, dusj, toalett, sluk, fliser |
-| `kjokkenbenk` | ❌ Mangler | benker, benkene, vasken, komfyr, kran |
-| `kjoleskap` | ❌ Mangler | kjøleskap, fryser |
-| `ovn` | ❌ Mangler | stekeovn, mikrobølgeovn, kjøkkenvifte |
+| `bad` | ✅ | bad, dusj, toalett, sluk, fliser |
+| `kjokkenbenk` | ✅ | benker, benkene, vasken, komfyr, kran |
+| `kjoleskap` | ✅ | kjøleskap, fryser |
+| `ovn` | ✅ | stekeovn, mikrobølgeovn, kjøkkenvifte |
 | `klut` | ✅ | tørke, støv, fronter, dører, lister, lamper, karmer, håndtak |
 | `sopla` | ✅ | søppel, sortere, søppelbøtte |
 | `sko` | ✅ (har en liten musikknote – kan byttes) | sko, jakker, ytterklær, gang |
-| `klesskap` | ❌ Mangler | klesskap, garderobe |
-| `leker` | ❌ Mangler | leker, spill |
-| `papirer` | ❌ Mangler | post, papirer |
-| `vindu` | ❌ Mangler | vinduer, vinduskarmer |
+| `klesskap` | ✅ | klesskap, garderobe |
+| `leker` | ✅ | leker, spill |
+| `papirer` | ✅ | post, papirer |
+| `vindu` | ✅ | vinduer, vinduskarmer |
 | `plante` | ✅ | planter |
 
 Tabellen står i den rekkefølgen nøkkelordene skal sjekkes. Rekkefølgen betyr noe: «Kjøleskapsjekk og plan for neste uke» skal treffe `plan` før `kjoleskap`, og «Rydde baderomsskapene» skal treffe `skuffer` før `bad`. Claude Code bør legge spesialtilfellene øverst i nøkkelordlista.
@@ -58,15 +58,4 @@ Square 1024×1024, transparent background, complete frame on all four sides.
 
 ### Motiver – lim inn i stedet for `[MOTIV]`
 
-**Gjenstår (11):**
-1. `sokker` – two matching pairs of striped socks lying side by side
-2. `bad` – a sparkling clean toilet next to a small sink with a round mirror above
-3. `kjokkenbenk` – a clean kitchen counter with a sink and a shiny tap
-4. `kjoleskap` – an open retro fridge with tidy shelves
-5. `ovn` – a retro oven with a microwave on top, both doors closed and shiny
-6. `klesskap` – an open wardrobe with clothes on hangers and folded sweaters on a shelf
-7. `skuffer` – an open drawer with small organiser boxes inside
-8. `leker` – a toy box with building blocks, a ball and a soft teddy on top
-9. `papirer` – a tidy stack of letters and papers held by a clip
-10. `vindu` – a sparkling clean window with tied-back curtains
-11. `plan` – a small notice board with a calendar sheet and a pinned shopping list (no readable text)
+**Alle 23 motiver er ferdige.** Nye motiver lages med grunnprompten over; be gjerne om flere på ett ark i et rutenett uten tekst, og klipp dem ut.
