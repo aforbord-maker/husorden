@@ -9,54 +9,64 @@ Appen er publisert som en Claude-artifact: https://claude.ai/artifact/WqsyM4joBe
 | Sti | Hva |
 |---|---|
 | `husorden.html` | Hele appen i én fil: HTML, CSS og JavaScript uten byggesteg. |
+| `forhandsvis.html`, `verktoy/server.js` | Lokal forhåndsvisning (se under). |
 | `data/tasks/*.json` | Oppgavene slik de ligger i appens delte lager (ett dokument per oppgave). |
+| `assets/skilt/`, `assets/illustrasjoner/` | Skiltet (SVG) og 23 oppgavebilder (PNG i appen, SVG som master). |
+| `CLAUDE.md` | Instruksjoner for Claude Code. |
+| `docs/design.md` | Designspesifikasjonen (fasiten). |
+| `docs/oppgaver.md` | Implementeringsplanen i 16 steg, med avkrysning. |
+| `docs/illustrasjoner.md` | Motivliste, nøkkelord og prompt for nye bilder. |
+| `design/tokens.css`, `design/mockups/`, `design/referanser/` | Tokens, mockups fra Claude Design og inspirasjonsbilder. |
+| `verktoy/fargejuster.py`, `verktoy/vektoriser.py` | Justerer nye AI-bilder til paletten og lager SVG. |
 
-`husorden.html` er skrevet for Claude-artifacter. Den har ingen `<html>`/`<head>`/`<body>`, fordi de legges på ved publisering. Åpnes fila direkte i en nettleser, fungerer den likevel, men lagrer da bare i nettleserens `localStorage`.
+`husorden.html` er skrevet for Claude-artifacter. Den har ingen `<html>`/`<head>`/`<body>`, fordi de legges på ved publisering.
 
-## Nytt design på vei: vaskerom-retningen
+### Kjøre lokalt
 
-Appen skal over på et nytt design: pastell 50-tallsvaskerom med HUSORDEN-skilt, mint og rosa, sjakkruter og glitter. Alt som trengs ligger her:
+```bash
+node verktoy/server.js . 8765
+```
 
-| Sti | Hva |
-|---|---|
-| `CLAUDE.md` | Instruksjoner for Claude Code |
-| `docs/design.md` | Designspesifikasjonen (fasiten) |
-| `docs/oppgaver.md` | Implementeringsplan i 16 steg |
-| `design/tokens.css` | Nye farger, fonter og former |
-| `design/mockups/` | Mockups fra Claude Design (referanse) |
-| `assets/skilt/`, `assets/illustrasjoner/` | Skiltet (SVG) og oppgavebilder (PNG) |
-| `verktoy/fargejuster.py` | Justerer nye AI-bilder til paletten |
+Åpne deretter http://localhost:8765. `forhandsvis.html` legger på det samme skallet som artifacten får. Lokalt lagres alt i nettleserens `localStorage`, og lista er tom til du legger inn oppgaver selv.
 
-Start Claude Code i repoet og skriv: «Les CLAUDE.md, docs/design.md og docs/oppgaver.md. Start på fase 1 og vis meg resultatet etter hvert steg.»
+## Design: vaskerom-retningen
 
-## Design (nåværende, erstattes)
+Pastell 50-tallsvaskerom: krem vegg med prikketapet, HUSORDEN-skilt med pil, mint og rosa, sjakkrutebånd og glitter. Neon brukes bare til feiring, på mørk bunn. Fasiten er `docs/design.md`.
 
-50-tallsretro med moderne vri. Alle farger og skrifter er tokens i `:root` øverst i `<style>`.
+Alle farger, skrifter, radier og skygger er CSS-variabler i `:root` øverst i `<style>`, kopiert fra `design/tokens.css`.
 
 | Token | Verdi | Bruk |
 |---|---|---|
-| `--bg` | `#FFF7EA` | Bakgrunn (krem) |
-| `--surface` | `#FFFFFF` | Kort og lister |
-| `--ink` | `#1D2B3A` | Tekst, 2px kanter, harde skygger |
-| `--muted` | `#5B6878` | Sekundær tekst |
-| `--accent` | `#0D7A72` | Primærknapper, valgt dag, avkryssing |
-| `--mint` | `#5FD3C6` | Fremdriftsstolpe |
-| `--mint-soft` | `#D3F2EA` | Ferdige oppgaver |
-| `--child` | `#FFCF4D` | Barn, barneoppgaver, ledige oppgaver |
-| `--adult` | `#F6A6B6` | Voksne |
-| `--pink-soft` | `#FDE3E7` | Meldinger |
-| `--danger` | `#A8281E` | Sletting |
+| `--vegg` | `#FBF7F0` | Bakgrunn |
+| `--kort` | `#FFFFFF` | Kort, lister, felt |
+| `--blekk` | `#1A2227` | Tekst, 2 px konturer, sjakkruter |
+| `--krom` | `#5E6A72` | Dempet tekst |
+| `--skapturkis` | `#1FC1B8` | Primærknapp, valgt dag, avkrysset, fremdrift |
+| `--skiltturkis` | `#0B7A74` | Lenker, seksjonstitler, knappskygge |
+| `--maskinmint` | `#8EE3C8` | Ringen rundt avkrysning, skiltramme |
+| `--skumaqua` | `#D2F4EE` | Ferdige oppgaver |
+| `--handklerosa` | `#F7A1B5` | Skiltflate, barn |
+| `--lysrosa` | `#FFD9E1` | Barnechips, ledige oppgaver, tips |
+| `--glitter` | `#FFE45C` | Glitter og stjerner |
+| `--kirsebaer` | `#B4233F` | Slett og feil |
+| `--natt` og `--neon-*` | – | Neon-feiring |
 
-Skrifter (Google Fonts): Shrikhand til logo og «Hei, …!», Bricolage Grotesque 800 til overskrifter og tall, Figtree til brødtekst.
+Skrifter (Google Fonts): Anton til skiltet, Bebas Neue til skiltets undertekst, Righteous til overskrifter og tall, Figtree til brødtekst og Neonderthaw til neon-feiringen.
 
-Kjennetegn: 2px marineblå kanter, harde forskjøvne skygger (`3px 3px 0`), sjakkstripe øverst, runde piller, stjerne for barn og rosa prikk for voksne. Appen har ett lyst tema og ingen mørk variant.
+Kontrast: tekst i `--skiltturkis` på `--skumaqua` og `--krom` på `--lysrosa` er under 4,5:1. På de flatene brukes `--blekk`.
+
+Appen har ett lyst tema. Mørk modus er ikke designet ennå.
+
+### Publisering som artifact
+
+Oppgavebildene lenkes med relative stier (`assets/illustrasjoner/<navn>.png`). Det virker lokalt, men ikke i en Claude-artifact. Før den publiserte appen oppdateres, må bildene lastes opp som assets der og stiene byttes.
 
 ## Datamodell
 
 Tre samlinger i artifactens `db`:
 
 - `members/{id}`: `name`, `child`, `starGoal`, `reward`, `created`
-- `tasks/{id}`: `title`, `minutes`, `kind`, `days`, `rot`, `every`, `order`, `date`, `child`, `assignee`, `tips`, `created`
+- `tasks/{id}`: `title`, `minutes`, `kind`, `days`, `rot`, `every`, `order`, `date`, `child`, `assignee`, `tips`, `ikon`, `created`
 - `done/{YYYY-MM-DD}`: `ids` (oppgave → hvem som fikk æren) og `claims` (oppgave → hvem som tok den den dagen)
 
 `kind` er en av:
@@ -65,5 +75,7 @@ Tre samlinger i artifactens `db`:
 - `oppgave`: vanlig oppgave
 - `plan`: steg i «Dagens halvtime», sortert på `order`
 - `stor`: større ryddeoppgave som gjentas hver `every` uke
+
+`ikon` er valgfritt: filnavnet til et oppgavebilde uten `.png`. Uten `ikon` gjetter appen bilde fra tittelen (se `docs/illustrasjoner.md`).
 
 `days` er ukedager (1 = mandag). `rot` er planuker (1–4) i en fast fireukers rotasjon regnet fra mandag 1. januar 2024. Tom liste betyr alle.
