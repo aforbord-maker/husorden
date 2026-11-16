@@ -200,15 +200,20 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .starcol { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .starrow { display: flex; justify-content: space-between; gap: 8px; font-weight: 800; font-size: 14px; font-variant-numeric: tabular-nums; }
 .starcard .bar { height: 12px; }
-.kcards { display: flex; flex-direction: column; gap: 22px; }
-.kcard { position: relative; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 14px; display: flex; gap: 14px; align-items: center; box-shadow: 4px 4px 0 var(--blekk); }
-.kcard.done { background: var(--skumaqua); box-shadow: none; }
+.kcards { display: flex; flex-direction: column; gap: 14px; }
+.kcard { position: relative; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 12px; display: flex; gap: 14px; align-items: center; }
+.kcard.done { background: var(--skumaqua); }
+.kbilde { width: 84px; height: 84px; flex: none; display: grid; place-content: center; box-sizing: border-box; }
+.kbilde img { display: block; width: 84px; height: 84px; }
+.kbilde.tom { width: 76px; height: 76px; margin: 4px; border-radius: 16px; background: var(--kort); border: var(--strek); }
+.kbilde.ferdig { border: 3px solid var(--skiltturkis); }
 .kbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.kbody h3 { margin: 0; font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
+.kbody h3 { margin: 0; font-size: 18px; font-weight: 800; overflow-wrap: anywhere; }
 .kcard.done h3 { text-decoration: line-through; color: var(--krom); }
-.kmeta { font-size: .9rem; color: var(--krom); }
-.kcard.done .kmeta { color: var(--skiltturkis); font-weight: 700; }
-.kcheck { width: 60px; height: 60px; flex: none; border-radius: 16px; background: var(--kort); border: var(--strek); display: grid; place-content: center; color: var(--blekk); }
+.kmeta { font-size: 14px; color: var(--krom); }
+.kcard.done .kmeta { color: var(--skiltturkis); font-weight: 800; }
+.kbody .tips summary { font-size: 14px; font-weight: 800; }
+.kcheck { width: 58px; height: 58px; margin: 2px; flex: none; box-sizing: border-box; border-radius: 50%; background: var(--kort); border: 7px solid var(--maskinmint); box-shadow: 0 0 0 2px var(--blekk); display: grid; place-content: center; color: var(--blekk); }
 .kcheck[aria-pressed="true"] { background: var(--skapturkis); }
 .sticker { position: absolute; top: -18px; right: 64px; background: var(--kort); border: var(--strek); border-radius: 10px; padding: 4px 14px; font-family: var(--font-skilt); font-size: 1.1rem; box-shadow: 3px 3px 0 var(--blekk); transform: rotate(-4deg); }
 .goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--lysrosa); border: var(--strek); border-radius: var(--radius-kort); padding: 14px; }
@@ -294,6 +299,9 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
           <option value="days">Faste ukedager</option>
           <option value="once" id="f-once-opt">Bare valgt dag</option>
         </select>
+      </label>
+      <label class="field">Bilde
+        <select id="f-ikon"><option value="">Automatisk</option></select>
       </label>
       <label class="field">Fast ansvarlig
         <select id="f-who"><option value="">Ingen (ledig)</option></select>
@@ -739,10 +747,52 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       ...kids.map(m => h('button', { type: 'button', id: 'go-' + m.id, class: 'chip go', onclick: () => setView(m.id) }, star(), m.name)));
   }
 
+  const IKONER = [
+    ['plan', ['plan for neste uke', 'kjøleskapsjekk']],
+    ['skuffer', ['skuffer', 'rotskuff', 'baderomsskap', 'kjøkkenskap', 'skap innvendig']],
+    ['vask', ['sette på vask', 'vaske pledd', 'gardiner', 'putetrekk']],
+    ['oppvaskmaskin', ['oppvaskmaskin', 'oppvask']],
+    ['dekke-bordet', ['rydde kjøkkenet etter middag', 'dekke bordet']],
+    ['brette', ['brette', 'tørkestativ', 'tørre klær', 'rent tøy']],
+    ['kurv', ['kveldsrydd', 'skittentøy', 'på plass', 'rydde flater', 'ryddeoppgave']],
+    ['sokker', ['sokker', 'pare']],
+    ['seng', ['re opp', 'sengetøy', 'madrass']],
+    ['stovsuger', ['støvsuge', 'sofa']],
+    ['mopp', ['vaske gulv', 'gulvene']],
+    ['bad', ['bad', 'dusj', 'toalett', 'sluk', 'fliser']],
+    ['kjokkenbenk', ['benker', 'benkene', 'vasken', 'komfyr', 'kran']],
+    ['kjoleskap', ['kjøleskap', 'fryser']],
+    ['ovn', ['stekeovn', 'mikrobølgeovn', 'kjøkkenvifte']],
+    ['klut', ['tørke', 'støv', 'fronter', 'dører', 'lister', 'lamper', 'karmer', 'håndtak']],
+    ['sopla', ['søppel', 'sortere', 'søppelbøtte']],
+    ['sko', ['sko', 'jakker', 'ytterklær', /\bgang\b/]],
+    ['klesskap', ['klesskap', 'garderobe']],
+    ['leker', ['leker', 'spill']],
+    ['papirer', ['post', 'papirer']],
+    ['vindu', ['vinduer', 'vinduskarmer']],
+    ['plante', ['planter']]
+  ];
+  /* Motivene som finnes som bilde i assets/illustrasjoner/. Resten faller tilbake til glitter-ikonet. */
+  const BILDER = { vask: 'Vaskemaskin', oppvaskmaskin: 'Oppvask', 'dekke-bordet': 'Dekke bordet', brette: 'Brette tøy', kurv: 'Kurv', seng: 'Seng', stovsuger: 'Støvsuger', mopp: 'Mopp', klut: 'Klut', sopla: 'Søppel', sko: 'Sko', plante: 'Plante' };
+  function ikonFor(t) {
+    if (t.ikon) return BILDER[t.ikon] ? t.ikon : null;
+    const tittel = String(t.title || '').toLowerCase();
+    const treff = IKONER.find(rad => rad[1].some(ord => typeof ord === 'string' ? tittel.includes(ord) : ord.test(tittel)));
+    return treff && BILDER[treff[0]] ? treff[0] : null;
+  }
+  const tomtBilde = ferdig => h('div', { class: 'kbilde tom' + (ferdig ? ' ferdig' : '') }, glitterIkon(ferdig ? 40 : 32));
+  function bilde(t, ferdig) {
+    const navn = ferdig ? null : ikonFor(t);
+    if (!navn) return tomtBilde(ferdig);
+    return h('div', { class: 'kbilde' }, h('img', { src: 'assets/illustrasjoner/' + navn + '.png', alt: '', width: 84, height: 84, loading: 'lazy',
+      onerror: e => { e.target.parentNode.replaceWith(tomtBilde(false)); } }));
+  }
+
   function kidCard(t, day) {
     const done = isDone(t, day), s = stars(t);
     const steps = String(t.tips || '').split('\n').map(x => x.trim()).filter(Boolean);
     return h('article', { class: 'kcard' + (done ? ' done' : '') },
+      bilde(t, done),
       h('div', { class: 'kbody' },
         h('h3', { text: t.title }),
         h('p', { class: 'kmeta', text: done ? 'Ferdig · +' + starWord(s) : (t.minutes ? 'ca. ' + t.minutes + ' min · ' : '') + starWord(s) }),
@@ -797,6 +847,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   /* ---------- skjema og navigasjon ---------- */
   DAYS_LONG.forEach((name, i) => $('f-days').append(h('label', { class: 'check' }, h('input', { type: 'checkbox', class: 'cb', id: 'f-d' + (i + 1), value: String(i + 1) }), name)));
+  Object.keys(BILDER).forEach(navn => $('f-ikon').append(h('option', { value: navn, text: BILDER[navn] })));
   $('f-repeat').addEventListener('change', e => { $('f-days').hidden = e.target.value !== 'days'; });
   $('f-kind').addEventListener('change', e => {
     const big = e.target.value === 'stor';
@@ -817,6 +868,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     write(store.set('tasks', store.newId(), {
       title, minutes: Math.max(0, Math.round(Number($('f-min').value) || 0)), kind: $('f-kind').value,
       days, date: rep === 'once' ? state.sel : null, child: $('f-child').checked, assignee: big ? null : ($('f-who').value || null), tips: $('f-tips').value.trim(), created: Date.now(),
+      ikon: $('f-ikon').value || null,
       rot: big ? [] : $('f-rot').value.split('').map(Number), every: big ? Math.min(52, Math.max(1, Math.round(Number($('f-every').value) || 8))) : null, order: Date.now()
     }));
     $('f-tips').value = ''; $('f-title').value = ''; $('f-title').focus();
