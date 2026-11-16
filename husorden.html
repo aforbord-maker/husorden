@@ -159,8 +159,6 @@ textarea { background: var(--kort); border: var(--strek); border-radius: 14px; p
 .empty { color: var(--krom); padding: 16px; background: var(--kort); border: 2px dashed var(--blekk); border-radius: var(--radius-kort); }
 
 .panel { display: flex; flex-direction: column; gap: 12px; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 16px; scroll-margin-top: 12px; }
-.panelhode { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.panelhode img { flex: none; width: 64px; height: 64px; }
 .cmp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .cmp li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; }
 .cmp .name { font-weight: 700; display: flex; align-items: center; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
@@ -266,10 +264,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   </section>
 
   <section class="panel" id="sek-uka">
-    <div class="panelhode">
-      <h2>Hvem gjør mest?</h2>
-      <img src="assets/illustrasjoner/merker/puslespill.png" alt="" width="64" height="64" loading="lazy">
-    </div>
+    <h2>Hvem gjør mest?</h2>
     <div class="filters" id="cmpPeriod"></div>
     <p class="lead" id="cmpLead"></p>
     <ul class="cmp" id="cmpList"></ul>
@@ -277,10 +272,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   </section>
 
   <section class="panel" id="sek-ny">
-    <div class="panelhode">
-      <h2>Ny oppgave</h2>
-      <img src="assets/illustrasjoner/merker/ide.png" alt="" width="64" height="64" loading="lazy">
-    </div>
+    <h2>Ny oppgave</h2>
     <form id="taskForm" autocomplete="off">
       <label class="field grow">Hva skal gjøres?
         <input type="text" id="f-title" maxlength="120" required placeholder="F.eks. tørke av kjøkkenbenken">
