@@ -1,0 +1,60 @@
+/* Husorden – design-tokens (vaskerom-retningen)
+   Fonter: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Righteous&family=Figtree:wght@400;500;600;700;800&family=Neonderthaw&display=swap"> */
+
+:root {
+  /* Grunnfarger */
+  --vegg: #FBF7F0;          /* bakgrunn i hele appen */
+  --kort: #FFFFFF;          /* kort og lister */
+  --blekk: #1A2227;         /* tekst, konturer, sjakkruter, harde skygger */
+  --krom: #5E6A72;          /* dempet tekst (5,2:1 på --vegg) */
+
+  /* Turkis */
+  --skapturkis: #1FC1B8;    /* hovedfarge: primærknapper, valgt dag, avkrysset. Tekst på den: --blekk */
+  --skiltturkis: #0B7A74;   /* skiltkant, lenker, seksjonstitler, piler (4,9:1 på --vegg) */
+
+  /* Mint og aqua */
+  --maskinmint: #8EE3C8;    /* ring på avkrysning, skiltramme, fremdrift */
+  --skumaqua: #D2F4EE;      /* ferdige oppgaver, myke flater */
+  --skiltmint: #B8F0DD;     /* fyll i skiltbokstaver */
+
+  /* Rosa */
+  --handklerosa: #F7A1B5;   /* skiltflate, barn, feiring. Tekst på den: --blekk */
+  --lysrosa: #FFD9E1;       /* myke flater, barnechips */
+  --skiltskygge: #E58A9B;   /* 3D-skygge i skiltbokstaver */
+
+  /* Glitter og varsel */
+  --glitter: #FFE45C;       /* stjerner, belønning */
+  --kirsebaer: #B4233F;     /* slett / feil – i små doser */
+
+  /* Neon – KUN på --natt, KUN til feiring */
+  --natt: #141A22;
+  --neon-rosa: #FF4FA3;
+  --neon-turkis: #2FF3E0;
+  --neon-gul: #FFE45C;
+
+  /* Typografi */
+  --font-skilt: "Anton", Impact, sans-serif;           /* logo/skilt-navn */
+  --font-skilt-under: "Bebas Neue", Impact, sans-serif; /* skiltets undertekst, illustrasjonsnavn */
+  --font-overskrift: "Righteous", system-ui, sans-serif; /* overskrifter, tall, seksjonstitler */
+  --font-tekst: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif; /* all brødtekst og UI */
+  --font-neon: "Neonderthaw", cursive;                  /* bare neon-feiring */
+
+  /* Form */
+  --strek: 2px solid var(--blekk);
+  --radius-kort: 22px;
+  --radius-stor: 24px;
+  --radius-pille: 999px;
+  --skygge-knapp: 0 5px 0 var(--skiltturkis);    /* primærknapp */
+  --skygge-knapp-sek: 0 5px 0 var(--maskinmint); /* sekundærknapp */
+  --skygge-valgt: 0 4px 0 var(--skiltturkis);    /* valgt dag */
+
+  /* Mønstre */
+  --tapet: radial-gradient(var(--handklerosa) 1.3px, transparent 1.5px) 0 0 / 28px 28px,
+           radial-gradient(var(--maskinmint) 1.3px, transparent 1.5px) 14px 14px / 28px 28px,
+           var(--vegg);
+  --sjakk: repeating-conic-gradient(var(--blekk) 0 25%, #FFFFFF 0 50%) 0 0 / 16px 16px;
+
+  /* Neon-glød */
+  --glod-rosa: 0 0 3px var(--neon-rosa), 0 0 10px var(--neon-rosa), 0 0 22px var(--neon-rosa);
+  --glod-turkis: 0 0 3px var(--neon-turkis), 0 0 10px var(--neon-turkis);
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<title>Husorden – illustrasjon</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; max-width: 480px">
+  <sc-if value="{{is_vask}}" hint-placeholder-val="{{ false }}">
+    <img src="/_blob/a0d24016d00b7582499d9a29162055bc" alt="Sette på en vask" style="display: block; width: 100%; height: auto; border-radius: 12%">
+  </sc-if>
+  <sc-if value="{{is_klesvask}}" hint-placeholder-val="{{ false }}">
+    <img src="/_blob/235d21fdce75b530f544bd82e47c819b" alt="Klesvask" style="display: block; width: 100%; height: auto; border-radius: 12%">
+  </sc-if>
+  <sc-if value="{{is_oppvask}}" hint-placeholder-val="{{ false }}">
+    <img src="/_blob/b7e25510328268fb0f6c5230f1d53152" alt="Oppvask" style="display: block; width: 100%; height: auto; border-radius: 12%">
+  </sc-if>
+  <sc-if value="{{is_seng}}" hint-placeholder-val="{{ false }}">
+    <img src="/_blob/1aba130bf206db06622e78e21a3b8c94" alt="Re opp sengen" style="display: block; width: 100%; height: auto; border-radius: 12%">
+  </sc-if>
+  <sc-if value="{{is_sopla}}" hint-placeholder-val="{{ false }}">
+    <img src="/_blob/621474081f0d06a3b39fca281f91bacf" alt="Ta ut søpla" style="display: block; width: 100%; height: auto; border-radius: 12%">
+  </sc-if>
+  <sc-if value="{{is_plante}}" hint-placeholder-val="{{ false }}">
+    <img src="/_blob/8fedc8d0a04ec19e9e8e770e888795e0" alt="Vanne plantene" style="display: block; width: 100%; height: auto; border-radius: 12%">
+  </sc-if>
+  <sc-if value="{{is_stovsuger}}" hint-placeholder-val="{{ false }}">
+    <img src="/_blob/f0ac1cf3312a88309396155b812e2949" alt="Støvsuge" style="display: block; width: 100%; height: auto; border-radius: 12%">
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"motiv":{"editor":"enum","options":["vask","klesvask","oppvask","seng","sopla","plante","stovsuger"],"default":"vask"},"$preview":{"width":240,"height":240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const m = this.props.motiv ?? 'vask';
+    return { is_vask: m === 'vask', is_klesvask: m === 'klesvask', is_oppvask: m === 'oppvask', is_seng: m === 'seng', is_sopla: m === 'sopla', is_plante: m === 'plante', is_stovsuger: m === 'stovsuger' };
+  }
+}
+</script>
+</body>
+</html>

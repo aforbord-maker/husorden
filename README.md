@@ -13,7 +13,23 @@ Appen er publisert som en Claude-artifact: https://claude.ai/artifact/WqsyM4joBe
 
 `husorden.html` er skrevet for Claude-artifacter. Den har ingen `<html>`/`<head>`/`<body>`, fordi de legges på ved publisering. Åpnes fila direkte i en nettleser, fungerer den likevel, men lagrer da bare i nettleserens `localStorage`.
 
-## Design
+## Nytt design på vei: vaskerom-retningen
+
+Appen skal over på et nytt design: pastell 50-tallsvaskerom med HUSORDEN-skilt, mint og rosa, sjakkruter og glitter. Alt som trengs ligger her:
+
+| Sti | Hva |
+|---|---|
+| `CLAUDE.md` | Instruksjoner for Claude Code |
+| `docs/design.md` | Designspesifikasjonen (fasiten) |
+| `docs/oppgaver.md` | Implementeringsplan i 16 steg |
+| `design/tokens.css` | Nye farger, fonter og former |
+| `design/mockups/` | Mockups fra Claude Design (referanse) |
+| `assets/skilt/`, `assets/illustrasjoner/` | Skiltet (SVG), oppgavebilder og merker (PNG) |
+| `verktoy/fargejuster.py` | Justerer nye AI-bilder til paletten |
+
+Start Claude Code i repoet og skriv: «Les CLAUDE.md, docs/design.md og docs/oppgaver.md. Start på fase 1 og vis meg resultatet etter hvert steg.»
+
+## Design (nåværende, erstattes)
 
 50-tallsretro med moderne vri. Alle farger og skrifter er tokens i `:root` øverst i `<style>`.
 

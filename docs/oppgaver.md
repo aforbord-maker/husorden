@@ -1,0 +1,27 @@
+# Implementeringsplan
+
+Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er ferdig og testet i 390 px og desktop.
+
+## Fase 1 – Grunnmur
+- [ ] **1. Tokens og fonter.** Legg Google Fonts-lenken og innholdet i `design/tokens.css` inn i `<style>` i `husorden.html`. Fjern gamle variabler og fonter (Shrikhand, Bricolage, krem/turkis-retro). Mørk modus: slå den av foreløpig (`color-scheme: light`); den designes senere.
+- [ ] **2. Grunnstil.** Bakgrunn `--vegg`, brødtekst Figtree, standard 2 px blekkkontur på kort, radius fra tokens, fokusring 3 px `--skiltturkis`.
+- [ ] **3. Skiltfunksjonen.** Lag `skilt({ tekst, undertekst, pil, bredde })` som bygger inline SVG etter `docs/design.md` §3. Escape tekst. Test med HUSORDEN, HEI, IDA! og et langt navn.
+
+## Fase 2 – Voksenvisning
+- [ ] **4. Toppfelt.** Tapet-bakgrunn, skiltet (210 px) til venstre, runde uke-knapper til høyre, sjakkbånd under. Behold ukenummer/dato som tekst (f.eks. under skiltet eller i dagskortet).
+- [ ] **5. Ukestripe og dagskort.** Piller og fremdriftsring etter §5.
+- [ ] **6. Filterchips.**
+- [ ] **7. Oppgavelister.** Seksjonstitler, rader, vaskemaskindør-avkrysning (stil `input[type=checkbox]` med `appearance: none` – behold ekte checkbox), ferdig-tilstand, tildelt-merker, tips, slett.
+- [ ] **8. Øvrige seksjoner.** «Hvem gjør mest?», «Ny oppgave», «Familien», stjernemål-redigering: samme kort, knapper og felt. Bruk `merker/puslespill.png` i «Hvem gjør mest?» og `merker/ide.png` i «Ny oppgave» (små, 64 px, dekor).
+- [ ] **9. Bunnmeny + ny oppgave-knapp** (knappen hopper til «Ny oppgave»-skjemaet).
+
+## Fase 3 – Barnevisning
+- [ ] **10. Topp.** Skilt «HEI, NAVN!» med antall igjen som undertekst, stjernekort, sjakkbånd.
+- [ ] **11. Barnekort med illustrasjoner.** Legg til valgfritt `ikon`-felt på oppgaver + velger i skjemaet, og nøkkelord-gjetting (§6). Store dør-knapper 58 px.
+- [ ] **12. Ledige oppgaver.** «Ta den»-kort med `merker/stafett.png` som overskriftsikon.
+- [ ] **13. Feiring.** Neon-boks «Glitrende!» etter avkrysning, rakett-merket når alt er gjort, trapp-merket + skattekiste når stjernemålet er nådd (vis belønningen).
+
+## Fase 4 – Kvalitet
+- [ ] **14. Tilgjengelighet.** Sjekk kontrast (bruk parene i `docs/design.md`), tab-rekkefølge, `aria-label` på ikonknapper, `alt` på bilder, skjermleser-tekst for skiltet.
+- [ ] **15. Ytelse.** Bilder med `loading="lazy"` og faste mål. Vurder å komprimere PNG-ene (f.eks. `pngquant`) til under 100 KB hver.
+- [ ] **16. Gjennomgang.** Sammenlign med mockupene i `design/mockups/` og ta skjermbilder av begge visningene i 390 px til brukeren.
