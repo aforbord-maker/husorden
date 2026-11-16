@@ -66,11 +66,11 @@
 body { background: var(--vegg); color: var(--blekk); font: 400 16px/1.45 var(--font-tekst); }
 .checker { height: 16px; background: var(--sjakk); }
 .wrap { max-width: 760px; margin: 0 auto; padding-block: 20px 56px;
-  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
   display: flex; flex-direction: column; gap: 20px; }
 h1, h2 { margin: 0; text-wrap: balance; }
-h1 { font-family: var(--font-skilt); font-weight: 400; font-size: 2.25rem; line-height: 1.1; display: flex; align-items: flex-start; gap: 6px; }
-h2 { font-family: var(--font-overskrift); font-weight: 800; font-size: 1.4rem; line-height: 1.2; }
+h1 { font-family: var(--font-skilt); font-weight: 400; font-size: 2.25rem; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; display: flex; align-items: flex-start; gap: 6px; }
+h2 { font-family: var(--font-overskrift); font-weight: 400; font-size: 1.4rem; line-height: 1.2; }
 p { margin: 0; }
 .muted { color: var(--krom); }
 .small { font-size: .85rem; }
@@ -94,21 +94,21 @@ button { cursor: pointer; }
 .daybtn { width: 100%; background: var(--kort); border: var(--strek); border-radius: 12px; padding: 6px 0;
   display: flex; flex-direction: column; align-items: center; gap: 1px; font-variant-numeric: tabular-nums; }
 .daybtn .abbr { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--krom); }
-.daybtn .num { font-family: var(--font-overskrift); font-size: 1.2rem; font-weight: 800; line-height: 1.1; }
+.daybtn .num { font-family: var(--font-overskrift); font-size: 1.2rem; font-weight: 400; line-height: 1.1; }
 .daybtn .cnt { font-size: .7rem; color: var(--krom); }
 .daybtn.today { background: var(--handklerosa); }
 .daybtn.today .abbr, .daybtn.today .cnt { color: var(--blekk); }
 .daybtn[aria-pressed="true"] { background: var(--skapturkis); color: var(--blekk); box-shadow: 3px 3px 0 var(--blekk); }
 .daybtn[aria-pressed="true"] .abbr, .daybtn[aria-pressed="true"] .cnt { color: var(--blekk); }
 
-.card { background: var(--kort); border: var(--strek); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.card { background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
 .card h2::first-letter { text-transform: uppercase; }
-.bar { height: 16px; border: var(--strek); border-radius: 999px; background: var(--vegg); overflow: hidden; display: flex; }
+.bar { height: 16px; border: var(--strek); border-radius: var(--radius-pille); background: var(--vegg); overflow: hidden; display: flex; }
 .bar > span { background: var(--skapturkis); border-right: var(--strek); transition: width .25s; }
 .bar > span[data-zero] { border-right: 0; }
 
 .filters { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { background: var(--kort); border: var(--strek); border-radius: 999px; padding: 6px 14px; min-height: 40px; font-size: .9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.chip { background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 6px 14px; min-height: 40px; font-size: .9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
 .chip[aria-pressed="true"] { background: var(--blekk); color: var(--vegg); }
 .chip.kid[aria-pressed="true"] { background: var(--handklerosa); color: var(--blekk); box-shadow: 3px 3px 0 var(--blekk); }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--kort); border: 1.5px solid var(--blekk); flex: none; }
@@ -117,7 +117,7 @@ button { cursor: pointer; }
 .day { display: flex; flex-direction: column; gap: 16px; }
 .group { display: flex; flex-direction: column; gap: 8px; }
 .group h3 { margin: 0; font: 700 .75rem var(--font-tekst); text-transform: uppercase; letter-spacing: .1em; color: var(--krom); }
-.tasks { list-style: none; margin: 0; padding: 0; background: var(--kort); border: var(--strek); border-radius: 16px; overflow: hidden; }
+.tasks { list-style: none; margin: 0; padding: 0; background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); overflow: hidden; }
 .task { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 12px 14px; }
 .task + .task { border-top: var(--strek); }
 .task.done { background: var(--skumaqua); }
@@ -128,9 +128,9 @@ button { cursor: pointer; }
 .task .meta { grid-column: 2; font-size: .85rem; color: var(--krom); font-variant-numeric: tabular-nums; }
 .task.done .title { text-decoration: line-through; color: var(--krom); }
 .ctl { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.tag { border: 2px dashed var(--krom); background: transparent; color: var(--krom); border-radius: 999px; padding: 2px 10px; font-size: .8rem; font-weight: 600; min-height: 32px; display: inline-flex; align-items: center; gap: 4px; }
+.tag { border: 2px dashed var(--krom); background: transparent; color: var(--krom); border-radius: var(--radius-pille); padding: 2px 10px; font-size: .8rem; font-weight: 600; min-height: 32px; display: inline-flex; align-items: center; gap: 4px; }
 .tag[aria-pressed="true"] { background: var(--handklerosa); color: var(--blekk); border: var(--strek); font-weight: 700; }
-.who { background: var(--kort); border: var(--strek); border-radius: 999px; padding: 2px 10px; min-height: 32px; font-size: .8rem; font-weight: 700; max-width: 100%; }
+.who { background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 2px 10px; min-height: 32px; font-size: .8rem; font-weight: 700; max-width: 100%; }
 .who.adult { background: var(--kort); }
 .who.kid { background: var(--handklerosa); }
 .del { background: transparent; border: 0; color: var(--krom); font-size: .85rem; font-weight: 600; padding: 4px 8px; min-height: 32px; border-radius: 8px; text-decoration: underline; }
@@ -142,7 +142,7 @@ button { cursor: pointer; }
 .tips p { margin: 6px 0; }
 .tips .ctl { margin-top: 8px; }
 textarea { background: var(--kort); border: var(--strek); border-radius: 12px; padding: 8px 10px; width: 100%; box-sizing: border-box; resize: vertical; }
-.empty { color: var(--krom); padding: 16px; background: var(--kort); border: 2px dashed var(--blekk); border-radius: 16px; }
+.empty { color: var(--krom); padding: 16px; background: var(--kort); border: 2px dashed var(--blekk); border-radius: var(--radius-kort); }
 
 .panel { display: flex; flex-direction: column; gap: 12px; border-top: var(--strek); padding-top: 20px; }
 .cmp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
@@ -153,7 +153,7 @@ textarea { background: var(--kort); border: var(--strek); border-radius: 12px; p
 .cmp .bar > span.adult { background: var(--kort); }
 .cmp .bar > span.kid { background: var(--handklerosa); }
 .cmp .bar > span.nobody { background: var(--skumaqua); }
-.lead { font-family: var(--font-overskrift); font-weight: 700; font-size: 1.1rem; }
+.lead { font-family: var(--font-overskrift); font-weight: 400; font-size: 1.1rem; }
 
 form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
 .field { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: .85rem; font-weight: 600; color: var(--krom); }
@@ -167,7 +167,7 @@ form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
 fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; flex-basis: 100%; }
 legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; margin-bottom: 4px; }
 .people { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.person { display: flex; align-items: center; gap: 8px; background: var(--kort); border: var(--strek); border-radius: 999px; padding: 2px 6px 2px 14px; font-weight: 700; }
+.person { display: flex; align-items: center; gap: 8px; background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 2px 6px 2px 14px; font-weight: 700; }
 .person.kid { background: var(--handklerosa); }
 .person .role { font-size: .8rem; font-weight: 600; }
 .person .del { color: var(--blekk); }
@@ -179,16 +179,16 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .kidlabel { align-self: center; font-size: .85rem; font-weight: 700; color: var(--krom); }
 .chip.go { background: var(--handklerosa); }
 .kidhead { background: var(--handklerosa); }
-.kidin { max-width: 760px; margin: 0 auto; padding-block: 24px 20px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; }
+.kidin { max-width: 760px; margin: 0 auto; padding-block: 24px 20px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; }
 .kidtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .kidhead h1 { font-size: 2.5rem; overflow-wrap: anywhere; min-width: 0; }
 .kidsub { font-weight: 600; }
 .round { width: 48px; height: 48px; border-radius: 50%; background: var(--kort); border: var(--strek); display: grid; place-content: center; flex: none; }
-.starcard { background: var(--kort); border: var(--strek); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 3px 3px 0 var(--blekk); }
+.starcard { background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 3px 3px 0 var(--blekk); }
 .starrow { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 700; }
-.starnum { font-family: var(--font-overskrift); font-weight: 800; font-size: 1.25rem; display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
+.starnum { font-family: var(--font-overskrift); font-weight: 400; font-size: 1.25rem; display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
 .kcards { display: flex; flex-direction: column; gap: 22px; }
-.kcard { position: relative; background: var(--kort); border: var(--strek); border-radius: 20px; padding: 14px; display: flex; gap: 14px; align-items: center; box-shadow: 4px 4px 0 var(--blekk); }
+.kcard { position: relative; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 14px; display: flex; gap: 14px; align-items: center; box-shadow: 4px 4px 0 var(--blekk); }
 .kcard.done { background: var(--skumaqua); box-shadow: none; }
 .kbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .kbody h3 { margin: 0; font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
@@ -198,7 +198,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .kcheck { width: 60px; height: 60px; flex: none; border-radius: 16px; background: var(--kort); border: var(--strek); display: grid; place-content: center; color: var(--blekk); }
 .kcheck[aria-pressed="true"] { background: var(--skapturkis); }
 .sticker { position: absolute; top: -18px; right: 64px; background: var(--kort); border: var(--strek); border-radius: 10px; padding: 4px 14px; font-family: var(--font-skilt); font-size: 1.1rem; box-shadow: 3px 3px 0 var(--blekk); transform: rotate(-4deg); }
-.goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--kort); border: var(--strek); border-radius: 16px; padding: 12px; }
+.goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); padding: 12px; }
 .goal strong { flex-basis: 100%; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--blekk); color: var(--vegg); padding: 10px 16px; border-radius: 12px; max-width: calc(100% - 32px); z-index: 20; font-weight: 600; }
 @media (max-width: 420px) { h1 { font-size: 2rem; } .daybtn .num { font-size: 1.1rem; } }

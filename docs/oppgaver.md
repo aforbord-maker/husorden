@@ -4,7 +4,7 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 
 ## Fase 1 – Grunnmur
 - [x] **1. Tokens og fonter.** Legg Google Fonts-lenken og innholdet i `design/tokens.css` inn i `<style>` i `husorden.html`. Fjern gamle variabler og fonter (Shrikhand, Bricolage, krem/turkis-retro). Mørk modus: slå den av foreløpig (`color-scheme: light`); den designes senere.
-- [ ] **2. Grunnstil.** Bakgrunn `--vegg`, brødtekst Figtree, standard 2 px blekkkontur på kort, radius fra tokens, fokusring 3 px `--skiltturkis`.
+- [x] **2. Grunnstil.** Bakgrunn `--vegg`, brødtekst Figtree, standard 2 px blekkkontur på kort, radius fra tokens, fokusring 3 px `--skiltturkis`.
 - [ ] **3. Skiltfunksjonen.** Lag `skilt({ tekst, undertekst, pil, bredde })` som bygger inline SVG etter `docs/design.md` §3. Escape tekst. Test med HUSORDEN, HEI, IDA! og et langt navn.
 
 ## Fase 2 – Voksenvisning
