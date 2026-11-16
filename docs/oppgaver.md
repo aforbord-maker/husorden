@@ -12,14 +12,14 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **5. Ukestripe og dagskort.** Piller og fremdriftsring etter §5.
 - [x] **6. Filterchips.**
 - [x] **7. Oppgavelister.** Seksjonstitler, rader, vaskemaskindør-avkrysning (stil `input[type=checkbox]` med `appearance: none` – behold ekte checkbox), ferdig-tilstand, tildelt-merker, tips, slett.
-- [x] **8. Øvrige seksjoner.** «Hvem gjør mest?», «Ny oppgave», «Familien», stjernemål-redigering: samme kort, knapper og felt. Bruk `merker/puslespill.png` i «Hvem gjør mest?» og `merker/ide.png` i «Ny oppgave» (små, 64 px, dekor).
+- [x] **8. Øvrige seksjoner.** «Hvem gjør mest?», «Ny oppgave», «Familien», stjernemål-redigering: samme kort, knapper og felt.
 - [x] **9. Bunnmeny + ny oppgave-knapp** (knappen hopper til «Ny oppgave»-skjemaet).
 
 ## Fase 3 – Barnevisning
 - [ ] **10. Topp.** Skilt «HEI, NAVN!» med antall igjen som undertekst, stjernekort, sjakkbånd.
 - [ ] **11. Barnekort med illustrasjoner.** Legg til valgfritt `ikon`-felt på oppgaver + velger i skjemaet, og nøkkelord-gjetting (§6). Store dør-knapper 58 px.
-- [ ] **12. Ledige oppgaver.** «Ta den»-kort med `merker/stafett.png` som overskriftsikon.
-- [ ] **13. Feiring.** Neon-boks «Glitrende!» etter avkrysning, rakett-merket når alt er gjort, trapp-merket + skattekiste når stjernemålet er nådd (vis belønningen).
+- [ ] **12. Ledige oppgaver.** «Ta den»-kort med illustrasjon som barnekortene.
+- [ ] **13. Feiring.** Neon-boks «Glitrende!» etter avkrysning, «Alt er gjort i dag» og når stjernemålet er nådd (vis belønningen). Ingen illustrasjoner med mennesker.
 
 ## Fase 4 – Kvalitet
 - [ ] **14. Tilgjengelighet.** Sjekk kontrast (bruk parene i `docs/design.md`), tab-rekkefølge, `aria-label` på ikonknapper, `alt` på bilder, skjermleser-tekst for skiltet.

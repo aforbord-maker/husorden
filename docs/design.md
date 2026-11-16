@@ -100,21 +100,13 @@ Oppbygning (viewBox 0 0 1040 760):
 
 Alle i `assets/illustrasjoner/`. Laget med ChatGPT og fargejustert til paletten. Stil: skrå sticker-ramme med mint kant, rosa eller aqua flate, to stjerner (mint + rosa) oppe til venstre, hvitt glitter, mørk kontur.
 
-**Oppgaver** (480×480, krem bakgrunn):
-`vask.png`, `klesvask.png`, `oppvask.png`, `seng.png`, `sopla.png`, `plante.png`, `stovsuger.png`.
-Rammen er litt åpen nederst (navnelapp ble fjernet). Bytt til versjoner uten tekst når de finnes.
+**Oppgaver** (PNG 480×480 i appen, SVG som master): status, filnavn og nøkkelord står i `docs/illustrasjoner.md`. 12 av 23 motiver er ferdige. Koden skal tåle at et bilde mangler (vis glitter-ikonet).
 
-**Merker** (640×640, gjennomsiktig bakgrunn), forslag til bruk:
-| Fil | Motiv | Bruk |
-|---|---|---|
-| `merker/trapp.png` | Jente på vei opp trappen mot pokal | Stjernemålet nådd |
-| `merker/skatt.png` | Skattekiste med stjerne | Belønning / «Du får: …» |
-| `merker/stafett.png` | Stafettpinne mellom to hender | Ledige oppgaver, «Ta den», «Legg tilbake» |
-| `merker/rakett.png` | Rakett som letter | Alt gjort i dag / ny uke |
-| `merker/puslespill.png` | Barn som legger puslespill | «Hvem gjør mest?» / familien samarbeider |
-| `merker/ide.png` | Lyspære og blyant | Tips («Slik gjør du det»), «Ny oppgave» |
+**Regel for alle illustrasjoner:** én gjenstand som viser hva oppgaven handler om. Ingen mennesker, ingen metaforer (trapper, raketter, puslespill, lyspærer o.l.). Barnet skal skjønne oppgaven uten å lese.
 
-**Kobling oppgave → bilde:** legg til et valgfritt felt `ikon` på oppgaven (verdi = filnavn uten .png) med velger i «Ny oppgave»-skjemaet. Uten `ikon`: gjett fra tittelen med nøkkelord (vask/klær → vask, brette/klesvask → klesvask, oppvask/tallerken → oppvask, seng → seng, søppel/søpla → sopla, plante/vanne → plante, støvsug → stovsuger). Ingen treff: vis et lite glitter-ikon i stedet.
+**Planlagt sett** (mangler foreløpig – se `docs/illustrasjoner.md` for prompt og liste): ett motiv per gjenstand, brukt på tvers av oppgaver via nøkkelord.
+
+**Kobling oppgave → bilde:** legg til et valgfritt felt `ikon` på oppgaven (verdi = filnavn uten .png) med velger i «Ny oppgave»-skjemaet. Uten `ikon`: gjett fra tittelen med nøkkelordene i `docs/illustrasjoner.md`. Ingen treff: vis et lite glitter-ikon i stedet.
 
 Bilder: `alt=""` når tittelen står ved siden av (dekor), `loading="lazy"`, `width`/`height` satt.
 

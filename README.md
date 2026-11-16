@@ -24,7 +24,7 @@ Appen skal over på et nytt design: pastell 50-tallsvaskerom med HUSORDEN-skilt,
 | `docs/oppgaver.md` | Implementeringsplan i 16 steg |
 | `design/tokens.css` | Nye farger, fonter og former |
 | `design/mockups/` | Mockups fra Claude Design (referanse) |
-| `assets/skilt/`, `assets/illustrasjoner/` | Skiltet (SVG), oppgavebilder og merker (PNG) |
+| `assets/skilt/`, `assets/illustrasjoner/` | Skiltet (SVG) og oppgavebilder (PNG) |
 | `verktoy/fargejuster.py` | Justerer nye AI-bilder til paletten |
 
 Start Claude Code i repoet og skriv: «Les CLAUDE.md, docs/design.md og docs/oppgaver.md. Start på fase 1 og vis meg resultatet etter hvert steg.»
