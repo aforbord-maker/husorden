@@ -23,5 +23,6 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 
 ## Fase 4 – Kvalitet
 - [x] **14. Tilgjengelighet.** Sjekk kontrast (bruk parene i `docs/design.md`), tab-rekkefølge, `aria-label` på ikonknapper, `alt` på bilder, skjermleser-tekst for skiltet.
-- [ ] **15. Ytelse.** Bilder med `loading="lazy"` og faste mål. Vurder å komprimere PNG-ene (f.eks. `pngquant`) til under 100 KB hver.
+- [x] **15. Ytelse.** Bilder med `loading="lazy"` og faste mål. Vurder å komprimere PNG-ene (f.eks. `pngquant`) til under 100 KB hver.
+  - Gjort: `loading="lazy"`, `decoding="async"` og faste mål (84×84) på alle oppgavebilder. Ikke gjort: komprimering. Ingen bildeverktøy (pngquant o.l.) var tilgjengelig lokalt; 14 av 23 PNG-er er over 100 KB (største ca. 140 KB).
 - [ ] **16. Gjennomgang.** Sammenlign med mockupene i `design/mockups/` og ta skjermbilder av begge visningene i 390 px til brukeren.
