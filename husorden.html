@@ -80,8 +80,16 @@ button { cursor: pointer; }
 .ico { display: inline-flex; flex: none; }
 .ico svg { display: block; }
 
-.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.nav { display: flex; gap: 6px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tophead { background: var(--tapet); }
+.topin { max-width: 760px; margin: 0 auto; box-sizing: border-box; padding-block: 22px 18px;
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.logo { flex: 0 1 210px; min-width: 0; }
+.nav { display: flex; gap: 6px; flex: none; }
+.ikonknapp { width: 44px; height: 44px; background: var(--kort); border: var(--strek); border-radius: 50%; display: grid; place-content: center; color: var(--blekk); flex: none; }
+.ikonknapp.tekst { width: auto; padding: 0 14px; border-radius: var(--radius-pille); font-weight: 700; font-size: .9rem; }
+.ikonknapp:hover { background: var(--skumaqua); }
 .btn { background: var(--kort); border: var(--strek); border-radius: 12px; padding: 8px 14px; min-height: 44px; min-width: 44px; font-weight: 600; display: inline-grid; place-content: center; }
 .btn:hover { background: var(--skumaqua); }
 .btn.primary { background: var(--skapturkis); color: var(--blekk); box-shadow: 3px 3px 0 var(--blekk); font-weight: 700; }
@@ -206,19 +214,22 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 </style>
 
 <div id="kidView" hidden></div>
-<div class="checker" id="topChecker" aria-hidden="true"></div>
-<div class="wrap" id="adultView">
-  <header class="top">
-    <div>
-      <h1>Husorden <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.9 7.2 16.8 11.1 24 12C16.8 12.9 12.9 16.8 12 24C11.1 16.8 7.2 12.9 0 12C7.2 11.1 11.1 7.2 12 0Z" style="fill:var(--glitter);stroke:var(--blekk)" stroke-width="1"/></svg></h1>
-      <p class="muted" id="weekLabel"></p>
+<header class="tophead" id="adultTop">
+  <div class="topin">
+    <div class="logo">
+      <h1 class="vh">Husorden</h1>
+      <div id="logo"></div>
     </div>
     <div class="nav">
-      <button class="btn" id="prevWeek" type="button" aria-label="Forrige uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <button class="btn" id="goToday" type="button">I dag</button>
-      <button class="btn" id="nextWeek" type="button" aria-label="Neste uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+      <button class="ikonknapp" id="prevWeek" type="button" aria-label="Forrige uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="ikonknapp tekst" id="goToday" type="button">I dag</button>
+      <button class="ikonknapp" id="nextWeek" type="button" aria-label="Neste uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
-  </header>
+  </div>
+</header>
+<div class="checker" id="topChecker" aria-hidden="true"></div>
+<div class="wrap" id="adultView">
+  <p class="muted small" id="weekLabel"></p>
 
   <p class="note" id="note" hidden></p>
 
@@ -748,7 +759,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   function render() {
     const a = document.activeElement, fid = a && a.id && !a.closest('form') ? a.id : null;
     const vm = member(state.view), kid = vm && vm.child ? vm : null;
-    $('adultView').hidden = !!kid; $('topChecker').hidden = !!kid; $('kidView').hidden = !kid;
+    $('adultView').hidden = !!kid; $('adultTop').hidden = !!kid; $('topChecker').hidden = !!kid; $('kidView').hidden = !kid;
     if (kid) renderKid(kid); else $('kidView').replaceChildren();
     renderKidLinks(); renderGoal();
     renderWeek(); renderFilters(); renderDay(); renderCompare(); renderMembers();
@@ -798,6 +809,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   $('goToday').addEventListener('click', () => { const t = new Date(); state.sel = iso(t); state.weekStart = monday(t); render(); });
 
   /* ---------- start ---------- */
+  $('logo').innerHTML = skilt({ tekst: 'HUSORDEN', undertekst: '— VASK • RYDD • GLITRE —', bredde: 210 });
   store = { newId: () => '', set: () => Promise.reject({}), del: () => Promise.reject({}) };
   render();
   (window.claude && window.claude.use ? window.claude.use('db').catch(() => null) : Promise.resolve(null)).then(db => {

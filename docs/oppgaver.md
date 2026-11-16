@@ -8,7 +8,7 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **3. Skiltfunksjonen.** Lag `skilt({ tekst, undertekst, pil, bredde })` som bygger inline SVG etter `docs/design.md` §3. Escape tekst. Test med HUSORDEN, HEI, IDA! og et langt navn.
 
 ## Fase 2 – Voksenvisning
-- [ ] **4. Toppfelt.** Tapet-bakgrunn, skiltet (210 px) til venstre, runde uke-knapper til høyre, sjakkbånd under. Behold ukenummer/dato som tekst (f.eks. under skiltet eller i dagskortet).
+- [x] **4. Toppfelt.** Tapet-bakgrunn, skiltet (210 px) til venstre, runde uke-knapper til høyre, sjakkbånd under. Behold ukenummer/dato som tekst (f.eks. under skiltet eller i dagskortet).
 - [ ] **5. Ukestripe og dagskort.** Piller og fremdriftsring etter §5.
 - [ ] **6. Filterchips.**
 - [ ] **7. Oppgavelister.** Seksjonstitler, rader, vaskemaskindør-avkrysning (stil `input[type=checkbox]` med `appearance: none` – behold ekte checkbox), ferdig-tilstand, tildelt-merker, tips, slett.
