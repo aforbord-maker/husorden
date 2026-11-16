@@ -19,7 +19,7 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **10. Topp.** Skilt «HEI, NAVN!» med antall igjen som undertekst, stjernekort, sjakkbånd.
 - [x] **11. Barnekort med illustrasjoner.** Legg til valgfritt `ikon`-felt på oppgaver + velger i skjemaet, og nøkkelord-gjetting (§6). Store dør-knapper 58 px.
 - [x] **12. Ledige oppgaver.** «Ta den»-kort med illustrasjon som barnekortene.
-- [ ] **13. Feiring.** Neon-boks «Glitrende!» etter avkrysning, «Alt er gjort i dag» og når stjernemålet er nådd (vis belønningen). Ingen illustrasjoner med mennesker.
+- [x] **13. Feiring.** Neon-boks «Glitrende!» etter avkrysning, «Alt er gjort i dag» og når stjernemålet er nådd (vis belønningen). Ingen illustrasjoner med mennesker.
 
 ## Fase 4 – Kvalitet
 - [ ] **14. Tilgjengelighet.** Sjekk kontrast (bruk parene i `docs/design.md`), tab-rekkefølge, `aria-label` på ikonknapper, `alt` på bilder, skjermleser-tekst for skiltet.

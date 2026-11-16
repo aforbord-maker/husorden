@@ -218,7 +218,12 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .kbody .tips summary { font-size: 14px; font-weight: 800; }
 .kcheck { width: 58px; height: 58px; margin: 2px; flex: none; box-sizing: border-box; border-radius: 50%; background: var(--kort); border: 7px solid var(--maskinmint); box-shadow: 0 0 0 2px var(--blekk); display: grid; place-content: center; color: var(--blekk); }
 .kcheck[aria-pressed="true"] { background: var(--skapturkis); }
-.sticker { position: absolute; top: -18px; right: 64px; background: var(--kort); border: var(--strek); border-radius: 10px; padding: 4px 14px; font-family: var(--font-skilt); font-size: 1.1rem; box-shadow: 3px 3px 0 var(--blekk); transform: rotate(-4deg); }
+.neon { position: relative; overflow: hidden; background: var(--natt); border-radius: var(--radius-stor); padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.neonring { position: absolute; right: -30px; top: -30px; width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--neon-rosa); box-shadow: 0 0 10px var(--neon-rosa), inset 0 0 10px var(--neon-rosa); }
+.neontekst { position: relative; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.neonord { font-family: var(--font-neon); font-size: 46px; line-height: 1; color: var(--lysrosa); text-shadow: var(--glod-rosa); }
+.neonunder { font-family: var(--font-overskrift); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--skumaqua); text-shadow: var(--glod-turkis); overflow-wrap: anywhere; }
+.neonglitter { position: relative; flex: none; filter: drop-shadow(0 0 4px var(--neon-gul)) drop-shadow(0 0 10px var(--neon-gul)); }
 .goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--lysrosa); border: var(--strek); border-radius: var(--radius-kort); padding: 14px; }
 .goal strong { flex-basis: 100%; }
 .bunnmeny { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: var(--kort); border-top: var(--strek); padding-bottom: env(safe-area-inset-bottom, 0px); }
@@ -803,8 +808,20 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
         !done && steps.length > 0 && h('details', { class: 'tips', id: 'ktip-' + t.id, open: state.openTips.has(t.id), ontoggle: e => { if (e.target.open) state.openTips.add(t.id); else state.openTips.delete(t.id); } },
           h('summary', { text: 'Slik gjør du det' }), h('ol', null, steps.map(x => h('li', { text: x }))))),
       h('button', { type: 'button', id: 'kdone-' + t.id, class: 'kcheck', 'aria-pressed': String(done), 'aria-label': (done ? 'Angre: ' : 'Merk som ferdig: ') + t.title,
-        onclick: () => { state.lastDone = done ? null : t.id; toggleDone(t, !done, day); } }, done && h('span', { class: 'ico', innerHTML: CHECK })),
-      done && state.lastDone === t.id && h('div', { class: 'sticker', text: 'Glitrende!' }));
+        onclick: () => { state.lastDone = done ? null : t.id; toggleDone(t, !done, day); } }, done && h('span', { class: 'ico', innerHTML: CHECK })));
+  }
+
+  const NEONGLITTER = '<svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1C12.8 7.4 16.6 11.2 23 12C16.6 12.8 12.8 16.6 12 23C11.2 16.6 7.4 12.8 1 12C7.4 11.2 11.2 7.4 12 1Z" fill="none" style="stroke:var(--kort)" stroke-width="1.4"/></svg>';
+  /* Neon-feiring (docs/design.md §5): målet nådd, alt gjort i dag, eller oppgaven som nettopp ble krysset av. */
+  function feiring(kid, list, day, got, goal) {
+    const sist = list.find(t => t.id === state.lastDone && isDone(t, day));
+    const alt = list.length > 0 && list.every(t => isDone(t, day));
+    const under = got >= goal ? 'Målet er nådd' + (kid.reward ? ' · ' + kid.reward : '') : alt ? 'Alt er gjort i dag' : sist ? sist.title + ' · ferdig' : '';
+    if (!under) return null;
+    return h('div', { class: 'neon', role: 'status' },
+      h('div', { class: 'neonring', 'aria-hidden': 'true' }),
+      h('div', { class: 'neontekst' }, h('span', { class: 'neonord', text: 'Glitrende!' }), h('span', { class: 'neonunder', text: under })),
+      h('span', { class: 'ico neonglitter', innerHTML: NEONGLITTER }));
   }
 
   function renderKid(kid) {
@@ -836,7 +853,8 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
         h('h2', { text: 'Mine oppgaver i dag' }),
         list.length ? h('div', { class: 'kcards' }, list.map(t => kidCard(t, day))) : h('p', { class: 'empty', text: 'Ingen oppgaver er dine i dag ennå.' }),
         open.length > 0 && h('h2', { text: 'Ledige oppgaver – ta en!' }),
-        open.length > 0 && h('div', { class: 'kcards' }, open.map(openCard))));
+        open.length > 0 && h('div', { class: 'kcards' }, open.map(openCard)),
+        feiring(kid, list, day, got, goal)));
   }
 
   function render() {
