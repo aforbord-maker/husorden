@@ -238,11 +238,13 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .bunnmeny { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: var(--kort); border-top: var(--strek); padding-bottom: env(safe-area-inset-bottom, 0px); }
 .bunnin { max-width: 800px; margin: 0 auto; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding-block: 6px;
   padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); }
-.fane { background: none; border: 0; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 52px; color: var(--krom); font-size: 12px; font-weight: 700; }
+.fane { background: none; border: 0; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; color: var(--krom); font-size: 12px; font-weight: 700; }
+.fane img { display: block; width: 32px; height: 32px; }
 .fane[aria-current] { color: var(--skiltturkis); font-weight: 800; }
 .nyknapp { position: fixed; z-index: 16; right: max(20px, calc(50% - 360px), env(safe-area-inset-right, 0px)); bottom: calc(86px + env(safe-area-inset-bottom, 0px));
-  width: 62px; height: 62px; border-radius: 50%; background: var(--skapturkis); color: var(--blekk); border: var(--strek); box-shadow: var(--skygge-knapp); display: grid; place-content: center; }
-.nyknapp:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--skiltturkis); }
+  width: 56px; height: 56px; padding: 0; border: 0; border-radius: 50%; background: none; display: grid; place-content: center; }
+.nyknapp img { display: block; width: 56px; height: 56px; }
+.nyknapp:active { transform: translateY(2px); }
 #adultView { padding-bottom: 176px; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); background: var(--blekk); color: var(--vegg); padding: 10px 16px; border-radius: 12px; max-width: calc(100% - 32px); z-index: 20; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
@@ -350,12 +352,12 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     </form>
   </section>
 </div>
-<button type="button" class="nyknapp" id="nyKnapp" aria-label="Ny oppgave"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+<button type="button" class="nyknapp" id="nyKnapp" aria-label="Ny oppgave"><img id="ikon-ny" src="assets/nav/ny-aktiv.png" alt="" aria-hidden="true" width="56" height="56" decoding="async"></button>
 <nav class="bunnmeny" id="bunnmeny" aria-label="Hovedmeny">
   <div class="bunnin">
-    <button type="button" class="fane" id="fane-idag" aria-current="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>I dag</button>
-    <button type="button" class="fane" id="fane-uka"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Uka</button>
-    <button type="button" class="fane" id="fane-familien"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 14.5a5 5 0 0 1 5.5 5.5"/></svg>Familien</button>
+    <button type="button" class="fane" id="fane-idag" aria-current="true"><img id="ikon-idag" src="assets/nav/idag-aktiv.png" alt="" aria-hidden="true" width="32" height="32" decoding="async">I dag</button>
+    <button type="button" class="fane" id="fane-uka"><img id="ikon-uka" src="assets/nav/uka.png" alt="" aria-hidden="true" width="32" height="32" decoding="async">Uka</button>
+    <button type="button" class="fane" id="fane-familien"><img id="ikon-familien" src="assets/nav/familien.png" alt="" aria-hidden="true" width="32" height="32" decoding="async">Familien</button>
   </div>
 </nav>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -768,7 +770,12 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     const kids = state.members.filter(m => m.child);
     $('kidLinks').hidden = !kids.length;
     $('kidLinks').replaceChildren(h('span', { class: 'kidlabel', text: 'Barnevisning:' }),
-      ...kids.map(m => h('button', { type: 'button', id: 'go-' + m.id, class: 'chip go', onclick: () => setView(m.id) }, star(), m.name)));
+      ...kids.map(m => {
+        const bilde = h('img', { src: 'assets/nav/barn.png', alt: '', 'aria-hidden': 'true', width: 24, height: 24, decoding: 'async' });
+        const sett = aktiv => () => { bilde.src = 'assets/nav/barn' + (aktiv ? '-aktiv' : '') + '.png'; };
+        return h('button', { type: 'button', id: 'go-' + m.id, class: 'chip go', onclick: () => setView(m.id),
+          onpointerenter: sett(true), onpointerleave: sett(false), onfocus: sett(true), onblur: sett(false) }, bilde, m.name);
+      }));
   }
 
   const IKONER = [
@@ -946,7 +953,11 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   function visFane(valgt) {
     state.tab = FANER.includes(valgt) ? valgt : 'idag';
     FANER.forEach(k => { $('sek-' + k).hidden = k !== state.tab; });
-    ['idag', 'uka', 'familien'].forEach(k => { if (k === state.tab) $('fane-' + k).setAttribute('aria-current', 'true'); else $('fane-' + k).removeAttribute('aria-current'); });
+    ['idag', 'uka', 'familien'].forEach(k => {
+      const aktiv = k === state.tab;
+      if (aktiv) $('fane-' + k).setAttribute('aria-current', 'true'); else $('fane-' + k).removeAttribute('aria-current');
+      $('ikon-' + k).src = 'assets/nav/' + k + (aktiv ? '-aktiv' : '') + '.png';
+    });
     const utenUke = state.tab === 'ny' || state.tab === 'familien';
     $('weekLabel').hidden = utenUke;
     $('ukeknapper').hidden = utenUke;
@@ -968,6 +979,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   /* ---------- start ---------- */
   $('logo').innerHTML = skilt({ tekst: 'HUSORDEN', undertekst: '— VASK • RYDD • GLITRE —', bredde: 210 });
+  ['idag', 'uka', 'familien', 'barn'].forEach(k => { new Image().src = 'assets/nav/' + k + '.png'; new Image().src = 'assets/nav/' + k + '-aktiv.png'; });
   document.documentElement.lang = 'nb';
   state.tab = 'idag';
   visFane((location.hash || '#idag').slice(1));
