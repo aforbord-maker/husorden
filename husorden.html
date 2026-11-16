@@ -129,16 +129,17 @@ button { cursor: pointer; }
 .group { display: flex; flex-direction: column; gap: 8px; }
 .group h3 { margin: 0; font: 400 16px/1.25 var(--font-overskrift); text-transform: uppercase; letter-spacing: .08em; color: var(--skiltturkis); }
 .tasks { list-style: none; margin: 0; padding: 0; background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); overflow: hidden; }
-.task { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 11px 14px; }
+.task { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 0 12px; align-items: center; padding: 8px 14px; }
+.tekst { display: flex; flex-direction: column; min-width: 0; }
+.hoyre { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.hoyre .who { max-width: 128px; text-overflow: ellipsis; }
 .task + .task { border-top: var(--strek); }
 .task.done { background: var(--skumaqua); }
-.cb { appearance: none; -webkit-appearance: none; box-sizing: border-box; width: 32px; height: 32px; margin: 6px; border: 5px solid var(--maskinmint); border-radius: 50%; background: var(--kort); box-shadow: 0 0 0 2px var(--blekk); display: grid; place-content: center; cursor: pointer; flex: none; grid-row: 1 / span 2; align-self: start; }
+.cb { appearance: none; -webkit-appearance: none; box-sizing: border-box; width: 32px; height: 32px; margin: 6px; border: 5px solid var(--maskinmint); border-radius: 50%; background: var(--kort); box-shadow: 0 0 0 2px var(--blekk); display: grid; place-content: center; cursor: pointer; flex: none; align-self: center; }
 .cb:checked { background: var(--skapturkis); }
 .cb:checked::after { content: ""; width: 10px; height: 5px; border-left: 3px solid var(--blekk); border-bottom: 3px solid var(--blekk); transform: translateY(-2px) rotate(-45deg); }
-.task .title { font-weight: 700; font-size: 16px; overflow-wrap: anywhere; cursor: pointer; }
-.task.done .title { padding-right: 28px; }
-.glit { position: absolute; top: 14px; right: 14px; }
-.task .meta { grid-column: 2; font-size: 13px; color: var(--krom); font-variant-numeric: tabular-nums; }
+.task .title { font-weight: 700; font-size: 16px; overflow-wrap: break-word; hyphens: auto; cursor: pointer; }
+.task .meta { font-size: 13px; color: var(--krom); font-variant-numeric: tabular-nums; }
 .task.done .title { text-decoration: line-through; color: var(--krom); }
 .ctl { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .tag { border: 2px dashed var(--krom); background: transparent; color: var(--krom); border-radius: var(--radius-pille); padding: 2px 12px; font-size: 13px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; }
@@ -149,7 +150,9 @@ button { cursor: pointer; }
 .del { background: transparent; border: 0; color: var(--skiltturkis); font-size: 14px; font-weight: 700; padding: 4px 8px; min-height: 44px; min-width: 44px; border-radius: 12px; text-decoration: underline; }
 .del.slett { color: var(--kirsebaer); }
 .del.slett.sure { font-weight: 800; outline: 2px solid var(--kirsebaer); text-decoration: none; }
-.tips { grid-column: 2; font-size: .9rem; min-width: 0; }
+.tips { grid-column: 2 / -1; font-size: 14px; min-width: 0; }
+.mer > summary { color: var(--krom); font-size: 13px; }
+.mer[open] { padding-bottom: 6px; }
 .tips summary { cursor: pointer; color: var(--skiltturkis); font-weight: 700; padding: 4px 0; width: fit-content; }
 .tips summary { min-height: 44px; box-sizing: border-box; display: flex; align-items: center; }
 .tips ol { margin: 2px 0 6px; padding: 10px 12px 10px 2.2em; display: flex; flex-direction: column; gap: 4px; max-width: 60ch; box-sizing: border-box; background: var(--lysrosa); border: var(--strek); border-radius: 14px; }
@@ -609,40 +612,42 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   function taskRow(t, opt) {
     const done = isDone(t, state.sel), sure = state.confirmDel === t.id;
-    const who = eff(t, state.sel);
-    const people = cur => state.members.map(p => h('option', { value: p.id, text: p.name + (p.child ? ' (barn)' : ''), selected: p.id === cur }));
+    const who = eff(t, state.sel), m = member(who);
     const editing = state.editTips === t.id, oldBox = $('tips-' + t.id);
     const steps = String(t.tips || '').split('\n').map(s => s.trim()).filter(Boolean);
-    const m = member(who);
+    const people = (cur, medBarn) => state.members.map(p => h('option', { value: p.id, text: p.name + (medBarn && p.child ? ' (barn)' : ''), selected: p.id === cur }));
     return h('li', { class: 'task' + (done ? ' done' : '') },
       h('input', { type: 'checkbox', class: 'cb', id: 'chk-' + t.id, checked: done, onchange: e => toggleDone(t, e.target.checked) }),
-      h('label', { class: 'title', htmlFor: 'chk-' + t.id, text: (opt ? opt.n + '. ' : '') + t.title }),
-      h('span', { class: 'meta', text: (t.minutes ? t.minutes + ' min · ' : '') + schedule(t) + rotLabel(t) }),
-      done && h('span', { class: 'ico glit', innerHTML: GLITTER }),
-      h('div', { class: 'ctl' },
-        h('button', { type: 'button', id: 'kid-' + t.id, class: 'tag', 'aria-pressed': String(!!t.child), title: 'Trykk for å bytte mellom barneoppgave og voksenoppgave', onclick: () => saveTask(t, { child: !t.child }) }, t.child && star(), t.child ? 'Barneoppgave' : 'Voksenoppgave'),
-        h('label', { class: 'sel' }, 'I dag:',
-          h('select', { class: 'who' + (m ? (m.child ? ' kid' : ' adult') : ' free'), id: 'who-' + t.id, onchange: e => setClaim(t, state.sel, e.target.value) },
-            h('option', { value: '', text: 'Ledig – hvem tar den?' }), people(who))),
-        t.kind !== 'stor' && h('label', { class: 'sel' }, 'Fast:',
-          h('select', { class: 'who', id: 'fast-' + t.id, onchange: e => saveTask(t, { assignee: e.target.value || null }) },
-            h('option', { value: '', text: 'Ingen' }), people(t.assignee))),
-        opt && h('button', { type: 'button', id: 'up-' + t.id, class: 'del', 'aria-label': 'Flytt opp: ' + t.title, disabled: opt.n === 1, onclick: () => moveTask(t, -1, opt.list) }, '↑'),
-        opt && h('button', { type: 'button', id: 'dn-' + t.id, class: 'del', 'aria-label': 'Flytt ned: ' + t.title, disabled: opt.n === opt.list.length, onclick: () => moveTask(t, 1, opt.list) }, '↓'),
-        h('button', { type: 'button', id: 'del-' + t.id, class: 'del slett' + (sure ? ' sure' : ''), onclick: () => {
-          if (sure) { state.confirmDel = null; write(store.del('tasks', t.id)); return; }
-          state.confirmDel = t.id; clearTimeout(confirmTimer); confirmTimer = setTimeout(() => { state.confirmDel = null; render(); }, 4000); render();
-        } }, sure ? 'Bekreft sletting' : 'Slett')),
-      h('details', { class: 'tips', id: 'tip-' + t.id, open: state.openTips.has(t.id), ontoggle: e => { if (e.target.open) state.openTips.add(t.id); else state.openTips.delete(t.id); } },
-        h('summary', { text: steps.length ? 'Slik gjør du det' : 'Legg til tips' }),
+      h('div', { class: 'tekst' },
+        h('label', { class: 'title', htmlFor: 'chk-' + t.id, text: (opt ? opt.n + '. ' : '') + t.title }),
+        h('span', { class: 'meta', text: (t.minutes ? t.minutes + ' min · ' : '') + schedule(t) + rotLabel(t) })),
+      /* Navnemerket: hvem som tar oppgaven i dag. «Ledig» betyr at noen kan ta den. */
+      h('div', { class: 'hoyre' },
+        done && h('span', { class: 'ico', innerHTML: GLITTER }),
+        h('select', { class: 'who' + (m ? (m.child ? ' kid' : ' adult') : ' free'), id: 'who-' + t.id, 'aria-label': 'Hvem tar den i dag: ' + t.title, onchange: e => setClaim(t, state.sel, e.target.value) },
+          h('option', { value: '', text: 'Ledig' }), people(who, false))),
+      /* Alt som ikke trengs hver dag ligger bak «Mer»: tips, barneoppgave, fast ansvarlig, rekkefølge og sletting. */
+      h('details', { class: 'tips mer', id: 'tip-' + t.id, open: state.openTips.has(t.id), ontoggle: e => { if (e.target.open) state.openTips.add(t.id); else state.openTips.delete(t.id); } },
+        h('summary', { text: steps.length ? 'Tips og mer' : 'Mer' }),
         editing ? [
           h('textarea', { id: 'tips-' + t.id, rows: 6, maxLength: 2000, 'aria-label': 'Tips, ett steg per linje', value: oldBox ? oldBox.value : (t.tips || '') }),
           h('div', { class: 'ctl' },
             h('button', { type: 'button', id: 'tsave-' + t.id, class: 'btn primary', onclick: () => { const v = $('tips-' + t.id).value.trim(); state.editTips = null; saveTask(t, { tips: v }); render(); } }, 'Lagre tips'),
             h('button', { type: 'button', id: 'tcancel-' + t.id, class: 'btn', onclick: () => { state.editTips = null; render(); } }, 'Avbryt'))
         ] : [
-          steps.length ? h('ol', null, steps.map(s => h('li', { text: s }))) : h('p', { class: 'muted', text: 'Ingen tips ennå.' }),
-          h('button', { type: 'button', id: 'tedit-' + t.id, class: 'del', onclick: () => { state.editTips = t.id; state.openTips.add(t.id); render(); } }, steps.length ? 'Endre tips' : 'Skriv tips')
+          steps.length > 0 && h('ol', null, steps.map(s => h('li', { text: s }))),
+          h('div', { class: 'ctl' },
+            h('button', { type: 'button', id: 'kid-' + t.id, class: 'tag', 'aria-pressed': String(!!t.child), title: 'Trykk for å bytte mellom barneoppgave og voksenoppgave', onclick: () => saveTask(t, { child: !t.child }) }, t.child && star(), t.child ? 'Barneoppgave' : 'Voksenoppgave'),
+            t.kind !== 'stor' && h('label', { class: 'sel' }, 'Fast:',
+              h('select', { class: 'who', id: 'fast-' + t.id, onchange: e => saveTask(t, { assignee: e.target.value || null }) },
+                h('option', { value: '', text: 'Ingen' }), people(t.assignee, true))),
+            opt && h('button', { type: 'button', id: 'up-' + t.id, class: 'del', 'aria-label': 'Flytt opp: ' + t.title, disabled: opt.n === 1, onclick: () => moveTask(t, -1, opt.list) }, '↑'),
+            opt && h('button', { type: 'button', id: 'dn-' + t.id, class: 'del', 'aria-label': 'Flytt ned: ' + t.title, disabled: opt.n === opt.list.length, onclick: () => moveTask(t, 1, opt.list) }, '↓'),
+            h('button', { type: 'button', id: 'tedit-' + t.id, class: 'del', onclick: () => { state.editTips = t.id; state.openTips.add(t.id); render(); } }, steps.length ? 'Endre tips' : 'Skriv tips'),
+            h('button', { type: 'button', id: 'del-' + t.id, class: 'del slett' + (sure ? ' sure' : ''), onclick: () => {
+              if (sure) { state.confirmDel = null; write(store.del('tasks', t.id)); return; }
+              state.confirmDel = t.id; clearTimeout(confirmTimer); confirmTimer = setTimeout(() => { state.confirmDel = null; render(); }, 4000); render();
+            } }, sure ? 'Bekreft sletting' : 'Slett'))
         ])
     );
   }
@@ -680,7 +685,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       const recent = state.tasks.filter(t => t.kind === 'stor').length - bigPool(state.sel).length - tasksOn(state.sel).filter(t => t.kind === 'stor').length;
       if (pool.length) out.push(h('div', { class: 'group' },
         h('h3', { text: 'Større ryddeoppgaver · ta én innimellom' }),
-        h('p', { class: 'muted small', text: 'Lengst siden sist står øverst. Velg hvem som tar den i dag, så havner den på dagens liste.' + (recent > 0 ? ' ' + recent + ' er gjort nylig og vises ikke.' : '') }),
+        h('p', { class: 'muted small', text: 'Lengst siden sist står øverst. Velg navn på merket til høyre, så havner den på dagens liste.' + (recent > 0 ? ' ' + recent + ' er gjort nylig og vises ikke.' : '') }),
         h('ul', { class: 'tasks' }, shown.map(t => taskRow(t))),
         pool.length > 3 && h('button', { type: 'button', id: 'bigmore', class: 'btn', onclick: () => { state.showAllBig = !state.showAllBig; render(); } }, state.showAllBig ? 'Vis færre' : 'Vis alle ' + pool.length)));
     }
