@@ -1,0 +1,721 @@
+<title>Husorden</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Shrikhand&display=swap">
+<style>
+/* Layout: one column, max 760px. Checker strip on top, week strip as the spine, the chosen day's card and lists under it, then the comparison, the new-task form and the family.
+   Look: 50s retro from the family's own design canvas. One deliberate light theme: cream ground, navy 2px outlines, hard offset shadows. */
+:root {
+  --bg: #FFF7EA; --surface: #FFFFFF; --ink: #1D2B3A; --muted: #5B6878;
+  --accent: #0D7A72; --on-accent: #FFFFFF; --mint: #5FD3C6; --mint-soft: #D3F2EA;
+  --child: #FFCF4D; --adult: #F6A6B6; --pink-soft: #FDE3E7; --danger: #A8281E;
+  --logo: "Shrikhand", "Georgia", serif;
+  --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --edge: 2px solid var(--ink);
+  color-scheme: light;
+}
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.45 var(--body); }
+.checker { height: 12px; background: repeating-conic-gradient(var(--ink) 0 25%, var(--bg) 0 50%) 0 0 / 12px 12px; }
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 20px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 20px; }
+h1, h2 { margin: 0; text-wrap: balance; }
+h1 { font-family: var(--logo); font-weight: 400; font-size: 2.25rem; line-height: 1.1; display: flex; align-items: flex-start; gap: 6px; }
+h2 { font-family: var(--display); font-weight: 800; font-size: 1.4rem; line-height: 1.2; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: .85rem; }
+button, select, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.ico { display: inline-flex; flex: none; }
+.ico svg { display: block; }
+
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.nav { display: flex; gap: 6px; }
+.btn { background: var(--surface); border: var(--edge); border-radius: 12px; padding: 8px 14px; min-height: 44px; min-width: 44px; font-weight: 600; display: inline-grid; place-content: center; }
+.btn:hover { background: var(--mint-soft); }
+.btn.primary { background: var(--accent); color: var(--on-accent); box-shadow: 3px 3px 0 var(--ink); font-weight: 700; }
+.btn.primary:hover { background: var(--accent); }
+.btn.primary:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+
+.note { background: var(--pink-soft); border: var(--edge); border-radius: 12px; padding: 10px 12px; font-size: .9rem; }
+
+.week { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.daybtn { width: 100%; background: var(--surface); border: var(--edge); border-radius: 12px; padding: 6px 0;
+  display: flex; flex-direction: column; align-items: center; gap: 1px; font-variant-numeric: tabular-nums; }
+.daybtn .abbr { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.daybtn .num { font-family: var(--display); font-size: 1.2rem; font-weight: 800; line-height: 1.1; }
+.daybtn .cnt { font-size: .7rem; color: var(--muted); }
+.daybtn.today { background: var(--child); }
+.daybtn.today .abbr, .daybtn.today .cnt { color: var(--ink); }
+.daybtn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); box-shadow: 3px 3px 0 var(--ink); }
+.daybtn[aria-pressed="true"] .abbr, .daybtn[aria-pressed="true"] .cnt { color: var(--on-accent); }
+
+.card { background: var(--surface); border: var(--edge); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.card h2::first-letter { text-transform: uppercase; }
+.bar { height: 16px; border: var(--edge); border-radius: 999px; background: var(--bg); overflow: hidden; display: flex; }
+.bar > span { background: var(--mint); border-right: var(--edge); transition: width .25s; }
+.bar > span[data-zero] { border-right: 0; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: var(--surface); border: var(--edge); border-radius: 999px; padding: 6px 14px; min-height: 40px; font-size: .9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.chip.kid[aria-pressed="true"] { background: var(--child); color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--adult); border: 1.5px solid var(--ink); flex: none; }
+.chip[aria-pressed="true"] .dot { border-color: var(--bg); }
+
+.day { display: flex; flex-direction: column; gap: 16px; }
+.group { display: flex; flex-direction: column; gap: 8px; }
+.group h3 { margin: 0; font: 700 .75rem var(--body); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.tasks { list-style: none; margin: 0; padding: 0; background: var(--surface); border: var(--edge); border-radius: 16px; overflow: hidden; }
+.task { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 12px 14px; }
+.task + .task { border-top: var(--edge); }
+.task.done { background: var(--mint-soft); }
+.cb { appearance: none; -webkit-appearance: none; width: 28px; height: 28px; margin: 0; border: var(--edge); border-radius: 8px; background: var(--surface); display: grid; place-content: center; cursor: pointer; flex: none; grid-row: 1 / span 2; align-self: start; }
+.cb:checked { background: var(--accent); }
+.cb:checked::after { content: ""; width: 12px; height: 6px; border-left: 3px solid var(--on-accent); border-bottom: 3px solid var(--on-accent); transform: translateY(-2px) rotate(-45deg); }
+.task .title { font-weight: 600; overflow-wrap: anywhere; cursor: pointer; }
+.task .meta { grid-column: 2; font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.task.done .title { text-decoration: line-through; color: var(--muted); }
+.ctl { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.tag { border: 2px dashed var(--muted); background: transparent; color: var(--muted); border-radius: 999px; padding: 2px 10px; font-size: .8rem; font-weight: 600; min-height: 32px; display: inline-flex; align-items: center; gap: 4px; }
+.tag[aria-pressed="true"] { background: var(--child); color: var(--ink); border: var(--edge); font-weight: 700; }
+.who { background: var(--surface); border: var(--edge); border-radius: 999px; padding: 2px 10px; min-height: 32px; font-size: .8rem; font-weight: 700; max-width: 100%; }
+.who.adult { background: var(--adult); }
+.who.kid { background: var(--child); }
+.del { background: transparent; border: 0; color: var(--muted); font-size: .85rem; font-weight: 600; padding: 4px 8px; min-height: 32px; border-radius: 8px; text-decoration: underline; }
+.del:hover, .del.sure { color: var(--danger); }
+.del.sure { font-weight: 700; outline: 2px solid var(--danger); text-decoration: none; }
+.tips { grid-column: 2; font-size: .9rem; min-width: 0; }
+.tips summary { cursor: pointer; color: var(--accent); font-weight: 700; padding: 4px 0; width: fit-content; }
+.tips ol { margin: 6px 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; max-width: 60ch; }
+.tips p { margin: 6px 0; }
+.tips .ctl { margin-top: 8px; }
+textarea { background: var(--surface); border: var(--edge); border-radius: 12px; padding: 8px 10px; width: 100%; box-sizing: border-box; resize: vertical; }
+.empty { color: var(--muted); padding: 16px; background: var(--surface); border: 2px dashed var(--ink); border-radius: 16px; }
+
+.panel { display: flex; flex-direction: column; gap: 12px; border-top: var(--edge); padding-top: 20px; }
+.cmp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.cmp li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; }
+.cmp .name { font-weight: 700; display: flex; align-items: center; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
+.cmp .val { font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+.cmp .bar { grid-column: 1 / -1; height: 20px; }
+.cmp .bar > span.adult { background: var(--adult); }
+.cmp .bar > span.kid { background: var(--child); }
+.cmp .bar > span.nobody { background: var(--mint-soft); }
+.lead { font-family: var(--display); font-weight: 700; font-size: 1.1rem; }
+
+form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: .85rem; font-weight: 600; color: var(--muted); }
+.field.grow { flex: 1 1 220px; }
+.field.full { flex-basis: 100%; }
+.field input[type="text"], .field input[type="number"], .field select { background: var(--surface); color: var(--ink); border: var(--edge); border-radius: 12px; padding: 8px 10px; min-height: 44px; font-size: 1rem; font-weight: 400; width: 100%; box-sizing: border-box; }
+.field textarea { color: var(--ink); font-size: 1rem; font-weight: 400; }
+.field.num { width: 90px; }
+.check { display: flex; align-items: center; gap: 8px; min-height: 44px; color: var(--ink); font-size: .95rem; font-weight: 500; }
+.check .cb { width: 24px; height: 24px; grid-row: auto; align-self: center; }
+fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; flex-basis: 100%; }
+legend { font-size: .85rem; font-weight: 600; color: var(--muted); padding: 0; margin-bottom: 4px; }
+.people { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.person { display: flex; align-items: center; gap: 8px; background: var(--adult); border: var(--edge); border-radius: 999px; padding: 2px 6px 2px 14px; font-weight: 700; }
+.person.kid { background: var(--child); }
+.person .role { font-size: .8rem; font-weight: 600; }
+.person .del { color: var(--ink); }
+
+.sel { display: inline-flex; align-items: center; gap: 4px; font-size: .8rem; font-weight: 600; color: var(--muted); max-width: 100%; }
+.who.free { border-style: dashed; background: var(--child); }
+.free { font-weight: 700; background: var(--child); border: var(--edge); border-radius: 10px; padding: 4px 10px; width: fit-content; font-size: .9rem; }
+.del:disabled { opacity: .35; cursor: default; }
+.kidlabel { align-self: center; font-size: .85rem; font-weight: 700; color: var(--muted); }
+.chip.go { background: var(--child); }
+.kidhead { background: var(--child); }
+.kidin { max-width: 760px; margin: 0 auto; padding-block: 24px 20px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; }
+.kidtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.kidhead h1 { font-size: 2.5rem; overflow-wrap: anywhere; min-width: 0; }
+.kidsub { font-weight: 600; }
+.round { width: 48px; height: 48px; border-radius: 50%; background: var(--surface); border: var(--edge); display: grid; place-content: center; flex: none; }
+.starcard { background: var(--surface); border: var(--edge); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 3px 3px 0 var(--ink); }
+.starrow { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 700; }
+.starnum { font-family: var(--display); font-weight: 800; font-size: 1.25rem; display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
+.checker.kid { background: repeating-conic-gradient(var(--ink) 0 25%, var(--child) 0 50%) 0 0 / 12px 12px; }
+.kcards { display: flex; flex-direction: column; gap: 22px; }
+.kcard { position: relative; background: var(--surface); border: var(--edge); border-radius: 20px; padding: 14px; display: flex; gap: 14px; align-items: center; box-shadow: 4px 4px 0 var(--ink); }
+.kcard.done { background: var(--mint-soft); box-shadow: none; }
+.kbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.kbody h3 { margin: 0; font-size: 1.15rem; font-weight: 700; overflow-wrap: anywhere; }
+.kcard.done h3 { text-decoration: line-through; color: var(--muted); }
+.kmeta { font-size: .9rem; color: var(--muted); }
+.kcard.done .kmeta { color: var(--accent); font-weight: 700; }
+.kcheck { width: 60px; height: 60px; flex: none; border-radius: 16px; background: var(--surface); border: var(--edge); display: grid; place-content: center; color: var(--on-accent); }
+.kcheck[aria-pressed="true"] { background: var(--accent); }
+.sticker { position: absolute; top: -18px; right: 64px; background: var(--adult); border: var(--edge); border-radius: 10px; padding: 4px 14px; font-family: var(--logo); font-size: 1.1rem; box-shadow: 3px 3px 0 var(--ink); transform: rotate(-4deg); }
+.goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--surface); border: var(--edge); border-radius: 16px; padding: 12px; }
+.goal strong { flex-basis: 100%; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 12px; max-width: calc(100% - 32px); z-index: 20; font-weight: 600; }
+@media (max-width: 420px) { h1 { font-size: 2rem; } .daybtn .num { font-size: 1.1rem; } }
+@media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
+</style>
+
+<div id="kidView" hidden></div>
+<div class="checker" id="topChecker" aria-hidden="true"></div>
+<div class="wrap" id="adultView">
+  <header class="top">
+    <div>
+      <h1>Husorden <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.9 7.2 16.8 11.1 24 12C16.8 12.9 12.9 16.8 12 24C11.1 16.8 7.2 12.9 0 12C7.2 11.1 11.1 7.2 12 0Z" fill="#FFCF4D" stroke="#1D2B3A" stroke-width="1"/></svg></h1>
+      <p class="muted" id="weekLabel"></p>
+    </div>
+    <div class="nav">
+      <button class="btn" id="prevWeek" type="button" aria-label="Forrige uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="btn" id="goToday" type="button">I dag</button>
+      <button class="btn" id="nextWeek" type="button" aria-label="Neste uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+  </header>
+
+  <p class="note" id="note" hidden></p>
+
+  <div class="filters" id="kidLinks" hidden></div>
+
+  <ol class="week" id="week" aria-label="Ukedager"></ol>
+
+  <section class="day" aria-live="polite">
+    <div class="card">
+      <h2 id="dayTitle"></h2>
+      <p class="muted" id="daySummary"></p>
+      <p class="free" id="dayFree" hidden></p>
+      <div class="bar" id="dayBar" role="img"><span></span></div>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="day" id="lists"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Hvem gjør mest?</h2>
+    <div class="filters" id="cmpPeriod"></div>
+    <p class="lead" id="cmpLead"></p>
+    <ul class="cmp" id="cmpList"></ul>
+    <p class="muted small">Regnet fra avkryssede oppgaver og minuttene de er satt til. En oppgave teller for den som var tildelt da den ble krysset av.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Ny oppgave</h2>
+    <form id="taskForm" autocomplete="off">
+      <label class="field grow">Hva skal gjøres?
+        <input type="text" id="f-title" maxlength="120" required placeholder="F.eks. tørke av kjøkkenbenken">
+      </label>
+      <label class="field num">Minutter
+        <input type="number" id="f-min" min="0" max="600" step="5" value="10">
+      </label>
+      <label class="field">Type
+        <select id="f-kind"><option value="vane">Daglig vane</option><option value="oppgave">Oppgave</option><option value="plan">Dagens halvtime</option><option value="stor">Større ryddeoppgave (innimellom)</option></select>
+      </label>
+      <label class="field num" id="f-every-wrap" hidden>Hver … uke
+        <input type="number" id="f-every" min="1" max="52" value="8">
+      </label>
+      <label class="field" id="f-rot-wrap">Planuke
+        <select id="f-rot"><option value="">Alle uker</option><option value="1">Planuke 1</option><option value="2">Planuke 2</option><option value="3">Planuke 3</option><option value="4">Planuke 4</option><option value="13">Planuke 1 og 3</option><option value="24">Planuke 2 og 4</option></select>
+      </label>
+      <label class="field" id="f-repeat-wrap">Når
+        <select id="f-repeat">
+          <option value="daily">Hver dag</option>
+          <option value="days">Faste ukedager</option>
+          <option value="once" id="f-once-opt">Bare valgt dag</option>
+        </select>
+      </label>
+      <label class="field">Fast ansvarlig
+        <select id="f-who"><option value="">Ingen (ledig)</option></select>
+      </label>
+      <fieldset id="f-days" hidden>
+        <legend>Hvilke dager?</legend>
+      </fieldset>
+      <label class="field full">Tips til hvordan den gjøres (valgfritt, ett steg per linje)
+        <textarea id="f-tips" rows="3" maxlength="2000"></textarea>
+      </label>
+      <label class="check"><input class="cb" type="checkbox" id="f-child"> Barneoppgave</label>
+      <button class="btn primary" type="submit">Legg til oppgave</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Familien</h2>
+    <ul class="people" id="members"></ul>
+    <div class="goal" id="goalEdit" hidden></div>
+    <form id="memberForm" autocomplete="off">
+      <label class="field grow">Navn
+        <input type="text" id="m-name" maxlength="40" required>
+      </label>
+      <label class="check"><input class="cb" type="checkbox" id="m-child"> Barn</label>
+      <button class="btn primary" type="submit">Legg til person</button>
+    </form>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const DAYS = ['man', 'tir', 'ons', 'tor', 'fre', 'lør', 'søn'];
+  const DAYS_LONG = ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag', 'søndag'];
+  const MONTHS = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'];
+  const STAR = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z" fill="#FFCF4D" stroke="#1D2B3A" stroke-width="2.5" stroke-linejoin="round"/></svg>';
+  const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const parse = s => { const [a, b, c] = s.split('-').map(Number); return new Date(a, b - 1, c); };
+  const wd = d => (d.getDay() + 6) % 7 + 1; // 1 = mandag … 7 = søndag
+  const monday = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (wd(x) - 1)); return x; };
+  function weekNo(d) {
+    const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7));
+    return Math.ceil(((t - Date.UTC(t.getUTCFullYear(), 0, 1)) / 864e5 + 1) / 7);
+  }
+
+  const today = new Date();
+  const state = { members: [], tasks: [], done: {}, sel: iso(today), weekStart: monday(today), filter: 'all', childOnly: false, ready: false, confirmDel: null, editTips: null, openTips: new Set(), cmpPeriod: 'week' };
+  let store, confirmTimer;
+  const CHECK = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  const PEOPLE = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 14.5a5 5 0 0 1 5.5 5.5"/></svg>';
+  state.view = null; state.lastDone = null; state.editGoal = null; state.claims = {}; state.showAllBig = false;
+  try { state.view = localStorage.getItem('husorden-view') || null; } catch (e) {}
+  function setView(id) {
+    state.view = id || null;
+    try { localStorage.setItem('husorden-view', id || ''); } catch (e) {}
+    render(); window.scrollTo(0, 0);
+  }
+  const stars = t => Math.max(1, Math.round((Number(t.minutes) || 0) / 5));
+  const starWord = n => n + (n === 1 ? ' stjerne' : ' stjerner');
+
+  function h(tag, props, ...kids) {
+    const e = document.createElement(tag);
+    for (const k in props || {}) {
+      const v = props[k];
+      if (v == null || v === false) continue;
+      if (k === 'class') e.className = v;
+      else if (k === 'text') e.textContent = v;
+      else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+      else if (k in e) e[k] = v;
+      else e.setAttribute(k, v === true ? '' : v);
+    }
+    for (const c of kids.flat()) if (c != null && c !== false) e.append(c);
+    return e;
+  }
+  const star = () => h('span', { class: 'ico', innerHTML: STAR });
+
+  /* ---------- lagring ---------- */
+  function apply(col, map) {
+    if (col === 'done') { state.done = {}; state.claims = {}; for (const k in map) { state.done[k] = Object.assign({}, (map[k] || {}).ids); state.claims[k] = Object.assign({}, (map[k] || {}).claims); } }
+    else state[col] = Object.entries(map).map(([id, b]) => Object.assign({}, b, { id })).sort((a, b) => (a.created || 0) - (b.created || 0));
+  }
+  function makeLocal() {
+    const KEY = 'husorden-v1';
+    let data = { members: {}, tasks: {}, done: {} };
+    try { const r = localStorage.getItem(KEY); if (r) data = Object.assign(data, JSON.parse(r)); } catch (e) {}
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {} };
+    const push = () => { ['members', 'tasks', 'done'].forEach(c => apply(c, data[c])); render(); };
+    return {
+      newId: () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36),
+      set(col, id, body) { data[col][id] = body; save(); push(); return Promise.resolve(); },
+      del(col, id) { delete data[col][id]; save(); push(); return Promise.resolve(); },
+      start() { state.ready = true; note('Denne visningen lagrer bare i denne nettleseren. Logg inn for å dele listen med familien.'); push(); }
+    };
+  }
+  function makeDb(db) {
+    const chain = {};
+    const run = (path, fn) => (chain[path] = (chain[path] || Promise.resolve()).catch(() => {}).then(fn));
+    return {
+      newId: () => db.collection('tasks').doc().id,
+      set: (col, id, body) => run(col + '/' + id, () => db.collection(col).doc(id).set(body)),
+      del: (col, id) => run(col + '/' + id, () => db.collection(col).doc(id).delete()),
+      start() {
+        const seen = {};
+        const timer = setTimeout(() => { if (!state.ready) note('Får ikke kontakt med lagringen ennå. Prøver videre …'); }, 10000);
+        ['members', 'tasks', 'done'].forEach(col => db.collection(col).onSnapshot(snap => {
+          const map = {}; snap.docs.forEach(d => { map[d.id] = d.data(); });
+          apply(col, map); seen[col] = true;
+          if (seen.members && seen.tasks && seen.done && !state.ready) { clearTimeout(timer); state.ready = true; note(''); }
+          render();
+        }, () => { clearTimeout(timer); state.ready = true; note('Lagringen er ikke tilgjengelig akkurat nå. Endringer blir ikke lagret.'); render(); }));
+      }
+    };
+  }
+  function write(p) {
+    p.catch(e => toast(e && e.code === 'invalid_argument' ? 'Du har bare lesetilgang til denne siden.' : e && e.code === 'quota_exceeded' ? 'Lageret er fullt. Slett noen oppgaver først.' : 'Kunne ikke lagre. Prøv igjen.'));
+  }
+  function saveTask(t, patch) { const body = Object.assign({}, t, patch); delete body.id; write(store.set('tasks', t.id, body)); }
+
+  /* ---------- logikk ---------- */
+  /* Planuke 1–4: fast rotasjon regnet fra mandag 1. januar 2024. */
+  const EPOCH = new Date(2024, 0, 1);
+  const planWeek = d => (((Math.floor(Math.round((monday(d) - EPOCH) / 864e5) / 7) % 4) + 4) % 4) + 1;
+  /* Hvem som har oppgaven en gitt dag: dagens valg går foran fast ansvarlig. */
+  function eff(t, day) {
+    const c = (state.claims[day] || {})[t.id];
+    if (c === '-') return null;
+    if (c && member(c)) return c;
+    return member(t.assignee) ? t.assignee : null;
+  }
+  function lastDone(t, day) { let best = null; for (const k in state.done) if (k < day && state.done[k][t.id] && (!best || k > best)) best = k; return best; }
+  function isDue(t, day) { const last = lastDone(t, day); return !last || Math.round((parse(day) - parse(last)) / 864e5) >= (Number(t.every) || 8) * 7; }
+  function appliesOn(t, dateStr) {
+    if (t.kind === 'stor') { const c = (state.claims[dateStr] || {})[t.id]; return !!(state.done[dateStr] || {})[t.id] || !!(c && c !== '-' && member(c)); }
+    if (t.date) return t.date === dateStr;
+    const d = parse(dateStr);
+    if (Array.isArray(t.rot) && t.rot.length && !t.rot.includes(planWeek(d))) return false;
+    if (Array.isArray(t.days) && t.days.length) return t.days.includes(wd(d));
+    return true;
+  }
+  const bigPool = day => state.tasks.filter(t => t.kind === 'stor' && !appliesOn(t, day) && isDue(t, day))
+    .sort((a, b) => (lastDone(a, day) || '').localeCompare(lastDone(b, day) || ''));
+  const ord = t => t.order != null ? t.order : (t.created || 0);
+  function saveDay(day) { write(store.set('done', day, { date: day, ids: state.done[day] || {}, claims: state.claims[day] || {} })); }
+  function setClaim(t, day, val) {
+    const claims = Object.assign({}, state.claims[day]), ids = Object.assign({}, state.done[day]);
+    if (!val) { if (member(t.assignee)) claims[t.id] = '-'; else delete claims[t.id]; }
+    else if (val === t.assignee) delete claims[t.id];
+    else claims[t.id] = val;
+    if (ids[t.id]) ids[t.id] = val || true;
+    state.claims[day] = claims; state.done[day] = ids; render(); saveDay(day);
+  }
+  function moveTask(t, dir, list) {
+    const n = list[list.indexOf(t) + dir]; if (!n) return;
+    let a = ord(t), b = ord(n); if (a === b) b = a + dir;
+    saveTask(t, { order: b }); saveTask(n, { order: a });
+  }
+  const rotLabel = t => Array.isArray(t.rot) && t.rot.length && t.rot.length < 4 ? ' · planuke ' + t.rot.join(' og ') : '';
+  const tasksOn = dateStr => state.tasks.filter(t => appliesOn(t, dateStr));
+  const member = id => state.members.find(m => m.id === id);
+  function visible(t) {
+    if (state.childOnly && !t.child) return false;
+    if (state.filter === 'all') return true;
+    if (state.filter === 'none') return !eff(t, state.sel);
+    return eff(t, state.sel) === state.filter;
+  }
+  const isDone = (t, dateStr) => !!(state.done[dateStr] || {})[t.id];
+  function toggleDone(t, on, dateStr) {
+    const day = dateStr || state.sel;
+    const ids = Object.assign({}, state.done[day]);
+    if (on) ids[t.id] = eff(t, day) || true; else delete ids[t.id];
+    state.done[day] = ids; render();
+    saveDay(day);
+  }
+  /* Stjerner et barn har tjent i uka som inneholder i dag. */
+  function weekStars(kidId) {
+    const from = monday(new Date()), tasks = {};
+    state.tasks.forEach(t => { tasks[t.id] = t; });
+    let sum = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(from); d.setDate(d.getDate() + i);
+      const ids = state.done[iso(d)] || {};
+      for (const tid in ids) {
+        const t = tasks[tid]; if (!t) continue;
+        if (ids[tid] === kidId || (ids[tid] === true && t.assignee === kidId)) sum += stars(t);
+      }
+    }
+    return sum;
+  }
+  function schedule(t) {
+    if (t.kind === 'stor') {
+      const last = lastDone(t, state.sel), n = Number(t.every) || 8, d = last && parse(last);
+      return 'hver ' + n + '. uke · ' + (d ? 'sist gjort ' + d.getDate() + '. ' + MONTHS[d.getMonth()].slice(0, 3) : 'ikke gjort ennå');
+    }
+    if (t.date) { const d = parse(t.date); return 'bare ' + DAYS[wd(d) - 1] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()].slice(0, 3); }
+    if (Array.isArray(t.days) && t.days.length && t.days.length < 7) return t.days.map(n => DAYS[n - 1]).join(', ');
+    return 'hver dag';
+  }
+  /* Hvem har gjort hva i perioden: minutter og antall per person. */
+  function tally(from, days) {
+    const byId = {}, tasks = {};
+    state.tasks.forEach(t => { tasks[t.id] = t; });
+    for (let i = 0; i < days; i++) {
+      const d = new Date(from); d.setDate(d.getDate() + i);
+      const ids = state.done[iso(d)] || {};
+      for (const tid in ids) {
+        const t = tasks[tid]; if (!t) continue;
+        const who = typeof ids[tid] === 'string' && member(ids[tid]) ? ids[tid] : member(t.assignee) ? t.assignee : '';
+        const row = byId[who] || (byId[who] = { id: who, min: 0, n: 0 });
+        row.min += Number(t.minutes) || 0; row.n += 1;
+      }
+    }
+    return byId;
+  }
+
+  /* ---------- visning ---------- */
+  function note(msg) { $('note').textContent = msg; $('note').hidden = !msg; }
+  let toastTimer;
+  function toast(msg) { $('toast').textContent = msg; $('toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('toast').hidden = true; }, 4000); }
+
+  function renderWeek() {
+    const ws = state.weekStart, we = new Date(ws); we.setDate(we.getDate() + 6);
+    $('weekLabel').textContent = 'Uke ' + weekNo(ws) + ' · ' + ws.getDate() + '.' + (ws.getMonth() === we.getMonth() ? '' : ' ' + MONTHS[ws.getMonth()]) + '–' + we.getDate() + '. ' + MONTHS[we.getMonth()] + ' ' + we.getFullYear() + ' · planuke ' + planWeek(ws) + ' av 4';
+    const items = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(ws); d.setDate(d.getDate() + i);
+      const s = iso(d), list = tasksOn(s), n = list.filter(t => isDone(t, s)).length;
+      items.push(h('li', null, h('button', {
+        type: 'button', id: 'day-' + i, class: 'daybtn' + (s === iso(today) ? ' today' : ''), 'aria-pressed': String(s === state.sel),
+        'aria-label': DAYS_LONG[i] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()] + (s === iso(today) ? ' (i dag)' : '') + ', ' + n + ' av ' + list.length + ' gjort',
+        onclick: () => { state.sel = s; render(); }
+      }, h('span', { class: 'abbr', text: DAYS[i] }), h('span', { class: 'num', text: d.getDate() }), h('span', { class: 'cnt', text: list.length ? n + '/' + list.length : '–' }))));
+    }
+    $('week').replaceChildren(...items);
+  }
+
+  function renderFilters() {
+    const chip = (key, label, mark) => h('button', { type: 'button', id: 'flt-' + key, class: 'chip', 'aria-pressed': String(state.filter === key), onclick: () => { state.filter = key; render(); } }, mark, label);
+    if (state.filter !== 'all' && state.filter !== 'none' && !member(state.filter)) state.filter = 'all';
+    $('filters').replaceChildren(
+      chip('all', 'Alle'),
+      ...state.members.map(m => chip(m.id, m.name, m.child ? star() : h('span', { class: 'dot' }))),
+      chip('none', 'Ledige'),
+      h('button', { type: 'button', id: 'flt-kid', class: 'chip kid', 'aria-pressed': String(state.childOnly), onclick: () => { state.childOnly = !state.childOnly; render(); } }, star(), 'Bare barneoppgaver')
+    );
+  }
+
+  function taskRow(t, opt) {
+    const done = isDone(t, state.sel), sure = state.confirmDel === t.id;
+    const who = eff(t, state.sel);
+    const people = cur => state.members.map(p => h('option', { value: p.id, text: p.name + (p.child ? ' (barn)' : ''), selected: p.id === cur }));
+    const editing = state.editTips === t.id, oldBox = $('tips-' + t.id);
+    const steps = String(t.tips || '').split('\n').map(s => s.trim()).filter(Boolean);
+    const m = member(who);
+    return h('li', { class: 'task' + (done ? ' done' : '') },
+      h('input', { type: 'checkbox', class: 'cb', id: 'chk-' + t.id, checked: done, onchange: e => toggleDone(t, e.target.checked) }),
+      h('label', { class: 'title', htmlFor: 'chk-' + t.id, text: (opt ? opt.n + '. ' : '') + t.title }),
+      h('span', { class: 'meta', text: (t.minutes ? t.minutes + ' min · ' : '') + schedule(t) + rotLabel(t) }),
+      h('div', { class: 'ctl' },
+        h('button', { type: 'button', id: 'kid-' + t.id, class: 'tag', 'aria-pressed': String(!!t.child), title: 'Trykk for å bytte mellom barneoppgave og voksenoppgave', onclick: () => saveTask(t, { child: !t.child }) }, t.child && star(), t.child ? 'Barneoppgave' : 'Voksenoppgave'),
+        h('label', { class: 'sel' }, 'I dag:',
+          h('select', { class: 'who' + (m ? (m.child ? ' kid' : ' adult') : ' free'), id: 'who-' + t.id, onchange: e => setClaim(t, state.sel, e.target.value) },
+            h('option', { value: '', text: 'Ledig – hvem tar den?' }), people(who))),
+        t.kind !== 'stor' && h('label', { class: 'sel' }, 'Fast:',
+          h('select', { class: 'who', id: 'fast-' + t.id, onchange: e => saveTask(t, { assignee: e.target.value || null }) },
+            h('option', { value: '', text: 'Ingen' }), people(t.assignee))),
+        opt && h('button', { type: 'button', id: 'up-' + t.id, class: 'del', 'aria-label': 'Flytt opp: ' + t.title, disabled: opt.n === 1, onclick: () => moveTask(t, -1, opt.list) }, '↑'),
+        opt && h('button', { type: 'button', id: 'dn-' + t.id, class: 'del', 'aria-label': 'Flytt ned: ' + t.title, disabled: opt.n === opt.list.length, onclick: () => moveTask(t, 1, opt.list) }, '↓'),
+        h('button', { type: 'button', id: 'del-' + t.id, class: 'del' + (sure ? ' sure' : ''), onclick: () => {
+          if (sure) { state.confirmDel = null; write(store.del('tasks', t.id)); return; }
+          state.confirmDel = t.id; clearTimeout(confirmTimer); confirmTimer = setTimeout(() => { state.confirmDel = null; render(); }, 4000); render();
+        } }, sure ? 'Bekreft sletting' : 'Slett')),
+      h('details', { class: 'tips', id: 'tip-' + t.id, open: state.openTips.has(t.id), ontoggle: e => { if (e.target.open) state.openTips.add(t.id); else state.openTips.delete(t.id); } },
+        h('summary', { text: steps.length ? 'Slik gjør du det' : 'Legg til tips' }),
+        editing ? [
+          h('textarea', { id: 'tips-' + t.id, rows: 6, maxLength: 2000, 'aria-label': 'Tips, ett steg per linje', value: oldBox ? oldBox.value : (t.tips || '') }),
+          h('div', { class: 'ctl' },
+            h('button', { type: 'button', id: 'tsave-' + t.id, class: 'btn primary', onclick: () => { const v = $('tips-' + t.id).value.trim(); state.editTips = null; saveTask(t, { tips: v }); render(); } }, 'Lagre tips'),
+            h('button', { type: 'button', id: 'tcancel-' + t.id, class: 'btn', onclick: () => { state.editTips = null; render(); } }, 'Avbryt'))
+        ] : [
+          steps.length ? h('ol', null, steps.map(s => h('li', { text: s }))) : h('p', { class: 'muted', text: 'Ingen tips ennå.' }),
+          h('button', { type: 'button', id: 'tedit-' + t.id, class: 'del', onclick: () => { state.editTips = t.id; state.openTips.add(t.id); render(); } }, steps.length ? 'Endre tips' : 'Skriv tips')
+        ])
+    );
+  }
+
+  function renderDay() {
+    const d = parse(state.sel);
+    $('dayTitle').textContent = DAYS_LONG[wd(d) - 1] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()];
+    $('f-once-opt').textContent = 'Bare ' + DAYS[wd(d) - 1] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()].slice(0, 3);
+    const list = tasksOn(state.sel).filter(visible);
+    const doneN = list.filter(t => isDone(t, state.sel)).length;
+    const left = list.filter(t => !isDone(t, state.sel)).reduce((s, t) => s + (Number(t.minutes) || 0), 0);
+    $('daySummary').textContent = !state.ready ? 'Henter oppgaver …' : !list.length ? 'Ingen oppgaver i dette utvalget.' : doneN === list.length ? 'Tom liste! Alle ' + list.length + ' er gjort.' : doneN + ' av ' + list.length + ' gjort · ca. ' + left + ' min igjen. Målet er tom liste i kveld.';
+    const free = state.ready ? tasksOn(state.sel).filter(t => !eff(t, state.sel) && !isDone(t, state.sel)).length : 0;
+    $('dayFree').textContent = free ? free + (free === 1 ? ' ledig oppgave venter' : ' ledige oppgaver venter') + ' på at noen tar ' + (free === 1 ? 'den.' : 'dem.') : '';
+    $('dayFree').hidden = !free;
+    const pct = list.length ? Math.round(100 * doneN / list.length) : 0, fill = $('dayBar').firstElementChild;
+    fill.style.width = pct + '%';
+    if (pct === 0 || pct === 100) fill.setAttribute('data-zero', ''); else fill.removeAttribute('data-zero');
+    $('dayBar').setAttribute('aria-label', doneN + ' av ' + list.length + ' oppgaver gjort');
+    const out = [];
+    if (!state.ready) out.push(h('p', { class: 'empty', text: 'Henter oppgaver …' }));
+    else if (!state.tasks.length) out.push(h('p', { class: 'empty', text: 'Ingen oppgaver ennå. Legg til den første under «Ny oppgave».' }));
+    else if (!list.length) out.push(h('p', { class: 'empty', text: 'Ingen oppgaver denne dagen for dette utvalget.' }));
+    else {
+      const plan = list.filter(t => t.kind === 'plan').sort((a, b) => ord(a) - ord(b));
+      const habits = list.filter(t => t.kind === 'vane'), rest = list.filter(t => t.kind !== 'vane' && t.kind !== 'plan');
+      const pm = plan.reduce((s, t) => s + (Number(t.minutes) || 0), 0);
+      if (plan.length) out.push(h('div', { class: 'group' }, h('h3', { text: 'Dagens halvtime · ' + pm + ' min · i denne rekkefølgen' }), h('ul', { class: 'tasks' }, plan.map((t, i) => taskRow(t, { n: i + 1, list: plan })))));
+      if (habits.length) out.push(h('div', { class: 'group' }, h('h3', { text: 'Daglige vaner' }), h('ul', { class: 'tasks' }, habits.map(t => taskRow(t)))));
+      if (rest.length) out.push(h('div', { class: 'group' }, h('h3', { text: 'Oppgaver' }), h('ul', { class: 'tasks' }, rest.map(t => taskRow(t)))));
+    }
+    if (state.ready && (state.filter === 'all' || state.filter === 'none')) {
+      const pool = bigPool(state.sel).filter(t => !state.childOnly || t.child), shown = state.showAllBig ? pool : pool.slice(0, 3);
+      const recent = state.tasks.filter(t => t.kind === 'stor').length - bigPool(state.sel).length - tasksOn(state.sel).filter(t => t.kind === 'stor').length;
+      if (pool.length) out.push(h('div', { class: 'group' },
+        h('h3', { text: 'Større ryddeoppgaver · ta én innimellom' }),
+        h('p', { class: 'muted small', text: 'Lengst siden sist står øverst. Velg hvem som tar den i dag, så havner den på dagens liste.' + (recent > 0 ? ' ' + recent + ' er gjort nylig og vises ikke.' : '') }),
+        h('ul', { class: 'tasks' }, shown.map(t => taskRow(t))),
+        pool.length > 3 && h('button', { type: 'button', id: 'bigmore', class: 'btn', onclick: () => { state.showAllBig = !state.showAllBig; render(); } }, state.showAllBig ? 'Vis færre' : 'Vis alle ' + pool.length)));
+    }
+    $('lists').replaceChildren(...out);
+  }
+
+  function renderCompare() {
+    const pbtn = (key, label) => h('button', { type: 'button', id: 'cmp-' + key, class: 'chip', 'aria-pressed': String(state.cmpPeriod === key), onclick: () => { state.cmpPeriod = key; render(); } }, label);
+    $('cmpPeriod').replaceChildren(pbtn('week', 'Uke ' + weekNo(state.weekStart)), pbtn('4w', 'Siste 4 uker'));
+    const from = new Date(state.weekStart), days = state.cmpPeriod === 'week' ? 7 : 28;
+    if (days === 28) from.setDate(from.getDate() - 21);
+    const got = tally(from, days);
+    const rows = state.members.map(m => Object.assign({ name: m.name, child: !!m.child }, got[m.id] || { min: 0, n: 0 }));
+    if (got['']) rows.push(Object.assign({ name: 'Ikke tildelt', nobody: true }, got['']));
+    const useMin = rows.some(r => r.min > 0), val = r => useMin ? r.min : r.n;
+    rows.sort((a, b) => (a.nobody ? 1 : 0) - (b.nobody ? 1 : 0) || val(b) - val(a));
+    const total = rows.reduce((s, r) => s + val(r), 0), max = Math.max(1, ...rows.map(val));
+    const people = rows.filter(r => !r.nobody), top = people[0];
+    const period = days === 7 ? 'denne uka' : 'de siste 4 ukene';
+    $('cmpLead').textContent = !state.ready ? '' : !state.members.length ? 'Legg til familien først, så vises fordelingen her.'
+      : !total ? 'Ingen oppgaver er krysset av ' + period + ' ennå.'
+      : !top || !val(top) ? 'Oppgavene som er gjort ' + period + ', var ikke tildelt noen.'
+      : people[1] && val(people[1]) === val(top) ? 'Det står likt i toppen ' + period + '.'
+      : top.name + ' har gjort mest ' + period + '.';
+    $('cmpList').replaceChildren(...(total ? rows.map(r => {
+      const w = Math.round(100 * val(r) / max), share = Math.round(100 * val(r) / total);
+      return h('li', null,
+        h('span', { class: 'name' }, r.nobody ? null : r.child ? star() : h('span', { class: 'dot' }), h('span', { text: r.name })),
+        h('span', { class: 'val', text: r.min + ' min · ' + r.n + (r.n === 1 ? ' oppgave' : ' oppgaver') + ' · ' + share + ' %' }),
+        h('div', { class: 'bar', role: 'img', 'aria-label': r.name + ': ' + share + ' prosent' },
+          h('span', Object.assign({ class: r.nobody ? 'nobody' : r.child ? 'kid' : 'adult', style: 'width:' + w + '%' }, w === 0 || w === 100 ? { 'data-zero': '' } : {}))));
+    }) : []));
+  }
+
+  function renderMembers() {
+    const sel = $('f-who'), cur = sel.value;
+    sel.replaceChildren(h('option', { value: '', text: 'Ingen (ledig)' }), ...state.members.map(m => h('option', { value: m.id, text: m.name + (m.child ? ' (barn)' : '') })));
+    sel.value = member(cur) ? cur : '';
+    $('members').replaceChildren(...(state.members.length ? state.members.map(m => {
+      const sure = state.confirmDel === 'm:' + m.id;
+      return h('li', { class: 'person' + (m.child ? ' kid' : '') },
+        m.child && star(), h('span', { text: m.name }), h('span', { class: 'role', text: m.child ? 'barn' : 'voksen' }),
+        m.child && h('button', { type: 'button', id: 'mgoal-' + m.id, class: 'del', onclick: () => { state.editGoal = m.id; render(); } }, 'Stjernemål'),
+        h('button', { type: 'button', id: 'mdel-' + m.id, class: 'del' + (sure ? ' sure' : ''), 'aria-label': (sure ? 'Bekreft fjerning av ' : 'Fjern ') + m.name, onclick: () => {
+          if (sure) { state.confirmDel = null; write(store.del('members', m.id)); return; }
+          state.confirmDel = 'm:' + m.id; clearTimeout(confirmTimer); confirmTimer = setTimeout(() => { state.confirmDel = null; render(); }, 4000); render();
+        } }, sure ? 'Bekreft' : 'Fjern'));
+    }) : [h('li', { class: 'muted', text: state.ready ? 'Ingen er lagt til ennå. Skriv inn navn under, så kan oppgaver tildeles.' : '' })]));
+  }
+
+  function renderGoal() {
+    const m = member(state.editGoal), box = $('goalEdit');
+    if (!m || !m.child) { state.editGoal = null; box.hidden = true; box.replaceChildren(); return; }
+    const same = box.dataset.for === m.id, og = $('g-goal'), or = $('g-reward');
+    const gv = same && og ? og.value : String(m.starGoal || 20), rv = same && or ? or.value : (m.reward || '');
+    box.dataset.for = m.id; box.hidden = false;
+    box.replaceChildren(
+      h('strong', { text: 'Stjernemål for ' + m.name }),
+      h('label', { class: 'field num' }, 'Stjerner per uke', h('input', { type: 'number', id: 'g-goal', min: 1, max: 500, value: gv })),
+      h('label', { class: 'field grow' }, 'Belønning når målet er nådd', h('input', { type: 'text', id: 'g-reward', maxLength: 80, value: rv, placeholder: 'F.eks. velge fredagsfilm' })),
+      h('button', { type: 'button', id: 'g-save', class: 'btn primary', onclick: () => {
+        const body = Object.assign({}, m, { starGoal: Math.min(500, Math.max(1, Math.round(Number($('g-goal').value) || 20))), reward: $('g-reward').value.trim() });
+        delete body.id; state.editGoal = null; write(store.set('members', m.id, body)); render();
+      } }, 'Lagre'),
+      h('button', { type: 'button', id: 'g-cancel', class: 'btn', onclick: () => { state.editGoal = null; render(); } }, 'Avbryt'));
+  }
+
+  function renderKidLinks() {
+    const kids = state.members.filter(m => m.child);
+    $('kidLinks').hidden = !kids.length;
+    $('kidLinks').replaceChildren(h('span', { class: 'kidlabel', text: 'Barnevisning:' }),
+      ...kids.map(m => h('button', { type: 'button', id: 'go-' + m.id, class: 'chip go', onclick: () => setView(m.id) }, star(), m.name)));
+  }
+
+  function kidCard(t, day) {
+    const done = isDone(t, day), s = stars(t);
+    const steps = String(t.tips || '').split('\n').map(x => x.trim()).filter(Boolean);
+    return h('article', { class: 'kcard' + (done ? ' done' : '') },
+      h('div', { class: 'kbody' },
+        h('h3', { text: t.title }),
+        h('p', { class: 'kmeta', text: done ? 'Ferdig · +' + starWord(s) : (t.minutes ? 'ca. ' + t.minutes + ' min · ' : '') + starWord(s) }),
+        !done && (state.claims[day] || {})[t.id] === state.view && h('button', { type: 'button', id: 'krel-' + t.id, class: 'del', style: 'align-self:flex-start', onclick: () => setClaim(t, day, '') }, 'Legg tilbake'),
+        !done && steps.length > 0 && h('details', { class: 'tips', id: 'ktip-' + t.id, open: state.openTips.has(t.id), ontoggle: e => { if (e.target.open) state.openTips.add(t.id); else state.openTips.delete(t.id); } },
+          h('summary', { text: 'Slik gjør du det' }), h('ol', null, steps.map(x => h('li', { text: x }))))),
+      h('button', { type: 'button', id: 'kdone-' + t.id, class: 'kcheck', 'aria-pressed': String(done), 'aria-label': (done ? 'Angre: ' : 'Merk som ferdig: ') + t.title,
+        onclick: () => { state.lastDone = done ? null : t.id; toggleDone(t, !done, day); } }, done && h('span', { class: 'ico', innerHTML: CHECK })),
+      done && state.lastDone === t.id && h('div', { class: 'sticker', text: 'Glitrende!' }));
+  }
+
+  function renderKid(kid) {
+    const day = iso(new Date());
+    const list = state.tasks.filter(t => appliesOn(t, day) && eff(t, day) === kid.id);
+    const open = state.tasks.filter(t => t.child && appliesOn(t, day) && !eff(t, day) && !isDone(t, day)).concat(bigPool(day).filter(t => t.child).slice(0, 3));
+    const openCard = t => h('article', { class: 'kcard' },
+      h('div', { class: 'kbody' }, h('h3', { text: t.title }), h('p', { class: 'kmeta', text: (t.minutes ? 'ca. ' + t.minutes + ' min · ' : '') + starWord(stars(t)) })),
+      h('button', { type: 'button', id: 'ktake-' + t.id, class: 'btn primary', 'aria-label': 'Ta den: ' + t.title, onclick: () => setClaim(t, day, kid.id) }, 'Ta den'));
+    const left = list.filter(t => !isDone(t, day)).length;
+    const goal = Math.max(1, Number(kid.starGoal) || 20), got = weekStars(kid.id), pct = Math.min(100, Math.round(100 * got / goal));
+    const sub = !list.length ? 'Du har ingen oppgaver i dag.' : !left ? 'Alt er gjort i dag. Glitrende!' : 'Du har ' + left + (left === 1 ? ' oppgave' : ' oppgaver') + ' igjen i dag.';
+    const reward = got >= goal ? 'Målet er nådd!' + (kid.reward ? ' Du får: ' + kid.reward : '') : kid.reward ? 'Ved ' + goal + ' stjerner: ' + kid.reward : 'Spør en voksen hva du får ved ' + goal + ' stjerner.';
+    $('kidView').replaceChildren(
+      h('header', { class: 'kidhead' }, h('div', { class: 'kidin' },
+        h('div', { class: 'kidtop' },
+          h('div', null, h('h1', { text: 'Hei, ' + kid.name + '!' }), h('p', { class: 'kidsub', text: sub })),
+          h('button', { type: 'button', id: 'kid-back', class: 'round', 'aria-label': 'Bytt til voksenvisning', onclick: () => setView(null) }, h('span', { class: 'ico', innerHTML: PEOPLE }))),
+        h('div', { class: 'starcard' },
+          h('div', { class: 'starrow' }, h('span', { text: 'Ukas stjerner' }), h('span', { class: 'starnum' }, got + ' av ' + goal, star())),
+          h('div', { class: 'bar', role: 'img', 'aria-label': got + ' av ' + goal + ' stjerner' }, h('span', Object.assign({ style: 'width:' + pct + '%' }, pct === 0 || pct === 100 ? { 'data-zero': '' } : {}))),
+          h('p', { class: 'muted small', text: reward })))),
+      h('div', { class: 'checker kid', 'aria-hidden': 'true' }),
+      h('div', { class: 'wrap' },
+        h('h2', { text: 'Mine oppgaver i dag' }),
+        list.length ? h('div', { class: 'kcards' }, list.map(t => kidCard(t, day))) : h('p', { class: 'empty', text: 'Ingen oppgaver er dine i dag ennå.' }),
+        open.length > 0 && h('h2', { text: 'Ledige oppgaver – ta en!' }),
+        open.length > 0 && h('div', { class: 'kcards' }, open.map(openCard))));
+  }
+
+  function render() {
+    const a = document.activeElement, fid = a && a.id && !a.closest('form') ? a.id : null;
+    const vm = member(state.view), kid = vm && vm.child ? vm : null;
+    $('adultView').hidden = !!kid; $('topChecker').hidden = !!kid; $('kidView').hidden = !kid;
+    if (kid) renderKid(kid); else $('kidView').replaceChildren();
+    renderKidLinks(); renderGoal();
+    renderWeek(); renderFilters(); renderDay(); renderCompare(); renderMembers();
+    if (fid && $(fid) && document.activeElement !== $(fid)) $(fid).focus();
+  }
+
+  /* ---------- skjema og navigasjon ---------- */
+  DAYS_LONG.forEach((name, i) => $('f-days').append(h('label', { class: 'check' }, h('input', { type: 'checkbox', class: 'cb', id: 'f-d' + (i + 1), value: String(i + 1) }), name)));
+  $('f-repeat').addEventListener('change', e => { $('f-days').hidden = e.target.value !== 'days'; });
+  $('f-kind').addEventListener('change', e => {
+    const big = e.target.value === 'stor';
+    $('f-every-wrap').hidden = !big; $('f-repeat-wrap').hidden = big; $('f-rot-wrap').hidden = big;
+    $('f-days').hidden = big || $('f-repeat').value !== 'days';
+    if (e.target.value === 'vane' && $('f-repeat').value === 'once') { $('f-repeat').value = 'daily'; }
+  });
+
+  $('taskForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const title = $('f-title').value.trim(); if (!title) return;
+    const big = $('f-kind').value === 'stor', rep = big ? 'daily' : $('f-repeat').value;
+    let days = [];
+    if (rep === 'days') {
+      days = [1, 2, 3, 4, 5, 6, 7].filter(n => $('f-d' + n).checked);
+      if (!days.length) { toast('Velg minst én ukedag.'); return; }
+    }
+    write(store.set('tasks', store.newId(), {
+      title, minutes: Math.max(0, Math.round(Number($('f-min').value) || 0)), kind: $('f-kind').value,
+      days, date: rep === 'once' ? state.sel : null, child: $('f-child').checked, assignee: big ? null : ($('f-who').value || null), tips: $('f-tips').value.trim(), created: Date.now(),
+      rot: big ? [] : $('f-rot').value.split('').map(Number), every: big ? Math.min(52, Math.max(1, Math.round(Number($('f-every').value) || 8))) : null, order: Date.now()
+    }));
+    $('f-tips').value = ''; $('f-title').value = ''; $('f-title').focus();
+  });
+
+  $('memberForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('m-name').value.trim(); if (!name) return;
+    write(store.set('members', store.newId(), { name, child: $('m-child').checked, created: Date.now() }));
+    $('m-name').value = ''; $('m-child').checked = false; $('m-name').focus();
+  });
+
+  function shiftWeek(n) {
+    const sel = parse(state.sel); sel.setDate(sel.getDate() + 7 * n);
+    state.sel = iso(sel); state.weekStart = monday(sel); render();
+  }
+  $('prevWeek').addEventListener('click', () => shiftWeek(-1));
+  $('nextWeek').addEventListener('click', () => shiftWeek(1));
+  $('goToday').addEventListener('click', () => { const t = new Date(); state.sel = iso(t); state.weekStart = monday(t); render(); });
+
+  /* ---------- start ---------- */
+  store = { newId: () => '', set: () => Promise.reject({}), del: () => Promise.reject({}) };
+  render();
+  (window.claude && window.claude.use ? window.claude.use('db').catch(() => null) : Promise.resolve(null)).then(db => {
+    store = db ? makeDb(db) : makeLocal();
+    store.start();
+  });
+})();
+</script>

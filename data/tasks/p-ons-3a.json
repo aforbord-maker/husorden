@@ -1,0 +1,17 @@
+{
+  "assignee": null,
+  "child": false,
+  "created": 123,
+  "date": null,
+  "days": [
+    3
+  ],
+  "kind": "plan",
+  "minutes": 10,
+  "order": 3,
+  "rot": [
+    1
+  ],
+  "tips": "Ta én hylle om gangen.\nSjekk datoer og kast det som er for gammelt.\nTørk hyllen og sett det eldste fremst.",
+  "title": "Kjøleskap: tørke hyller og kaste gammelt"
+}

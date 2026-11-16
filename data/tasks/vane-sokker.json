@@ -1,0 +1,15 @@
+{
+  "assignee": null,
+  "child": true,
+  "created": 23,
+  "date": null,
+  "days": [
+    2,
+    4,
+    7
+  ],
+  "kind": "oppgave",
+  "minutes": 5,
+  "tips": "Tøm alle sokkene ut på et bord eller på sengen.\nSorter først etter størrelse eller eier, så etter farge.\nLegg like sokker sammen og brett paret én gang.\nSokker uten make legges i en egen boks og sjekkes neste gang.\nLegg parene rett i riktig skuff.",
+  "title": "Pare sokker i rentkurven"
+}

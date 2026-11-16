@@ -1,0 +1,15 @@
+{
+  "assignee": null,
+  "child": false,
+  "created": 163,
+  "date": null,
+  "days": [
+    7
+  ],
+  "kind": "plan",
+  "minutes": 15,
+  "order": 3,
+  "rot": [],
+  "tips": "Velg oppgaven som det er lengst siden sist. Den står øverst.\nVelg hvem som tar den under «I dag», så havner den på dagens liste.\nKryss av begge når den er gjort.",
+  "title": "Ta én større ryddeoppgave fra lista"
+}
