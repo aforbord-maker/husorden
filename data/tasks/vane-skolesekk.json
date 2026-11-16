@@ -1,0 +1,19 @@
+{
+  "assignee": null,
+  "child": true,
+  "created": 301,
+  "date": null,
+  "days": [
+    7,
+    1,
+    2,
+    3,
+    4
+  ],
+  "ikon": "plan",
+  "kind": "vane",
+  "minutes": 5,
+  "rot": [],
+  "tips": "Se på timeplanen: hvilke fag og aktiviteter har du i morgen?\nLegg i bøker, skrivesaker og lekser som skal leveres.\nTrenger du gymtøy, svømmetøy eller noe annet spesielt? Legg det klart.\nSjekk at ren matboks og flaske står klare til å fylles i morgen tidlig.\nSett sekken ved døren, og legg frem klær til i morgen.",
+  "title": "Pakke skolesekken til i morgen"
+}

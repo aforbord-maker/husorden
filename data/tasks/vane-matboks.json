@@ -1,0 +1,19 @@
+{
+  "assignee": null,
+  "child": true,
+  "created": 300,
+  "date": null,
+  "days": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "ikon": "oppvaskmaskin",
+  "kind": "vane",
+  "minutes": 2,
+  "rot": [],
+  "tips": "Gjør det med en gang du kommer hjem, før du setter fra deg sekken.\nTøm matboksen: matrester i matavfallet, papir og plast i riktig søppel.\nSett matboks og flaske i oppvaskmaskinen, eller skyll dem og sett dem til tørk.\nHeng opp sekken på plassen sin.",
+  "title": "Ta ut matboks og flaske fra sekken"
+}
