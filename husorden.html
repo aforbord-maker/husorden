@@ -164,6 +164,7 @@ button { cursor: pointer; }
 textarea { background: var(--kort); border: var(--strek); border-radius: 14px; padding: 10px 12px; width: 100%; box-sizing: border-box; resize: vertical; }
 .empty { color: var(--krom); padding: 16px; background: var(--kort); border: 2px dashed var(--blekk); border-radius: var(--radius-kort); }
 
+.visning { display: flex; flex-direction: column; gap: 20px; }
 .panel { display: flex; flex-direction: column; gap: 12px; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 16px; scroll-margin-top: 12px; }
 .cmp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .cmp li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; }
@@ -254,7 +255,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       <h1 class="vh">Husorden</h1>
       <div id="logo" aria-hidden="true"></div>
     </div>
-    <div class="nav">
+    <div class="nav" id="ukeknapper">
       <button class="ikonknapp" id="prevWeek" type="button" aria-label="Forrige uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
       <button class="ikonknapp" id="nextWeek" type="button" aria-label="Neste uke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
@@ -266,6 +267,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   <p class="note" id="note" hidden></p>
 
+  <div class="visning" id="sek-idag">
   <div class="filters" id="kidLinks" hidden></div>
 
   <ol class="week" id="week" aria-label="Ukedager"></ol>
@@ -283,7 +285,9 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     <div class="day" id="lists"></div>
   </section>
 
-  <section class="panel" id="sek-uka">
+  </div>
+
+  <section class="panel" id="sek-uka" hidden>
     <h2>Hvem gjør mest?</h2>
     <div class="filters" id="cmpPeriod"></div>
     <p class="lead" id="cmpLead"></p>
@@ -291,7 +295,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     <p class="muted small">Regnet fra avkryssede oppgaver og minuttene de er satt til. En oppgave teller for den som var tildelt da den ble krysset av.</p>
   </section>
 
-  <section class="panel" id="sek-ny">
+  <section class="panel" id="sek-ny" hidden>
     <h2>Ny oppgave</h2>
     <form id="taskForm" autocomplete="off">
       <label class="field grow">Hva skal gjøres?
@@ -333,7 +337,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     </form>
   </section>
 
-  <section class="panel" id="sek-familien">
+  <section class="panel" id="sek-familien" hidden>
     <h2>Familien</h2>
     <ul class="people" id="members"></ul>
     <div class="goal" id="goalEdit" hidden></div>
@@ -887,7 +891,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   function render() {
     const a = document.activeElement, fid = a && a.id && !a.closest('form') ? a.id : null;
     const vm = member(state.view), kid = vm && vm.child ? vm : null;
-    $('adultView').hidden = !!kid; $('adultTop').hidden = !!kid; $('bunnmeny').hidden = !!kid; $('nyKnapp').hidden = !!kid; $('topChecker').hidden = !!kid; $('kidView').hidden = !kid;
+    $('adultView').hidden = !!kid; $('adultTop').hidden = !!kid; $('bunnmeny').hidden = !!kid; $('nyKnapp').hidden = !!kid || state.tab === 'ny'; $('topChecker').hidden = !!kid; $('kidView').hidden = !kid;
     if (kid) renderKid(kid); else $('kidView').replaceChildren();
     renderKidLinks(); renderGoal();
     renderWeek(); renderFilters(); renderDay(); renderCompare(); renderMembers();
@@ -921,6 +925,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       rot: big ? [] : $('f-rot').value.split('').map(Number), every: big ? Math.min(52, Math.max(1, Math.round(Number($('f-every').value) || 8))) : null, order: Date.now()
     }));
     $('f-tips').value = ''; $('f-title').value = ''; $('f-title').focus();
+    toast('Oppgaven er lagt til.');
   });
 
   $('memberForm').addEventListener('submit', e => {
@@ -936,30 +941,36 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   }
   $('prevWeek').addEventListener('click', () => shiftWeek(-1));
   $('nextWeek').addEventListener('click', () => shiftWeek(1));
-  const rulling = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-  function settFane(valgt) {
-    ['idag', 'uka', 'familien'].forEach(k => { if (k === valgt) $('fane-' + k).setAttribute('aria-current', 'true'); else $('fane-' + k).removeAttribute('aria-current'); });
+  /* Faner: hver fane er en egen skjerm. «ny» er skjemaet bak plussknappen. */
+  const FANER = ['idag', 'uka', 'ny', 'familien'];
+  function visFane(valgt) {
+    state.tab = FANER.includes(valgt) ? valgt : 'idag';
+    FANER.forEach(k => { $('sek-' + k).hidden = k !== state.tab; });
+    ['idag', 'uka', 'familien'].forEach(k => { if (k === state.tab) $('fane-' + k).setAttribute('aria-current', 'true'); else $('fane-' + k).removeAttribute('aria-current'); });
+    const utenUke = state.tab === 'ny' || state.tab === 'familien';
+    $('weekLabel').hidden = utenUke;
+    $('ukeknapper').hidden = utenUke;
+    $('nyKnapp').hidden = state.tab === 'ny' || $('adultView').hidden;
   }
+  function gaaTil(fane) {
+    visFane(fane);
+    try { if (location.hash !== '#' + state.tab) location.hash = state.tab; } catch (e) {}
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (h !== state.tab) visFane(h); });
   $('fane-idag').addEventListener('click', () => {
     const t = new Date(); state.sel = iso(t); state.weekStart = monday(t); render();
-    window.scrollTo({ top: 0, behavior: rulling() }); settFane('idag');
+    gaaTil('idag');
   });
-  $('fane-uka').addEventListener('click', () => { $('sek-uka').scrollIntoView({ behavior: rulling(), block: 'start' }); settFane('uka'); });
-  $('fane-familien').addEventListener('click', () => { $('sek-familien').scrollIntoView({ behavior: rulling(), block: 'start' }); settFane('familien'); });
-  $('nyKnapp').addEventListener('click', () => { $('sek-ny').scrollIntoView({ behavior: rulling(), block: 'start' }); $('f-title').focus({ preventScroll: true }); });
-  let rulleVent;
-  window.addEventListener('scroll', () => {
-    clearTimeout(rulleVent);
-    rulleVent = setTimeout(() => {
-      if ($('adultView').hidden) return;
-      const grense = window.innerHeight * 0.4;
-      settFane($('sek-familien').getBoundingClientRect().top < grense ? 'familien' : $('sek-uka').getBoundingClientRect().top < grense ? 'uka' : 'idag');
-    }, 120);
-  }, { passive: true });
+  $('fane-uka').addEventListener('click', () => gaaTil('uka'));
+  $('fane-familien').addEventListener('click', () => gaaTil('familien'));
+  $('nyKnapp').addEventListener('click', () => { gaaTil('ny'); $('f-title').focus({ preventScroll: true }); });
 
   /* ---------- start ---------- */
   $('logo').innerHTML = skilt({ tekst: 'HUSORDEN', undertekst: '— VASK • RYDD • GLITRE —', bredde: 210 });
   document.documentElement.lang = 'nb';
+  state.tab = 'idag';
+  visFane((location.hash || '#idag').slice(1));
   store = { newId: () => '', set: () => Promise.reject({}), del: () => Promise.reject({}) };
   render();
   (window.claude && window.claude.use ? window.claude.use('db').catch(() => null) : Promise.resolve(null)).then(db => {
