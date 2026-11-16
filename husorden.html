@@ -122,11 +122,9 @@ button { cursor: pointer; }
 .bar > span[data-zero] { border-right: 0; }
 
 .filters { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 6px 14px; min-height: 40px; font-size: .9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
-.chip[aria-pressed="true"] { background: var(--blekk); color: var(--vegg); }
-.chip.kid[aria-pressed="true"] { background: var(--handklerosa); color: var(--blekk); box-shadow: 3px 3px 0 var(--blekk); }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--kort); border: 1.5px solid var(--blekk); flex: none; }
-.chip[aria-pressed="true"] .dot { border-color: var(--vegg); }
+.chip { background: var(--kort); border: var(--strek); border-radius: var(--radius-pille); padding: 6px 14px; min-height: 44px; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+.chip.barn { background: var(--lysrosa); }
+.chip[aria-pressed="true"] { background: var(--blekk); color: var(--kort); }
 
 .day { display: flex; flex-direction: column; gap: 16px; }
 .group { display: flex; flex-direction: column; gap: 8px; }
@@ -191,7 +189,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .daytxt .free { font-weight: 700; background: var(--lysrosa); border: var(--strek); border-radius: 14px; padding: 4px 12px; width: fit-content; font-size: 14px; }
 .del:disabled { opacity: .35; cursor: default; }
 .kidlabel { align-self: center; font-size: .85rem; font-weight: 700; color: var(--krom); }
-.chip.go { background: var(--handklerosa); }
+.chip.go { background: var(--lysrosa); }
 .kidhead { background: var(--handklerosa); }
 .kidin { max-width: 760px; margin: 0 auto; padding-block: 24px 20px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; }
 .kidtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
@@ -564,13 +562,13 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   }
 
   function renderFilters() {
-    const chip = (key, label, mark) => h('button', { type: 'button', id: 'flt-' + key, class: 'chip', 'aria-pressed': String(state.filter === key), onclick: () => { state.filter = key; render(); } }, mark, label);
+    const chip = (key, label, barn) => h('button', { type: 'button', id: 'flt-' + key, class: 'chip' + (barn ? ' barn' : ''), 'aria-pressed': String(state.filter === key), onclick: () => { state.filter = key; render(); } }, barn && star(), label);
     if (state.filter !== 'all' && state.filter !== 'none' && !member(state.filter)) state.filter = 'all';
     $('filters').replaceChildren(
       chip('all', 'Alle'),
-      ...state.members.map(m => chip(m.id, m.name, m.child ? star() : h('span', { class: 'dot' }))),
+      ...state.members.map(m => chip(m.id, m.name, !!m.child)),
       chip('none', 'Ledige'),
-      h('button', { type: 'button', id: 'flt-kid', class: 'chip kid', 'aria-pressed': String(state.childOnly), onclick: () => { state.childOnly = !state.childOnly; render(); } }, star(), 'Bare barneoppgaver')
+      h('button', { type: 'button', id: 'flt-kid', class: 'chip barn', 'aria-pressed': String(state.childOnly), onclick: () => { state.childOnly = !state.childOnly; render(); } }, star(), 'Bare barneoppgaver')
     );
   }
 
@@ -674,7 +672,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     $('cmpList').replaceChildren(...(total ? rows.map(r => {
       const w = Math.round(100 * val(r) / max), share = Math.round(100 * val(r) / total);
       return h('li', null,
-        h('span', { class: 'name' }, r.nobody ? null : r.child ? star() : h('span', { class: 'dot' }), h('span', { text: r.name })),
+        h('span', { class: 'name' }, r.child && !r.nobody ? star() : null, h('span', { text: r.name })),
         h('span', { class: 'val', text: r.min + ' min · ' + r.n + (r.n === 1 ? ' oppgave' : ' oppgaver') + ' · ' + share + ' %' }),
         h('div', { class: 'bar', role: 'img', 'aria-label': r.name + ': ' + share + ' prosent' },
           h('span', Object.assign({ class: r.nobody ? 'nobody' : r.child ? 'kid' : 'adult', style: 'width:' + w + '%' }, w === 0 || w === 100 ? { 'data-zero': '' } : {}))));
