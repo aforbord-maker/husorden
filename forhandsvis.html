@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<title>Husorden – forhåndsvisning</title>
+</head>
+<body>
+<!-- Lokal forhåndsvisning. husorden.html har ikke <html>/<head>/<body>, fordi de legges på når appen
+     publiseres som Claude-artefakt. Denne fila henter husorden.html og legger på det samme skallet.
+     Kjør en lokal webserver i repo-mappa og åpne /forhandsvis.html. Data lagres da i localStorage. -->
+<script>
+fetch('husorden.html', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (kode) {
+  document.open();
+  document.write('<!doctype html><html lang="nb"><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+    '<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>' +
+    '</head><body>' + kode + '</body></html>');
+  document.close();
+});
+</script>
+</body>
+</html>
