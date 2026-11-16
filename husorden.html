@@ -192,15 +192,14 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .del:disabled { opacity: .35; cursor: default; }
 .kidlabel { align-self: center; font-size: .85rem; font-weight: 700; color: var(--krom); }
 .chip.go { background: var(--lysrosa); }
-.kidhead { background: var(--handklerosa); }
-.kidin { max-width: 760px; margin: 0 auto; padding-block: 24px 20px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; }
-.kidtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.kidhead h1 { font-size: 2.5rem; overflow-wrap: anywhere; min-width: 0; }
-.kidsub { font-weight: 600; }
-.round { width: 48px; height: 48px; border-radius: 50%; background: var(--kort); border: var(--strek); display: grid; place-content: center; flex: none; }
-.starcard { background: var(--kort); border: var(--strek); border-radius: var(--radius-kort); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 3px 3px 0 var(--blekk); }
-.starrow { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 700; }
-.starnum { font-family: var(--font-overskrift); font-weight: 400; font-size: 1.25rem; display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
+.kidhead { background: var(--tapet); }
+.kidin { position: relative; max-width: 760px; margin: 0 auto; padding-block: 26px 22px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 16px; }
+.kidtilbake { position: absolute; top: 20px; right: max(20px, env(safe-area-inset-right, 0px)); }
+.kidskilt { width: 290px; max-width: calc(100% - 56px); }
+.starcard { background: var(--kort); border: var(--strek); border-radius: 20px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; }
+.starcol { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.starrow { display: flex; justify-content: space-between; gap: 8px; font-weight: 800; font-size: 14px; font-variant-numeric: tabular-nums; }
+.starcard .bar { height: 12px; }
 .kcards { display: flex; flex-direction: column; gap: 22px; }
 .kcard { position: relative; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 14px; display: flex; gap: 14px; align-items: center; box-shadow: 4px 4px 0 var(--blekk); }
 .kcard.done { background: var(--skumaqua); box-shadow: none; }
@@ -380,6 +379,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     return e;
   }
   const star = () => h('span', { class: 'ico', innerHTML: STAR });
+  const glitterIkon = px => h('span', { class: 'ico', innerHTML: GLITTER.replace('width="20" height="20"', 'width="' + px + '" height="' + px + '"') });
   const GLITTER = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C12.9 7.2 16.8 11.1 24 12C16.8 12.9 12.9 16.8 12 24C11.1 16.8 7.2 12.9 0 12C7.2 11.1 11.1 7.2 12 0Z" style="fill:var(--glitter);stroke:var(--blekk)" stroke-width="1"/></svg>';
 
   /* Skiltet (docs/design.md §3). Returnerer inline SVG som tekst; all innsatt tekst blir escaped.
@@ -764,17 +764,20 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     const left = list.filter(t => !isDone(t, day)).length;
     const goal = Math.max(1, Number(kid.starGoal) || 20), got = weekStars(kid.id), pct = Math.min(100, Math.round(100 * got / goal));
     const sub = !list.length ? 'Du har ingen oppgaver i dag.' : !left ? 'Alt er gjort i dag. Glitrende!' : 'Du har ' + left + (left === 1 ? ' oppgave' : ' oppgaver') + ' igjen i dag.';
+    const under = !list.length ? '— INGEN OPPGAVER I DAG —' : !left ? '— ALT ER GJORT —' : '— ' + left + (left === 1 ? ' OPPGAVE' : ' OPPGAVER') + ' IGJEN —';
     const reward = got >= goal ? 'Målet er nådd!' + (kid.reward ? ' Du får: ' + kid.reward : '') : kid.reward ? 'Ved ' + goal + ' stjerner: ' + kid.reward : 'Spør en voksen hva du får ved ' + goal + ' stjerner.';
     $('kidView').replaceChildren(
       h('header', { class: 'kidhead' }, h('div', { class: 'kidin' },
-        h('div', { class: 'kidtop' },
-          h('div', null, h('h1', { text: 'Hei, ' + kid.name + '!' }), h('p', { class: 'kidsub', text: sub })),
-          h('button', { type: 'button', id: 'kid-back', class: 'round', 'aria-label': 'Bytt til voksenvisning', onclick: () => setView(null) }, h('span', { class: 'ico', innerHTML: PEOPLE }))),
+        h('button', { type: 'button', id: 'kid-back', class: 'ikonknapp kidtilbake', 'aria-label': 'Bytt til voksenvisning', onclick: () => setView(null) }, h('span', { class: 'ico', innerHTML: PEOPLE })),
+        h('h1', { class: 'vh', text: 'Hei, ' + kid.name + '! ' + sub }),
+        h('div', { class: 'kidskilt', 'aria-hidden': 'true', innerHTML: skilt({ tekst: 'HEI, ' + kid.name + '!', undertekst: under, bredde: 290 }) }),
         h('div', { class: 'starcard' },
-          h('div', { class: 'starrow' }, h('span', { text: 'Ukas stjerner' }), h('span', { class: 'starnum' }, got + ' av ' + goal, star())),
-          h('div', { class: 'bar', role: 'img', 'aria-label': got + ' av ' + goal + ' stjerner' }, h('span', Object.assign({ style: 'width:' + pct + '%' }, pct === 0 || pct === 100 ? { 'data-zero': '' } : {}))),
-          h('p', { class: 'muted small', text: reward })))),
-      h('div', { class: 'checker kid', 'aria-hidden': 'true' }),
+          glitterIkon(28),
+          h('div', { class: 'starcol' },
+            h('div', { class: 'starrow' }, h('span', { text: 'Ukas glitter' }), h('span', { text: got + ' av ' + goal })),
+            h('div', { class: 'bar', role: 'img', 'aria-label': got + ' av ' + goal + ' stjerner' }, h('span', Object.assign({ style: 'width:' + pct + '%' }, pct === 0 || pct === 100 ? { 'data-zero': '' } : {}))),
+            h('p', { class: 'muted small', text: reward }))))),
+      h('div', { class: 'checker', 'aria-hidden': 'true' }),
       h('div', { class: 'wrap' },
         h('h2', { text: 'Mine oppgaver i dag' }),
         list.length ? h('div', { class: 'kcards' }, list.map(t => kidCard(t, day))) : h('p', { class: 'empty', text: 'Ingen oppgaver er dine i dag ennå.' }),
