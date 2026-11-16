@@ -1,0 +1,137 @@
+{
+  "id": "vaskerom",
+  "navn": "Vaskerom",
+  "ikon": "vask",
+  "kilde": "VaskMedMeg – Månedlig sjekkliste (kun til familiens eget bruk)",
+  "seksjoner": [
+    {
+      "id": "inventar",
+      "navn": "Inventar",
+      "punkter": [
+        {
+          "id": "inventar-hyller",
+          "tittel": "Hyller"
+        },
+        {
+          "id": "inventar-skap-og-skuffer",
+          "tittel": "Skap og skuffer",
+          "husk": "Oppå, inni, fronter, under og bak"
+        },
+        {
+          "id": "inventar-vaskemaskin",
+          "tittel": "Vaskemaskin",
+          "husk": "Vaskemiddelskuff, gummilist, filtersjekk, renseprogram og tørk utvendig"
+        },
+        {
+          "id": "inventar-torketrommel",
+          "tittel": "Tørketrommel",
+          "husk": "Tørk innvendig, sjekk/vask filter, tøm vannbeholder og tørk utvendig"
+        },
+        {
+          "id": "inventar-badekar",
+          "tittel": "Badekar",
+          "husk": "Oppi, under og bak"
+        },
+        {
+          "id": "inventar-vask",
+          "tittel": "Vask",
+          "husk": "Oppi, under, blandebatteri og plugghull"
+        },
+        {
+          "id": "inventar-skittentoyskurv",
+          "tittel": "Skittentøyskurv",
+          "husk": "Tørk og vask"
+        },
+        {
+          "id": "inventar-vaskemidler-og-oppbevaring",
+          "tittel": "Vaskemidler og oppbevaring",
+          "husk": "Tørk, vask og påfyll"
+        },
+        {
+          "id": "inventar-varmtvannstank",
+          "tittel": "Varmtvannstank",
+          "husk": "Tørk og vask"
+        },
+        {
+          "id": "inventar-pynt",
+          "tittel": "Pynt"
+        },
+        {
+          "id": "inventar-avfallskurv",
+          "tittel": "Avfallskurv"
+        }
+      ]
+    },
+    {
+      "id": "vegger",
+      "navn": "Vegger",
+      "punkter": [
+        {
+          "id": "vegger-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "vegger-vinduer",
+          "tittel": "Vinduer"
+        },
+        {
+          "id": "vegger-persienner-gardiner",
+          "tittel": "Persienner/gardiner"
+        },
+        {
+          "id": "vegger-bilder-rammer-og-hyller-med-pynt",
+          "tittel": "Bilder, rammer og hyller med pynt"
+        },
+        {
+          "id": "vegger-ventilasjon",
+          "tittel": "Ventilasjon"
+        },
+        {
+          "id": "vegger-stikkontakter",
+          "tittel": "Stikkontakter"
+        },
+        {
+          "id": "vegger-brytere",
+          "tittel": "Brytere"
+        },
+        {
+          "id": "vegger-dor-med-karm",
+          "tittel": "Dør med karm"
+        }
+      ]
+    },
+    {
+      "id": "gulv",
+      "navn": "Gulv",
+      "punkter": [
+        {
+          "id": "gulv-gulvlister",
+          "tittel": "Gulvlister"
+        },
+        {
+          "id": "gulv-overflate",
+          "tittel": "Overflate",
+          "husk": "Støvsuging og vask"
+        }
+      ]
+    },
+    {
+      "id": "tak",
+      "navn": "Tak",
+      "punkter": [
+        {
+          "id": "tak-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "tak-taklister",
+          "tittel": "Taklister"
+        },
+        {
+          "id": "tak-hengt-belysning",
+          "tittel": "Hengt belysning"
+        }
+      ]
+    }
+  ]
+}

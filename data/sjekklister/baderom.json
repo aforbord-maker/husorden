@@ -1,0 +1,129 @@
+{
+  "id": "baderom",
+  "navn": "Baderom",
+  "ikon": "bad",
+  "kilde": "VaskMedMeg – Månedlig sjekkliste (kun til familiens eget bruk)",
+  "seksjoner": [
+    {
+      "id": "inventar",
+      "navn": "Inventar",
+      "punkter": [
+        {
+          "id": "inventar-hyller",
+          "tittel": "Hyller"
+        },
+        {
+          "id": "inventar-skap-og-skuffer",
+          "tittel": "Skap og skuffer",
+          "husk": "Oppå, inni, fronter, under og bak"
+        },
+        {
+          "id": "inventar-pynt",
+          "tittel": "Pynt"
+        },
+        {
+          "id": "inventar-dusj",
+          "tittel": "Dusj",
+          "husk": "Glass, vegger, fuger, blandebatteri, gummilister og sluk"
+        },
+        {
+          "id": "inventar-badekar",
+          "tittel": "Badekar",
+          "husk": "Oppi, under og bak"
+        },
+        {
+          "id": "inventar-vask",
+          "tittel": "Vask",
+          "husk": "Under, oppi, blandebatteri og plugghull"
+        },
+        {
+          "id": "inventar-toalettsete",
+          "tittel": "Toalettsete"
+        },
+        {
+          "id": "inventar-toalettborste",
+          "tittel": "Toalettbørste"
+        },
+        {
+          "id": "inventar-avfallskurv",
+          "tittel": "Avfallskurv"
+        }
+      ]
+    },
+    {
+      "id": "vegger",
+      "navn": "Vegger",
+      "punkter": [
+        {
+          "id": "vegger-lysarmatur",
+          "tittel": "Lysarmatur"
+        },
+        {
+          "id": "vegger-vinduer",
+          "tittel": "Vinduer"
+        },
+        {
+          "id": "vegger-persienner-gardiner",
+          "tittel": "Persienner/gardiner"
+        },
+        {
+          "id": "vegger-stikkontakter",
+          "tittel": "Stikkontakter"
+        },
+        {
+          "id": "vegger-brytere",
+          "tittel": "Brytere"
+        },
+        {
+          "id": "vegger-dor-med-karm",
+          "tittel": "Dør med karm"
+        }
+      ]
+    },
+    {
+      "id": "gulv",
+      "navn": "Gulv",
+      "punkter": [
+        {
+          "id": "gulv-overflate",
+          "tittel": "Overflate",
+          "husk": "Støvsuging og vask"
+        },
+        {
+          "id": "gulv-bak-og-under-skap",
+          "tittel": "Bak og under skap"
+        },
+        {
+          "id": "gulv-bak-og-under-toalett",
+          "tittel": "Bak og under toalett"
+        },
+        {
+          "id": "gulv-sluk",
+          "tittel": "Sluk"
+        },
+        {
+          "id": "gulv-baderomsmatter",
+          "tittel": "Baderomsmatter"
+        }
+      ]
+    },
+    {
+      "id": "tak",
+      "navn": "Tak",
+      "punkter": [
+        {
+          "id": "tak-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "tak-taklister",
+          "tittel": "Taklister"
+        },
+        {
+          "id": "tak-hengt-belysning",
+          "tittel": "Hengt belysning"
+        }
+      ]
+    }
+  ]
+}

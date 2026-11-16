@@ -1,0 +1,134 @@
+{
+  "id": "barnerom",
+  "navn": "Barnerom",
+  "ikon": "leker",
+  "kilde": "VaskMedMeg – Månedlig sjekkliste (kun til familiens eget bruk)",
+  "seksjoner": [
+    {
+      "id": "inventar",
+      "navn": "Inventar",
+      "punkter": [
+        {
+          "id": "inventar-hyller-med-pynt",
+          "tittel": "Hyller med pynt"
+        },
+        {
+          "id": "inventar-skap-og-skuffer",
+          "tittel": "Skap og skuffer",
+          "husk": "Oppå, inni, fronter, under og bak"
+        },
+        {
+          "id": "inventar-kommoder",
+          "tittel": "Kommoder"
+        },
+        {
+          "id": "inventar-pyntegjenstander",
+          "tittel": "Pyntegjenstander"
+        },
+        {
+          "id": "inventar-lamper",
+          "tittel": "Lamper"
+        },
+        {
+          "id": "inventar-tv",
+          "tittel": "TV"
+        },
+        {
+          "id": "inventar-pc-skjerm-og-tastatur",
+          "tittel": "PC-skjerm og tastatur"
+        },
+        {
+          "id": "inventar-pult-med-stol",
+          "tittel": "Pult med stol"
+        },
+        {
+          "id": "inventar-andre-skap-og-hyller",
+          "tittel": "Andre skap og hyller"
+        }
+      ]
+    },
+    {
+      "id": "vegger",
+      "navn": "Vegger",
+      "punkter": [
+        {
+          "id": "vegger-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "vegger-vinduer",
+          "tittel": "Vinduer"
+        },
+        {
+          "id": "vegger-persienner-gardiner",
+          "tittel": "Persienner/gardiner"
+        },
+        {
+          "id": "vegger-bilder-rammer-og-hyller-med-pynt",
+          "tittel": "Bilder, rammer og hyller med pynt"
+        },
+        {
+          "id": "vegger-vegglamper",
+          "tittel": "Vegglamper"
+        },
+        {
+          "id": "vegger-ventilasjon",
+          "tittel": "Ventilasjon"
+        },
+        {
+          "id": "vegger-stikkontakter",
+          "tittel": "Stikkontakter"
+        },
+        {
+          "id": "vegger-brytere",
+          "tittel": "Brytere"
+        },
+        {
+          "id": "vegger-dor-med-karm",
+          "tittel": "Dør med karm"
+        }
+      ]
+    },
+    {
+      "id": "gulv",
+      "navn": "Gulv",
+      "punkter": [
+        {
+          "id": "gulv-gulvlister",
+          "tittel": "Gulvlister"
+        },
+        {
+          "id": "gulv-overflate",
+          "tittel": "Overflate",
+          "husk": "Støvsuging og vask"
+        },
+        {
+          "id": "gulv-gulvmatter-og-tepper",
+          "tittel": "Gulvmatter og tepper"
+        },
+        {
+          "id": "gulv-under-og-bak-seng-og-andre-mobler",
+          "tittel": "Under og bak seng og andre møbler"
+        }
+      ]
+    },
+    {
+      "id": "tak",
+      "navn": "Tak",
+      "punkter": [
+        {
+          "id": "tak-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "tak-taklister",
+          "tittel": "Taklister"
+        },
+        {
+          "id": "tak-hengt-belysning",
+          "tittel": "Hengt belysning"
+        }
+      ]
+    }
+  ]
+}

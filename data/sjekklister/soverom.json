@@ -1,0 +1,120 @@
+{
+  "id": "soverom",
+  "navn": "Soverom",
+  "ikon": "seng",
+  "kilde": "VaskMedMeg – Månedlig sjekkliste (kun til familiens eget bruk)",
+  "seksjoner": [
+    {
+      "id": "inventar",
+      "navn": "Inventar",
+      "punkter": [
+        {
+          "id": "inventar-madrass",
+          "tittel": "Madrass",
+          "husk": "Flekkfjerning og oppfriskning"
+        },
+        {
+          "id": "inventar-senger-og-sengegavl",
+          "tittel": "Senger og sengegavl"
+        },
+        {
+          "id": "inventar-nattbord",
+          "tittel": "Nattbord"
+        },
+        {
+          "id": "inventar-klesskap",
+          "tittel": "Klesskap",
+          "husk": "Organisering, støvsuging og fronter"
+        },
+        {
+          "id": "inventar-kommoder",
+          "tittel": "Kommoder",
+          "husk": "Organisering og fronter"
+        },
+        {
+          "id": "inventar-pyntegjenstander",
+          "tittel": "Pyntegjenstander"
+        }
+      ]
+    },
+    {
+      "id": "vegger",
+      "navn": "Vegger",
+      "punkter": [
+        {
+          "id": "vegger-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "vegger-vinduer",
+          "tittel": "Vinduer"
+        },
+        {
+          "id": "vegger-persienner-gardiner",
+          "tittel": "Persienner/gardiner"
+        },
+        {
+          "id": "vegger-ventilasjon",
+          "tittel": "Ventilasjon"
+        },
+        {
+          "id": "vegger-bilder-og-hengt-pynt",
+          "tittel": "Bilder og hengt pynt"
+        },
+        {
+          "id": "vegger-stikkontakter",
+          "tittel": "Stikkontakter"
+        },
+        {
+          "id": "vegger-brytere",
+          "tittel": "Brytere"
+        },
+        {
+          "id": "vegger-dor-med-karm",
+          "tittel": "Dør med karm"
+        }
+      ]
+    },
+    {
+      "id": "gulv",
+      "navn": "Gulv",
+      "punkter": [
+        {
+          "id": "gulv-gulvlister",
+          "tittel": "Gulvlister"
+        },
+        {
+          "id": "gulv-overflate",
+          "tittel": "Overflate",
+          "husk": "Støvsuging og vask"
+        },
+        {
+          "id": "gulv-gulvmatter",
+          "tittel": "Gulvmatter"
+        },
+        {
+          "id": "gulv-under-og-bak-andre-mobler",
+          "tittel": "Under og bak andre møbler"
+        }
+      ]
+    },
+    {
+      "id": "tak",
+      "navn": "Tak",
+      "punkter": [
+        {
+          "id": "tak-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "tak-taklister",
+          "tittel": "Taklister"
+        },
+        {
+          "id": "tak-hengt-belysning",
+          "tittel": "Hengt belysning"
+        }
+      ]
+    }
+  ]
+}

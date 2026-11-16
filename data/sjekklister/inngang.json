@@ -1,0 +1,108 @@
+{
+  "id": "inngang",
+  "navn": "Inngangsparti",
+  "ikon": "sko",
+  "kilde": "VaskMedMeg – Månedlig sjekkliste (kun til familiens eget bruk)",
+  "seksjoner": [
+    {
+      "id": "inventar",
+      "navn": "Inventar",
+      "punkter": [
+        {
+          "id": "inventar-skoskap-og-skobrett",
+          "tittel": "Skoskap og skobrett",
+          "husk": "Innvendig og utvendig"
+        },
+        {
+          "id": "inventar-klesskap",
+          "tittel": "Klesskap",
+          "husk": "Organisering, støvsuging, innvendig og fronter"
+        },
+        {
+          "id": "inventar-kommoder",
+          "tittel": "Kommoder",
+          "husk": "Organisering, vask innvendig, fronter og bak"
+        },
+        {
+          "id": "inventar-hyller",
+          "tittel": "Hyller"
+        },
+        {
+          "id": "inventar-pyntegjenstander",
+          "tittel": "Pyntegjenstander"
+        }
+      ]
+    },
+    {
+      "id": "vegger",
+      "navn": "Vegger",
+      "punkter": [
+        {
+          "id": "vegger-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "vegger-vinduer",
+          "tittel": "Vinduer"
+        },
+        {
+          "id": "vegger-persienner-gardiner",
+          "tittel": "Persienner/gardiner"
+        },
+        {
+          "id": "vegger-bilder-rammer-og-hyller-med-pynt",
+          "tittel": "Bilder, rammer og hyller med pynt"
+        },
+        {
+          "id": "vegger-stikkontakter",
+          "tittel": "Stikkontakter"
+        },
+        {
+          "id": "vegger-brytere",
+          "tittel": "Brytere"
+        },
+        {
+          "id": "vegger-dor-med-karm",
+          "tittel": "Dør med karm"
+        }
+      ]
+    },
+    {
+      "id": "gulv",
+      "navn": "Gulv",
+      "punkter": [
+        {
+          "id": "gulv-gulvlister",
+          "tittel": "Gulvlister"
+        },
+        {
+          "id": "gulv-under-mobler",
+          "tittel": "Under møbler",
+          "husk": "Støvsuging og vask"
+        },
+        {
+          "id": "gulv-gulvmatter",
+          "tittel": "Gulvmatter"
+        }
+      ]
+    },
+    {
+      "id": "tak",
+      "navn": "Tak",
+      "punkter": [
+        {
+          "id": "tak-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "tak-taklister",
+          "tittel": "Taklister"
+        },
+        {
+          "id": "tak-hengt-belysning",
+          "tittel": "Hengt belysning"
+        }
+      ]
+    }
+  ]
+}

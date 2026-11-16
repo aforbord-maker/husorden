@@ -1,0 +1,156 @@
+{
+  "id": "kjokken",
+  "navn": "Kjøkken",
+  "ikon": "kjokkenbenk",
+  "kilde": "VaskMedMeg – Månedlig sjekkliste (kun til familiens eget bruk)",
+  "seksjoner": [
+    {
+      "id": "inventar",
+      "navn": "Inventar",
+      "punkter": [
+        {
+          "id": "inventar-oppvaskmaskin",
+          "tittel": "Oppvaskmaskin",
+          "husk": "Systemrens, filter og påfyll av oppvasksalt"
+        },
+        {
+          "id": "inventar-mikrobolgeovn",
+          "tittel": "Mikrobølgeovn",
+          "husk": "Innvendig og utvendig"
+        },
+        {
+          "id": "inventar-stekeovn",
+          "tittel": "Stekeovn",
+          "husk": "Innvendig, rister, liner, skuff med stekepanner og utvendig"
+        },
+        {
+          "id": "inventar-koketopp",
+          "tittel": "Koketopp"
+        },
+        {
+          "id": "inventar-viften-med-filter",
+          "tittel": "Viften med filter"
+        },
+        {
+          "id": "inventar-kjoleskap",
+          "tittel": "Kjøleskap",
+          "husk": "Innvendig, avløpshull og utvendig"
+        },
+        {
+          "id": "inventar-fryser-fryseboks",
+          "tittel": "Fryser/fryseboks"
+        },
+        {
+          "id": "inventar-kaffemaskin-vannkoker-brodrister-og-vaffeljern",
+          "tittel": "Kaffemaskin, vannkoker, brødrister og vaffeljern"
+        },
+        {
+          "id": "inventar-kjokkenmaskiner",
+          "tittel": "Kjøkkenmaskiner",
+          "husk": "Blender, mikser o.l."
+        },
+        {
+          "id": "inventar-skap-og-skuffer",
+          "tittel": "Skap og skuffer",
+          "husk": "Etter behov: organisering og vask"
+        },
+        {
+          "id": "inventar-topp-av-skap",
+          "tittel": "Topp av skap"
+        },
+        {
+          "id": "inventar-kjokkenfronter",
+          "tittel": "Kjøkkenfronter"
+        },
+        {
+          "id": "inventar-veggen-bak-koketoppen",
+          "tittel": "Veggen bak koketoppen"
+        },
+        {
+          "id": "inventar-benkeplate",
+          "tittel": "Benkeplate"
+        },
+        {
+          "id": "inventar-soppeldunker",
+          "tittel": "Søppeldunker"
+        },
+        {
+          "id": "inventar-kjokkenvask",
+          "tittel": "Kjøkkenvask",
+          "husk": "Blandebatteri, innvendig og plugghull"
+        }
+      ]
+    },
+    {
+      "id": "vegger",
+      "navn": "Vegger",
+      "punkter": [
+        {
+          "id": "vegger-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "vegger-vinduer",
+          "tittel": "Vinduer"
+        },
+        {
+          "id": "vegger-persienner-gardiner",
+          "tittel": "Persienner/gardiner"
+        },
+        {
+          "id": "vegger-bilder-rammer-og-hyller-med-pynt",
+          "tittel": "Bilder, rammer og hyller med pynt"
+        },
+        {
+          "id": "vegger-stikkontakter",
+          "tittel": "Stikkontakter"
+        },
+        {
+          "id": "vegger-brytere",
+          "tittel": "Brytere"
+        },
+        {
+          "id": "vegger-dor-med-karm",
+          "tittel": "Dør med karm"
+        }
+      ]
+    },
+    {
+      "id": "gulv",
+      "navn": "Gulv",
+      "punkter": [
+        {
+          "id": "gulv-gulvlister",
+          "tittel": "Gulvlister"
+        },
+        {
+          "id": "gulv-overflate",
+          "tittel": "Overflate",
+          "husk": "Støvsuging og vask"
+        },
+        {
+          "id": "gulv-gulvmatter",
+          "tittel": "Gulvmatter"
+        }
+      ]
+    },
+    {
+      "id": "tak",
+      "navn": "Tak",
+      "punkter": [
+        {
+          "id": "tak-flekkfjerning",
+          "tittel": "Flekkfjerning"
+        },
+        {
+          "id": "tak-taklister",
+          "tittel": "Taklister"
+        },
+        {
+          "id": "tak-hengt-belysning",
+          "tittel": "Hengt belysning"
+        }
+      ]
+    }
+  ]
+}

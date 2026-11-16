@@ -1,0 +1,49 @@
+{
+  "kilde": "VaskMedMeg – Ukentlig vaskeplan",
+  "minutterPerDag": 30,
+  "dager": {
+    "1": [
+      "kjokken"
+    ],
+    "2": [
+      "baderom"
+    ],
+    "3": [
+      "stue",
+      "barnerom"
+    ],
+    "4": [
+      "inngang"
+    ],
+    "5": [
+      "soverom",
+      "vaskerom",
+      "garderoberom"
+    ],
+    "6": [],
+    "7": []
+  },
+  "ukeIMaaned": {
+    "1": [
+      "vegger",
+      "tak"
+    ],
+    "2": [
+      "inventar"
+    ],
+    "3": [
+      "inventar"
+    ],
+    "4": [
+      "gulv"
+    ],
+    "5": []
+  },
+  "helg": "Chillax: 5 startsvaner, og kryss gjerne av mer fra månedslistene hvis dere har lyst.",
+  "merknader": [
+    "Uke 1 = dag 1–7 i måneden, uke 2 = 8–14, uke 3 = 15–21, uke 4 = 22–28, «uke 5» = 29–31 er ekstra tid til å ta igjen det som mangler.",
+    "Tak står ikke i VaskMedMeg sin ukeplan; her er det lagt sammen med vegger i uke 1.",
+    "Inventar fordeles over uke 2 og 3: første halvdel av punktene i uke 2, resten i uke 3.",
+    "Inngang/gang/trapp/bod har én felles liste (inngangsparti)."
+  ]
+}
