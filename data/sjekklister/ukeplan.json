@@ -25,8 +25,7 @@
   },
   "ukeIMaaned": {
     "1": [
-      "vegger",
-      "tak"
+      "vegger"
     ],
     "2": [
       "inventar"
@@ -42,8 +41,21 @@
   "helg": "Chillax: 5 startsvaner, og kryss gjerne av mer fra månedslistene hvis dere har lyst.",
   "merknader": [
     "Uke 1 = dag 1–7 i måneden, uke 2 = 8–14, uke 3 = 15–21, uke 4 = 22–28, «uke 5» = 29–31 er ekstra tid til å ta igjen det som mangler.",
-    "Tak står ikke i VaskMedMeg sin ukeplan; her er det lagt sammen med vegger i uke 1.",
+    "Tak er holdt utenfor ukeplanen (VaskMedMeg: 1–2 ganger i året).",
     "Inventar fordeles over uke 2 og 3: første halvdel av punktene i uke 2, resten i uke 3.",
-    "Inngang/gang/trapp/bod har én felles liste (inngangsparti)."
-  ]
+    "Inngang/gang/trapp/bod har én felles liste (inngangsparti).",
+    "Kilde: vaskmedmeg.no/blogs/vaskerutiner/vaskeplanen-som-tar-opptil-30-minutter"
+  ],
+  "tak": {
+    "hyppighet": "1–2 ganger i året",
+    "forslag": "Egen påminnelse i mars og september, ikke del av ukeplanen."
+  },
+  "startsvaner": [
+    "Re opp sengen",
+    "Rydde etter deg",
+    "Tørke søl med en gang",
+    "Holde gulvene mest mulig fri for rot",
+    "Ha kontroll på klesvasken"
+  ],
+  "bruk": "Sjekklistene er for å se over rommet og avgjøre hva som trenger vask – ikke for å vaske alt hver gang. Hvert punkt kan derfor markeres som «Vasket» eller «Ser fint ut»."
 }
