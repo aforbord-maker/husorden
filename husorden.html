@@ -203,6 +203,9 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .kcards { display: flex; flex-direction: column; gap: 14px; }
 .kcard { position: relative; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 12px; display: flex; gap: 14px; align-items: center; }
 .kcard.done { background: var(--skumaqua); }
+.kcard.ledig { background: var(--lysrosa); }
+.kcard.ledig .btn { flex: none; }
+#kidView h2 { margin-top: 6px; }
 .kbilde { width: 84px; height: 84px; flex: none; display: grid; place-content: center; box-sizing: border-box; }
 .kbilde img { display: block; width: 84px; height: 84px; }
 .kbilde.tom { width: 76px; height: 76px; margin: 4px; border-radius: 16px; background: var(--kort); border: var(--strek); }
@@ -808,7 +811,8 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     const day = iso(new Date());
     const list = state.tasks.filter(t => appliesOn(t, day) && eff(t, day) === kid.id);
     const open = state.tasks.filter(t => t.child && appliesOn(t, day) && !eff(t, day) && !isDone(t, day)).concat(bigPool(day).filter(t => t.child).slice(0, 3));
-    const openCard = t => h('article', { class: 'kcard' },
+    const openCard = t => h('article', { class: 'kcard ledig' },
+      bilde(t, false),
       h('div', { class: 'kbody' }, h('h3', { text: t.title }), h('p', { class: 'kmeta', text: (t.minutes ? 'ca. ' + t.minutes + ' min · ' : '') + starWord(stars(t)) })),
       h('button', { type: 'button', id: 'ktake-' + t.id, class: 'btn primary', 'aria-label': 'Ta den: ' + t.title, onclick: () => setClaim(t, day, kid.id) }, 'Ta den'));
     const left = list.filter(t => !isDone(t, day)).length;
