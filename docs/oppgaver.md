@@ -22,6 +22,6 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **13. Feiring.** Neon-boks «Glitrende!» etter avkrysning, «Alt er gjort i dag» og når stjernemålet er nådd (vis belønningen). Ingen illustrasjoner med mennesker.
 
 ## Fase 4 – Kvalitet
-- [ ] **14. Tilgjengelighet.** Sjekk kontrast (bruk parene i `docs/design.md`), tab-rekkefølge, `aria-label` på ikonknapper, `alt` på bilder, skjermleser-tekst for skiltet.
+- [x] **14. Tilgjengelighet.** Sjekk kontrast (bruk parene i `docs/design.md`), tab-rekkefølge, `aria-label` på ikonknapper, `alt` på bilder, skjermleser-tekst for skiltet.
 - [ ] **15. Ytelse.** Bilder med `loading="lazy"` og faste mål. Vurder å komprimere PNG-ene (f.eks. `pngquant`) til under 100 KB hver.
 - [ ] **16. Gjennomgang.** Sammenlign med mockupene i `design/mockups/` og ta skjermbilder av begge visningene i 390 px til brukeren.
