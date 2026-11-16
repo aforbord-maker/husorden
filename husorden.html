@@ -220,8 +220,8 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .kcheck[aria-pressed="true"] { background: var(--skapturkis); }
 .neon { position: relative; overflow: hidden; background: var(--natt); border-radius: var(--radius-stor); padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .neonring { position: absolute; right: -30px; top: -30px; width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--neon-rosa); box-shadow: 0 0 10px var(--neon-rosa), inset 0 0 10px var(--neon-rosa); }
-.neontekst { position: relative; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.neonord { font-family: var(--font-neon); font-size: 46px; line-height: 1; color: var(--lysrosa); text-shadow: var(--glod-rosa); }
+.neontekst { position: relative; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.neonord { font-family: var(--font-neon); font-size: 46px; line-height: 1.1; color: var(--lysrosa); text-shadow: var(--glod-rosa); }
 .neonunder { font-family: var(--font-overskrift); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--skumaqua); text-shadow: var(--glod-turkis); overflow-wrap: anywhere; }
 .neonglitter { position: relative; flex: none; filter: drop-shadow(0 0 4px var(--neon-gul)) drop-shadow(0 0 10px var(--neon-gul)); }
 .goal { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; background: var(--lysrosa); border: var(--strek); border-radius: var(--radius-kort); padding: 14px; }
@@ -854,9 +854,9 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       h('div', { class: 'wrap' },
         h('h2', { text: 'Mine oppgaver i dag' }),
         list.length ? h('div', { class: 'kcards' }, list.map(t => kidCard(t, day))) : h('p', { class: 'empty', text: 'Ingen oppgaver er dine i dag ennå.' }),
+        feiring(kid, list, day, got, goal),
         open.length > 0 && h('h2', { text: 'Ledige oppgaver – ta en!' }),
-        open.length > 0 && h('div', { class: 'kcards' }, open.map(openCard)),
-        feiring(kid, list, day, got, goal)));
+        open.length > 0 && h('div', { class: 'kcards' }, open.map(openCard))));
   }
 
   function render() {
