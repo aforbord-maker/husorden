@@ -848,7 +848,8 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     ['hverdagsflaske', ['hverdagsflaske']],
     ['matboks', ['matboks', 'drikkeflaske', 'flaske']],
     ['skolesekk', ['skolesekk', 'sekken']],
-    ['bag', ['bager', 'gymbag', 'treningsbag', 'bagen']],
+    /* Midlertidig: bag.png er ødelagt (bare en hvit ramme). Bagene låner skolesekken til bildet er laget på nytt. */
+    ['skolesekk', ['bager', 'gymbag', 'treningsbag', 'bagen']],
     ['dusjglass', ['dusjglass', 'skrap dusj', 'glassdør']],
     ['sengetoy', ['skift sengetøy', 'skifte sengetøy', 'dyne', 'madrassbeskytter']],
     ['lampe', ['lampe', 'belysning', 'lysarmatur']],
@@ -878,12 +879,12 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     ['vindu', ['vinduer', 'vinduskarmer']],
     ['plante', ['planter']]
   ];
-  /* Motivene som finnes som bilde i assets/illustrasjoner/ (32). Ukjent navn eller manglende fil gir glitter-ikonet. */
+  /* Motivene som finnes som bilde i assets/illustrasjoner/ (31; bag.png er ødelagt og står ikke her). Ukjent navn eller manglende fil gir glitter-ikonet. */
   const BILDER = {
     bad: 'Bad', brette: 'Brette tøy', 'dekke-bordet': 'Dekke bordet', kjokkenbenk: 'Kjøkkenbenk', kjoleskap: 'Kjøleskap', klesskap: 'Klesskap',
     klut: 'Klut', kurv: 'Kurv', leker: 'Leker', mopp: 'Mopp', oppvaskmaskin: 'Oppvask', ovn: 'Ovn', papirer: 'Papirer', plan: 'Ukeplan',
     plante: 'Plante', seng: 'Seng', sko: 'Sko', skuffer: 'Skuffer', sokker: 'Sokker', sopla: 'Søppel', stovsuger: 'Støvsuger', vask: 'Vaskemaskin', vindu: 'Vindu',
-    skolesekk: 'Skolesekk', matboks: 'Matboks og flaske', bag: 'Bag', sofa: 'Sofa', hverdagsflaske: 'Hverdagsflaske',
+    skolesekk: 'Skolesekk', matboks: 'Matboks og flaske', sofa: 'Sofa', hverdagsflaske: 'Hverdagsflaske',
     dusjglass: 'Dusjglass', sengetoy: 'Sengetøy', lampe: 'Lampe', chillax: 'Chillax'
   };
   function ikonFor(t) {

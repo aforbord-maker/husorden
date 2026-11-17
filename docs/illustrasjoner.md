@@ -15,7 +15,7 @@ Hvert motiv finnes som `.svg` (vektor, masterfil – store filer, 400–700 KB) 
 | `hverdagsflaske` | ✅ | hverdagsflaske |
 | `matboks` | ✅ | matboks, drikkeflaske, flaske |
 | `skolesekk` | ✅ | skolesekk, sekken |
-| `bag` | ✅ | bager, gymbag, treningsbag, bagen |
+| `bag` | ❌ ødelagt: både `bag.png` og `bag.svg` er bare en hvit ramme. Må lages på nytt fra originalbildet. Appen bruker `skolesekk` så lenge. | bager, gymbag, treningsbag, bagen |
 | `dusjglass` | ✅ | dusjglass, skrap dusj, glassdør |
 | `sengetoy` | ✅ | skift(e) sengetøy, dyne, madrassbeskytter |
 | `lampe` | ✅ | lampe, belysning, lysarmatur |
