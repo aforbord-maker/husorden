@@ -33,6 +33,15 @@ Fra VaskMedMeg-artikkelen «Hverdagsflasken»: én hjemmelaget sprayflaske til d
 - **Litt og ofte:** tips-kortet sier at søl, fingeravtrykk og flekker tørkes med en gang – da trengs sjelden sterkere midler.
 - Merk flasken («Hverdagsflaske – vann + 1 dråpe oppvaskmiddel») og oppbevar den slik dere oppbevarer annet vaskemiddel.
 
+## Faste rutiner (dusjglass og seng)
+Fra VaskMedMeg-artiklene om glassdører i dusjen og om sengen. Data: `data/sjekklister/faste-rutiner.json`.
+
+- Hver rutine blir en vanlig gjentakende oppgave i appen (samme modell som andre oppgaver), med `intervall`: daglig, ukentlig, hver 6. uke, kvartalsvis eller halvårlig. Opprett dem første gang planen slås på – spør først («Vil dere legge til faste rutiner for dusj og seng?») og la familien velge hvilke.
+- `type: 'vane'` havner under «Daglige vaner». `barn: true` betyr at oppgaven passer for barn.
+- **Viktig:** «La sengen lufte» (minst 30 min) skal stå før «Re opp sengen» om morgenen. Endre tipset på den eksisterende oppgaven «Re opp sengen» til «La den lufte en halvtime først».
+- Kvartalsvise og halvårlige rutiner vises i «Uka» den uka de forfaller, og kan flyttes en uke frem med «Neste uke» uten at de regnes som forfalt (jf. «ingen etterslep»).
+- Punktene «Dusj» (baderom) og «Madrass» (soverom) har fått utvidede husk-tekster med fremgangsmåten.
+
 ## Data
 - Bygg inn JSON-filene i `husorden.html` ved oppstart (ingen nettverkskall – artefakten har ikke tilgang til repoet).
 - Ny samling `sjekk`: nøkkel `<rom>-<ÅÅÅÅ-MM>` → `{ <punktId>: { status: 'vasket' | 'fint', av: medlemsId | null, dato } }`.
