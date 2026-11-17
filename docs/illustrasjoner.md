@@ -11,6 +11,15 @@ Hvert motiv finnes som `.svg` (vektor, masterfil – store filer, 400–700 KB) 
 | Filnavn | Status | Nøkkelord i oppgavetittel |
 |---|---|---|
 | `plan` | ✅ | plan for neste uke, kjøleskapsjekk |
+| `chillax` | ✅ | chillax, helg, kaffe |
+| `hverdagsflaske` | ✅ | hverdagsflaske |
+| `matboks` | ✅ | matboks, drikkeflaske, flaske |
+| `skolesekk` | ✅ | skolesekk, sekken |
+| `bag` | ✅ | bager, gymbag, treningsbag, bagen |
+| `dusjglass` | ✅ | dusjglass, skrap dusj, glassdør |
+| `sengetoy` | ✅ | skift(e) sengetøy, dyne, madrassbeskytter |
+| `lampe` | ✅ | lampe, belysning, lysarmatur |
+| `sofa` | ✅ | sofa, lenestol |
 | `skuffer` | ✅ | skuffer, rotskuff, baderomsskap, kjøkkenskap, skap innvendig |
 | `vask` | ✅ | sette på vask, vaske pledd, gardiner, putetrekk |
 | `oppvaskmaskin` | ✅ (tallerkener) | oppvaskmaskin, oppvask |
@@ -58,4 +67,4 @@ Square 1024×1024, transparent background, complete frame on all four sides.
 
 ### Motiver – lim inn i stedet for `[MOTIV]`
 
-**Alle 23 motiver er ferdige.** Nye motiver lages med grunnprompten over; be gjerne om flere på ett ark i et rutenett uten tekst, og klipp dem ut.
+**Alle 32 motiver er ferdige.** Nye motiver lages med grunnprompten over; be gjerne om flere på ett ark i et rutenett uten tekst, og klipp dem ut.

@@ -4,7 +4,7 @@
     {
       "id": "dusj-skrape",
       "tittel": "Skrap dusjglasset etter dusjing",
-      "ikon": "bad",
+      "ikon": "dusjglass",
       "minutter": 1,
       "intervall": "daglig",
       "type": "vane",
@@ -14,7 +14,7 @@
     {
       "id": "dusj-ukevask",
       "tittel": "Hurtigvask av dusjglass",
-      "ikon": "bad",
+      "ikon": "dusjglass",
       "minutter": 10,
       "intervall": "ukentlig",
       "tips": "Spray med hverdagsflasken, skrubb 1–2 min med hvitsvamp, skyll, trekk av med nal og tørk."
@@ -22,7 +22,7 @@
     {
       "id": "dusj-beskytt",
       "tittel": "Beskyttelsesbehandling av dusjglass",
-      "ikon": "bad",
+      "ikon": "dusjglass",
       "minutter": 20,
       "intervall": "halvårlig",
       "tips": "De fleste midler varer minst et halvt år."
@@ -40,7 +40,7 @@
     {
       "id": "seng-sengetoy",
       "tittel": "Skift sengetøy",
-      "ikon": "seng",
+      "ikon": "sengetoy",
       "minutter": 10,
       "intervall": "ukentlig",
       "tips": "Putevar, laken og dynetrekk. Vask på 60 °C eller mer (sjekk vaskelappen), mildt vaskemiddel, eddik i stedet for tøymykner. Ha to sett per seng.",
@@ -49,7 +49,7 @@
     {
       "id": "seng-beskytter",
       "tittel": "Vask madrassbeskytteren",
-      "ikon": "seng",
+      "ikon": "sengetoy",
       "minutter": 5,
       "intervall": "hver 6. uke",
       "tips": "Vask eller bytt hver 4.–8. uke."
@@ -81,7 +81,7 @@
     {
       "id": "seng-dyne",
       "tittel": "Vask dyne og puter",
-      "ikon": "vask",
+      "ikon": "sengetoy",
       "minutter": 15,
       "intervall": "halvårlig",
       "tips": "1–2 ganger i året, oftere ved allergi. Tørk grundig."
