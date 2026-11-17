@@ -28,9 +28,12 @@ Gjør stegene i rekkefølge. Ett steg = én commit. Kryss av her når et steg er
 - [x] **16. Gjennomgang.** Sammenlign med mockupene i `design/mockups/` og ta skjermbilder av begge visningene i 390 px til brukeren.
 
 ## Fase 5 – VaskMedMeg-planen (se `docs/vaskeplan.md`)
-- [ ] **17. Data inn.** Bygg inn `data/sjekklister/*.json` i appen; nye samlinger `sjekk` og `planvalg`.
-- [ ] **18. «Dagens 30 minutter».** Kort på «I dag» med rom og fokusområde for dagen, egen skjerm med punkter («Vasket» / «Ser fint ut»), «Ta den» og stjerner for barn.
-- [ ] **19. Helg og «Ta igjen».** «Chillax» med startsvanene lørdag/søndag; dag 29–31 viser det som mangler.
-- [ ] **20. «Sjekklister»-skjermen** fra «Uka», med fremdrift per rom for måneden.
-- [ ] **21. Innstillinger under «Familien»:** rom av/på og ukedag per rom. Tak-påminnelse i mars og september.
+- [x] **17. Data inn.** Bygg inn `data/sjekklister/*.json` i appen; nye samlinger `sjekk` og `planvalg`.
+- [x] **18. «Dagens 30 minutter».** Kort på «I dag» med rom og fokusområde for dagen, egen skjerm med punkter («Vasket» / «Ser fint ut»), «Ta den» og stjerner for barn.
+- [x] **19. Helg og «Ta igjen».** «Chillax» med startsvanene lørdag/søndag; dag 29–31 viser det som mangler.
+- [x] **20. «Sjekklister»-skjermen** fra «Uka», med fremdrift per rom for måneden.
+- [x] **21. Innstillinger under «Familien»:** rom av/på og ukedag per rom. Tak-påminnelse i mars og september.
 - [ ] **22. Test og publiser** med falske datoer (uke 1–4, dag 30, lørdag) i 390 px.
+  - Testet lokalt i 390 px med `?dato=ÅÅÅÅ-MM-DD` (2., 11., 20., 24. og 30. november 2026, lørdag 7. november og 2. mars 2027 for tak), i voksen- og barnevisning, uten feil i konsollen. Ikke publisert ennå: venter på godkjenning av PR-en.
+  - Valg som ikke sto i spesifikasjonen: `status: 'tatt'` i `sjekk` betyr at noen har tatt punktet uten å ha gjort det ennå. Startsvaner uten egen oppgave lagres i `sjekk/startsvaner-<ÅÅÅÅ-MM>`. Et punkt regnes som ca. 2,5 minutter. Faste rutiner får id `rutine-<id>`, og de sjeldne spres utover (første om to uker, neste om fire, osv.).
+  - Åpent spørsmål: de gamle ukeplanene («Dagens halvtime», oppgaver av typen `plan`) vises fortsatt ved siden av «Dagens 30 minutter».

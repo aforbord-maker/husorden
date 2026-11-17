@@ -247,6 +247,40 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 .nyknapp:active { transform: translateY(2px); }
 #adultView { padding-bottom: 176px; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); background: var(--blekk); color: var(--vegg); padding: 10px 16px; border-radius: 12px; max-width: calc(100% - 32px); z-index: 20; font-weight: 600; }
+/* VaskMedMeg-planen */
+.planboks { background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.planboks.rosa { background: var(--lysrosa); }
+.planboks h3 { margin: 0; font: 400 18px/1.2 var(--font-overskrift); letter-spacing: .02em; }
+.planboks .ctl { grid-column: auto; }
+.plankort { width: 100%; box-sizing: border-box; text-align: left; background: var(--kort); border: var(--strek); border-radius: var(--radius-stor); padding: 12px; display: flex; gap: 14px; align-items: center; min-height: 44px; }
+.plankort:hover, .plankort.done { background: var(--skumaqua); }
+.plankort img { width: 84px; height: 84px; flex: none; display: block; }
+.plankort .kbody { gap: 6px; }
+.plankort .kmeta { color: var(--blekk); }
+.plankort .bar { height: 12px; }
+.plantittel { font-size: 18px; font-weight: 800; overflow-wrap: break-word; }
+.plantall { font-family: var(--font-overskrift); font-size: 18px; font-variant-numeric: tabular-nums; flex: none; }
+.romhode { display: flex; gap: 14px; align-items: center; align-self: stretch; }
+.romhode img { flex: none; display: block; }
+.tilbake { align-self: flex-start; }
+.btn.liten { min-height: 44px; padding: 4px 14px; font-size: 14px; box-shadow: 0 3px 0 var(--maskinmint); margin-bottom: 3px; }
+.btn.liten[aria-pressed="true"] { background: var(--skapturkis); box-shadow: 0 3px 0 var(--skiltturkis); }
+.punktvalg { grid-column: 2 / -1; }
+.ukeli + .ukeli { border-top: var(--strek); }
+.ukeknapp { width: 100%; box-sizing: border-box; display: grid; grid-template-columns: 4.2em minmax(0, 1fr) auto; gap: 10px; align-items: center; background: none; border: 0; padding: 8px 14px; min-height: 52px; text-align: left; }
+.ukeknapp:not(:disabled):hover { background: var(--skumaqua); }
+.ukeknapp:disabled { cursor: default; }
+.ukeknapp .ukedag { font-weight: 800; font-size: 14px; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.ukeknapp .linjer, .task > .linjer { display: flex; flex-direction: column; min-width: 0; }
+.ukeknapp .title { font-weight: 700; }
+.ukeknapp .meta { font-size: 13px; color: var(--krom); }
+.romvalg { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; align-self: stretch; }
+.romvalg li { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.planinnst { display: flex; flex-direction: column; gap: 12px; border-top: var(--strek); padding-top: 14px; }
+.dialog { border: var(--strek); border-radius: var(--radius-stor); background: var(--kort); color: var(--blekk); padding: 18px; width: 440px; max-width: calc(100% - 32px); box-sizing: border-box; }
+.dialog[open] { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.dialog::backdrop { background: var(--natt); opacity: .55; }
+.dialog ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 4px; }
 @media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
 </style>
 
@@ -289,13 +323,19 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   </div>
 
-  <section class="panel" id="sek-uka" hidden>
+  <div class="visning" id="sek-uka" hidden>
+  <div class="visning" id="ukaPlan"></div>
+  <section class="panel">
     <h2>Hvem gjør mest?</h2>
     <div class="filters" id="cmpPeriod"></div>
     <p class="lead" id="cmpLead"></p>
     <ul class="cmp" id="cmpList"></ul>
-    <p class="muted small">Regnet fra avkryssede oppgaver og minuttene de er satt til. En oppgave teller for den som var tildelt da den ble krysset av.</p>
+    <p class="muted small">Regnet fra avkryssede oppgaver og minuttene de er satt til. En oppgave teller for den som var tildelt da den ble krysset av. Punkter fra vaskeplanen teller også, med omtrent 2–3 minutter hver.</p>
   </section>
+  </div>
+
+  <div class="visning" id="sek-sjekklister" hidden></div>
+  <div class="visning" id="sek-rom" hidden></div>
 
   <section class="panel" id="sek-ny" hidden>
     <h2>Ny oppgave</h2>
@@ -350,6 +390,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       <label class="check"><input class="cb" type="checkbox" id="m-child"> Barn</label>
       <button class="btn primary" type="submit">Legg til person</button>
     </form>
+    <div class="planinnst" id="planInnst"></div>
   </section>
 </div>
 <button type="button" class="nyknapp" id="nyKnapp" aria-label="Ny oppgave"><img id="ikon-ny" src="assets/nav/ny-aktiv.png" alt="" aria-hidden="true" width="56" height="56" decoding="async"></button>
@@ -379,9 +420,14 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     return Math.ceil(((t - Date.UTC(t.getUTCFullYear(), 0, 1)) / 864e5 + 1) / 7);
   }
 
-  const today = new Date();
+  /* Test: legg ?dato=ÅÅÅÅ-MM-DD på adressen for å late som det er en annen dag. */
+  const FALSK_DATO = ((typeof location !== 'undefined' && location.search || '').match(/[?&]dato=(\d{4}-\d\d-\d\d)/) || [])[1];
+  const naa = () => FALSK_DATO ? parse(FALSK_DATO) : new Date();
+  const today = naa();
   const state = { members: [], tasks: [], done: {}, sel: iso(today), weekStart: monday(today), filter: 'all', childOnly: false, ready: false, confirmDel: null, editTips: null, openTips: new Set(), cmpPeriod: 'week' };
   let store, confirmTimer;
+  /* Skjermene. «ny» er skjemaet bak plussknappen, «sjekklister» og «rom» hører til vaskeplanen. */
+  const FANER = ['idag', 'uka', 'ny', 'familien', 'sjekklister', 'rom'], UTEN_NY = ['ny', 'sjekklister', 'rom'];
   const CHECK = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   const PEOPLE = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 14.5a5 5 0 0 1 5.5 5.5"/></svg>';
   state.view = null; state.lastDone = null; state.editGoal = null; state.claims = {}; state.showAllBig = false;
@@ -453,20 +499,22 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   /* ---------- lagring ---------- */
   function apply(col, map) {
-    if (col === 'done') { state.done = {}; state.claims = {}; for (const k in map) { state.done[k] = Object.assign({}, (map[k] || {}).ids); state.claims[k] = Object.assign({}, (map[k] || {}).claims); } }
+    if (col === 'sjekk') { state.sjekk = {}; for (const k in map) state.sjekk[k] = Object.assign({}, map[k]); }
+    else if (col === 'planvalg') state.valg = map.valg ? Object.assign({}, map.valg) : null;
+    else if (col === 'done') { state.done = {}; state.claims = {}; for (const k in map) { state.done[k] = Object.assign({}, (map[k] || {}).ids); state.claims[k] = Object.assign({}, (map[k] || {}).claims); } }
     else state[col] = Object.entries(map).map(([id, b]) => Object.assign({}, b, { id })).sort((a, b) => (a.created || 0) - (b.created || 0));
   }
   function makeLocal() {
     const KEY = 'husorden-v1';
-    let data = { members: {}, tasks: {}, done: {} };
+    let data = { members: {}, tasks: {}, done: {}, sjekk: {}, planvalg: {} };
     try { const r = localStorage.getItem(KEY); if (r) data = Object.assign(data, JSON.parse(r)); } catch (e) {}
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {} };
-    const push = () => { ['members', 'tasks', 'done'].forEach(c => apply(c, data[c])); render(); };
+    const push = () => { ['members', 'tasks', 'done', 'sjekk', 'planvalg'].forEach(c => apply(c, data[c])); render(); };
     return {
       newId: () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36),
       set(col, id, body) { data[col][id] = body; save(); push(); return Promise.resolve(); },
       del(col, id) { delete data[col][id]; save(); push(); return Promise.resolve(); },
-      start() { state.ready = true; note('Denne visningen lagrer bare i denne nettleseren. Logg inn for å dele listen med familien.'); push(); }
+      start() { state.ready = true; state.planKlar = true; note('Denne visningen lagrer bare i denne nettleseren. Logg inn for å dele listen med familien.'); push(); }
     };
   }
   function makeDb(db) {
@@ -485,6 +533,13 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
           if (seen.members && seen.tasks && seen.done && !state.ready) { clearTimeout(timer); state.ready = true; note(''); }
           render();
         }, () => { clearTimeout(timer); state.ready = true; note('Lagringen er ikke tilgjengelig akkurat nå. Endringer blir ikke lagret.'); render(); }));
+        /* Vaskeplanen har egne samlinger. Resten av appen venter ikke på dem. */
+        ['sjekk', 'planvalg'].forEach(col => db.collection(col).onSnapshot(snap => {
+          const map = {}; snap.docs.forEach(d => { map[d.id] = d.data(); });
+          apply(col, map); seen[col] = true;
+          if (seen.sjekk && seen.planvalg) state.planKlar = true;
+          render();
+        }, () => { note('Vaskeplanen kan ikke lagres akkurat nå.'); }));
       }
     };
   }
@@ -514,7 +569,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     if (Array.isArray(t.days) && t.days.length) return t.days.includes(wd(d));
     return true;
   }
-  const bigPool = day => state.tasks.filter(t => t.kind === 'stor' && !appliesOn(t, day) && isDue(t, day))
+  const bigPool = day => state.tasks.filter(t => t.kind === 'stor' && !appliesOn(t, day) && isDue(t, day) && !(((state.valg || {}).utsatt || {})[t.id] > day))
     .sort((a, b) => (lastDone(a, day) || '').localeCompare(lastDone(b, day) || ''));
   const ord = t => t.order != null ? t.order : (t.created || 0);
   function saveDay(day) { write(store.set('done', day, { date: day, ids: state.done[day] || {}, claims: state.claims[day] || {} })); }
@@ -550,7 +605,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   }
   /* Stjerner et barn har tjent i uka som inneholder i dag. */
   function weekStars(kidId) {
-    const from = monday(new Date()), tasks = {};
+    const from = monday(naa()), tasks = {};
     state.tasks.forEach(t => { tasks[t.id] = t; });
     let sum = 0;
     for (let i = 0; i < 7; i++) {
@@ -561,6 +616,8 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
         if (ids[tid] === kidId || (ids[tid] === true && t.assignee === kidId)) sum += stars(t);
       }
     }
+    const til = new Date(from); til.setDate(til.getDate() + 6);
+    punkterGjort(iso(from), iso(til), e => { if (e.av === kidId) sum += 1; }); /* 1 stjerne per punkt fra vaskeplanen */
     return sum;
   }
   function schedule(t) {
@@ -586,6 +643,11 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
         row.min += Number(t.minutes) || 0; row.n += 1;
       }
     }
+    const til = new Date(from); til.setDate(til.getDate() + days - 1);
+    punkterGjort(iso(from), iso(til), e => {
+      const who = member(e.av) ? e.av : '', row = byId[who] || (byId[who] = { id: who, min: 0, n: 0 });
+      row.min += MIN_PUNKT; row.n += 1;
+    });
     return byId;
   }
 
@@ -687,7 +749,9 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     else if (!list.length) out.push(h('p', { class: 'empty', text: 'Ingen oppgaver denne dagen for dette utvalget.' }));
     else {
       const plan = list.filter(t => t.kind === 'plan').sort((a, b) => ord(a) - ord(b));
-      const habits = list.filter(t => t.kind === 'vane'), rest = list.filter(t => t.kind !== 'vane' && t.kind !== 'plan');
+      /* Vaner som er koblet til en startsvane, vises i gruppa «Startsvaner» i stedet (ingen duplikater). */
+      const koblet = new Set(state.planKlar && valg().startet ? startsvaner().map(s => s.task && s.task.id).filter(Boolean) : []);
+      const habits = list.filter(t => t.kind === 'vane' && !koblet.has(t.id)), rest = list.filter(t => t.kind !== 'vane' && t.kind !== 'plan');
       const pm = plan.reduce((s, t) => s + (Number(t.minutes) || 0), 0);
       if (plan.length) out.push(h('div', { class: 'group' }, h('h3', { text: 'Dagens halvtime · ' + pm + ' min · i denne rekkefølgen' }), h('ul', { class: 'tasks' }, plan.map((t, i) => taskRow(t, { n: i + 1, list: plan })))));
       if (habits.length) out.push(h('div', { class: 'group' }, h('h3', { text: 'Daglige vaner' }), h('ul', { class: 'tasks' }, habits.map(t => taskRow(t)))));
@@ -702,7 +766,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
         h('ul', { class: 'tasks' }, shown.map(t => taskRow(t))),
         pool.length > 3 && h('button', { type: 'button', id: 'bigmore', class: 'btn', onclick: () => { state.showAllBig = !state.showAllBig; render(); } }, state.showAllBig ? 'Vis færre' : 'Vis alle ' + pool.length)));
     }
-    $('lists').replaceChildren(...out);
+    $('lists').replaceChildren(...planBlokk(state.sel), ...out);
   }
 
   function renderCompare() {
@@ -727,7 +791,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       const w = Math.round(100 * val(r) / max), share = Math.round(100 * val(r) / total);
       return h('li', null,
         h('span', { class: 'name' }, r.child && !r.nobody ? star() : null, h('span', { text: r.name })),
-        h('span', { class: 'val', text: r.min + ' min · ' + r.n + (r.n === 1 ? ' oppgave' : ' oppgaver') + ' · ' + share + ' %' }),
+        h('span', { class: 'val', text: Math.round(r.min) + ' min · ' + r.n + (r.n === 1 ? ' oppgave' : ' oppgaver') + ' · ' + share + ' %' }),
         h('div', { class: 'bar', role: 'img', 'aria-label': r.name + ': ' + share + ' prosent' },
           h('span', Object.assign({ class: r.nobody ? 'nobody' : r.child ? 'kid' : 'adult', style: 'width:' + w + '%' }, w === 0 || w === 100 ? { 'data-zero': '' } : {}))));
     }) : []));
@@ -851,29 +915,27 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
 
   const NEONGLITTER = '<svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1C12.8 7.4 16.6 11.2 23 12C16.6 12.8 12.8 16.6 12 23C11.2 16.6 7.4 12.8 1 12C7.4 11.2 11.2 7.4 12 1Z" fill="none" style="stroke:var(--kort)" stroke-width="1.4"/></svg>';
   /* Neon-feiring (docs/design.md §5): målet nådd, alt gjort i dag, eller oppgaven som nettopp ble krysset av. */
-  function feiring(kid, list, day, got, goal) {
+  function feiring(kid, list, day, got, goal, egne) {
     const sist = list.find(t => t.id === state.lastDone && isDone(t, day));
-    const alt = list.length > 0 && list.every(t => isDone(t, day));
+    const alt = list.length + (egne || []).length > 0 && list.every(t => isDone(t, day)) && (egne || []).every(x => ferdig(x.e));
     const under = got >= goal ? 'Målet er nådd' + (kid.reward ? ' · ' + kid.reward : '') : alt ? 'Alt er gjort i dag' : sist ? sist.title + ' · ferdig' : '';
     if (!under) return null;
-    return h('div', { class: 'neon', role: 'status' },
-      h('div', { class: 'neonring', 'aria-hidden': 'true' }),
-      h('div', { class: 'neontekst' }, h('span', { class: 'neonord', text: 'Glitrende!' }), h('span', { class: 'neonunder', text: under })),
-      h('span', { class: 'ico neonglitter', innerHTML: NEONGLITTER }));
+    return neonKort(under);
   }
 
   function renderKid(kid) {
-    const day = iso(new Date());
+    const day = iso(naa());
     const list = state.tasks.filter(t => appliesOn(t, day) && eff(t, day) === kid.id);
+    const kp = kidPunkter(kid, day), antall = list.length + kp.egne.length;
     const open = state.tasks.filter(t => t.child && appliesOn(t, day) && !eff(t, day) && !isDone(t, day)).concat(bigPool(day).filter(t => t.child).slice(0, 3));
     const openCard = t => h('article', { class: 'kcard ledig' },
       bilde(t, false),
       h('div', { class: 'kbody' }, h('h3', { text: t.title }), h('p', { class: 'kmeta', text: (t.minutes ? 'ca. ' + t.minutes + ' min · ' : '') + starWord(stars(t)) })),
       h('button', { type: 'button', id: 'ktake-' + t.id, class: 'btn primary', 'aria-label': 'Ta den: ' + t.title, onclick: () => setClaim(t, day, kid.id) }, 'Ta den'));
-    const left = list.filter(t => !isDone(t, day)).length;
+    const left = list.filter(t => !isDone(t, day)).length + kp.egne.filter(x => !ferdig(x.e)).length;
     const goal = Math.max(1, Number(kid.starGoal) || 20), got = weekStars(kid.id), pct = Math.min(100, Math.round(100 * got / goal));
-    const sub = !list.length ? 'Du har ingen oppgaver i dag.' : !left ? 'Alt er gjort i dag. Glitrende!' : 'Du har ' + left + (left === 1 ? ' oppgave' : ' oppgaver') + ' igjen i dag.';
-    const under = !list.length ? '— INGEN OPPGAVER I DAG —' : !left ? '— ALT ER GJORT —' : '— ' + left + (left === 1 ? ' OPPGAVE' : ' OPPGAVER') + ' IGJEN —';
+    const sub = !antall ? 'Du har ingen oppgaver i dag.' : !left ? 'Alt er gjort i dag. Glitrende!' : 'Du har ' + left + (left === 1 ? ' oppgave' : ' oppgaver') + ' igjen i dag.';
+    const under = !antall ? '— INGEN OPPGAVER I DAG —' : !left ? '— ALT ER GJORT —' : '— ' + left + (left === 1 ? ' OPPGAVE' : ' OPPGAVER') + ' IGJEN —';
     const reward = got >= goal ? 'Målet er nådd!' + (kid.reward ? ' Du får: ' + kid.reward : '') : kid.reward ? 'Ved ' + goal + ' stjerner: ' + kid.reward : 'Spør en voksen hva du får ved ' + goal + ' stjerner.';
     $('kidView').replaceChildren(
       h('header', { class: 'kidhead' }, h('div', { class: 'kidin' },
@@ -889,19 +951,425 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
       h('div', { class: 'checker', 'aria-hidden': 'true' }),
       h('div', { class: 'wrap' },
         h('h2', { text: 'Mine oppgaver i dag' }),
-        list.length ? h('div', { class: 'kcards' }, list.map(t => kidCard(t, day))) : h('p', { class: 'empty', text: 'Ingen oppgaver er dine i dag ennå.' }),
-        feiring(kid, list, day, got, goal),
-        open.length > 0 && h('h2', { text: 'Ledige oppgaver – ta en!' }),
-        open.length > 0 && h('div', { class: 'kcards' }, open.map(openCard))));
+        antall ? h('div', { class: 'kcards' }, list.map(t => kidCard(t, day)), kp.egne.map(x => kidPunktKort(x, day, kid))) : h('p', { class: 'empty', text: 'Ingen oppgaver er dine i dag ennå.' }),
+        feiring(kid, list, day, got, goal, kp.egne),
+        open.length + kp.ledige.length > 0 && h('h2', { text: 'Ledige oppgaver – ta en!' }),
+        open.length + kp.ledige.length > 0 && h('div', { class: 'kcards' }, open.map(openCard), kp.ledige.map(x => kidLedigPunkt(x, day, kid)))));
+  }
+
+  /* ---------- VaskMedMeg-planen (docs/vaskeplan.md) ----------
+     Dataene under bygges inn fra data/sjekklister/ med «node verktoy/bygg-sjekklister.js». Ikke rediger dem for hånd.
+     Lagring: sjekk/<rom>-<ÅÅÅÅ-MM> = { <punktId>: { status: 'vasket' | 'fint' | 'tatt', av, dato } } («tatt» = noen har tatt punktet, men ikke gjort det ennå).
+              sjekk/startsvaner-<ÅÅÅÅ-MM> = { <DD>-<nr>: { status, av, dato } } for startsvaner uten egen oppgave.
+              planvalg/valg = { startet, sistSteg, rutinerSpurt, rom: { <rom>: { paa, dag } }, utsatt: { <oppgaveId>: dato } } */
+  const VASK = /*SJEKKLISTER:START*/{"ukeplan":{"dager":{"1":["kjokken"],"2":["baderom"],"3":["stue","barnerom"],"4":["inngang"],"5":["soverom","vaskerom","garderoberom"],"6":[],"7":[]},"ukeIMaaned":{"1":["vegger"],"2":["inventar"],"3":["inventar"],"4":["gulv"],"5":[]},"startsvaner":["Re opp sengen","Rydde etter deg","Tørke søl med en gang","Holde gulvene mest mulig fri for rot","Ha kontroll på klesvasken"],"bruk":"Sjekklistene er for å se over rommet og avgjøre hva som trenger vask – ikke for å vaske alt hver gang. Hvert punkt kan derfor markeres som «Vasket» eller «Ser fint ut».","minutterPerDag":30},"rom":[{"id":"kjokken","navn":"Kjøkken","ikon":"kjokkenbenk","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-oppvaskmaskin","tittel":"Oppvaskmaskin","husk":"Systemrens, filter og påfyll av oppvasksalt"},{"id":"inventar-mikrobolgeovn","tittel":"Mikrobølgeovn","husk":"Innvendig og utvendig"},{"id":"inventar-stekeovn","tittel":"Stekeovn","husk":"Innvendig, rister, liner, skuff med stekepanner og utvendig"},{"id":"inventar-koketopp","tittel":"Koketopp"},{"id":"inventar-viften-med-filter","tittel":"Viften med filter"},{"id":"inventar-kjoleskap","tittel":"Kjøleskap","husk":"Innvendig, avløpshull og utvendig"},{"id":"inventar-fryser-fryseboks","tittel":"Fryser/fryseboks"},{"id":"inventar-kaffemaskin-vannkoker-brodrister-og-vaffeljern","tittel":"Kaffemaskin, vannkoker, brødrister og vaffeljern"},{"id":"inventar-kjokkenmaskiner","tittel":"Kjøkkenmaskiner","husk":"Blender, mikser o.l."},{"id":"inventar-skap-og-skuffer","tittel":"Skap og skuffer","husk":"Etter behov: organisering og vask"},{"id":"inventar-topp-av-skap","tittel":"Topp av skap"},{"id":"inventar-kjokkenfronter","tittel":"Kjøkkenfronter"},{"id":"inventar-veggen-bak-koketoppen","tittel":"Veggen bak koketoppen"},{"id":"inventar-benkeplate","tittel":"Benkeplate"},{"id":"inventar-soppeldunker","tittel":"Søppeldunker"},{"id":"inventar-kjokkenvask","tittel":"Kjøkkenvask","husk":"Blandebatteri, innvendig og plugghull"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-flekkfjerning","tittel":"Flekkfjerning"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-bilder-rammer-og-hyller-med-pynt","tittel":"Bilder, rammer og hyller med pynt"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-gulvlister","tittel":"Gulvlister"},{"id":"gulv-overflate","tittel":"Overflate","husk":"Støvsuging og vask"},{"id":"gulv-gulvmatter","tittel":"Gulvmatter"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]},{"id":"baderom","navn":"Baderom","ikon":"bad","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-hyller","tittel":"Hyller"},{"id":"inventar-skap-og-skuffer","tittel":"Skap og skuffer","husk":"Oppå, inni, fronter, under og bak"},{"id":"inventar-pynt","tittel":"Pynt"},{"id":"inventar-dusj","tittel":"Dusj","husk":"Glass, vegger, fuger, blandebatteri, gummilister og sluk. Glass: fjern flasker og stenger, spray nedenfra og opp med hverdagsflasken og la virke 5–10 min (eddik ved lett kalk), skrubb med hvitsvamp (universalstein ved vanskelige flekker), skyll med kaldt vann, trekk av med nal og tørk, og ta en siste runde med vinduskluten."},{"id":"inventar-badekar","tittel":"Badekar","husk":"Oppi, under og bak"},{"id":"inventar-vask","tittel":"Vask","husk":"Under, oppi, blandebatteri og plugghull"},{"id":"inventar-toalettsete","tittel":"Toalettsete"},{"id":"inventar-toalettborste","tittel":"Toalettbørste"},{"id":"inventar-avfallskurv","tittel":"Avfallskurv"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-lysarmatur","tittel":"Lysarmatur"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-overflate","tittel":"Overflate","husk":"Støvsuging og vask"},{"id":"gulv-bak-og-under-skap","tittel":"Bak og under skap"},{"id":"gulv-bak-og-under-toalett","tittel":"Bak og under toalett"},{"id":"gulv-sluk","tittel":"Sluk"},{"id":"gulv-baderomsmatter","tittel":"Baderomsmatter"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]},{"id":"stue","navn":"Stue","ikon":"stovsuger","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-hyller-med-pynt","tittel":"Hyller med pynt"},{"id":"inventar-skap-og-skuffer","tittel":"Skap og skuffer","husk":"Oppå, inni, fronter, under og bak"},{"id":"inventar-kommoder","tittel":"Kommoder"},{"id":"inventar-pyntegjenstander","tittel":"Pyntegjenstander"},{"id":"inventar-lamper","tittel":"Lamper"},{"id":"inventar-tv-med-benk","tittel":"TV med benk"},{"id":"inventar-spisebord-med-stoler","tittel":"Spisebord med stoler"},{"id":"inventar-sofa-og-lenestoler","tittel":"Sofa og lenestoler","husk":"Oppfriskning"},{"id":"inventar-puter-og-pledd","tittel":"Puter og pledd"},{"id":"inventar-peis","tittel":"Peis"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-flekkfjerning","tittel":"Flekkfjerning"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-bilder-rammer-og-hyller-med-pynt","tittel":"Bilder, rammer og hyller med pynt"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-gulvlister","tittel":"Gulvlister"},{"id":"gulv-overflate","tittel":"Overflate","husk":"Støvsuging og vask"},{"id":"gulv-gulvmatter-og-tepper","tittel":"Gulvmatter og tepper"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]},{"id":"barnerom","navn":"Barnerom","ikon":"leker","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-hyller-med-pynt","tittel":"Hyller med pynt"},{"id":"inventar-skap-og-skuffer","tittel":"Skap og skuffer","husk":"Oppå, inni, fronter, under og bak"},{"id":"inventar-kommoder","tittel":"Kommoder"},{"id":"inventar-pyntegjenstander","tittel":"Pyntegjenstander"},{"id":"inventar-lamper","tittel":"Lamper"},{"id":"inventar-tv","tittel":"TV"},{"id":"inventar-pc-skjerm-og-tastatur","tittel":"PC-skjerm og tastatur"},{"id":"inventar-pult-med-stol","tittel":"Pult med stol"},{"id":"inventar-andre-skap-og-hyller","tittel":"Andre skap og hyller"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-flekkfjerning","tittel":"Flekkfjerning"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-bilder-rammer-og-hyller-med-pynt","tittel":"Bilder, rammer og hyller med pynt"},{"id":"vegger-vegglamper","tittel":"Vegglamper"},{"id":"vegger-ventilasjon","tittel":"Ventilasjon"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-gulvlister","tittel":"Gulvlister"},{"id":"gulv-overflate","tittel":"Overflate","husk":"Støvsuging og vask"},{"id":"gulv-gulvmatter-og-tepper","tittel":"Gulvmatter og tepper"},{"id":"gulv-under-og-bak-seng-og-andre-mobler","tittel":"Under og bak seng og andre møbler"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]},{"id":"inngang","navn":"Inngangsparti","ikon":"sko","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-skoskap-og-skobrett","tittel":"Skoskap og skobrett","husk":"Innvendig og utvendig"},{"id":"inventar-klesskap","tittel":"Klesskap","husk":"Organisering, støvsuging, innvendig og fronter"},{"id":"inventar-kommoder","tittel":"Kommoder","husk":"Organisering, vask innvendig, fronter og bak"},{"id":"inventar-hyller","tittel":"Hyller"},{"id":"inventar-pyntegjenstander","tittel":"Pyntegjenstander"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-flekkfjerning","tittel":"Flekkfjerning"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-bilder-rammer-og-hyller-med-pynt","tittel":"Bilder, rammer og hyller med pynt"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-gulvlister","tittel":"Gulvlister"},{"id":"gulv-under-mobler","tittel":"Under møbler","husk":"Støvsuging og vask"},{"id":"gulv-gulvmatter","tittel":"Gulvmatter"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]},{"id":"soverom","navn":"Soverom","ikon":"seng","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-madrass","tittel":"Madrass","husk":"Støvsug madrassen med møbelmunnstykke. Flekker: fukt, litt såpe, la virke, gni lett, fjern såpen med fuktig håndkle og tørk. Luft i sol hvis mulig."},{"id":"inventar-senger-og-sengegavl","tittel":"Senger og sengegavl"},{"id":"inventar-nattbord","tittel":"Nattbord"},{"id":"inventar-klesskap","tittel":"Klesskap","husk":"Organisering, støvsuging og fronter"},{"id":"inventar-kommoder","tittel":"Kommoder","husk":"Organisering og fronter"},{"id":"inventar-pyntegjenstander","tittel":"Pyntegjenstander"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-flekkfjerning","tittel":"Flekkfjerning"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-ventilasjon","tittel":"Ventilasjon"},{"id":"vegger-bilder-og-hengt-pynt","tittel":"Bilder og hengt pynt"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-gulvlister","tittel":"Gulvlister"},{"id":"gulv-overflate","tittel":"Overflate","husk":"Støvsuging og vask"},{"id":"gulv-gulvmatter","tittel":"Gulvmatter"},{"id":"gulv-under-og-bak-andre-mobler","tittel":"Under og bak andre møbler"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]},{"id":"vaskerom","navn":"Vaskerom","ikon":"vask","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-hyller","tittel":"Hyller"},{"id":"inventar-skap-og-skuffer","tittel":"Skap og skuffer","husk":"Oppå, inni, fronter, under og bak"},{"id":"inventar-vaskemaskin","tittel":"Vaskemaskin","husk":"Vaskemiddelskuff, gummilist, filtersjekk, renseprogram og tørk utvendig"},{"id":"inventar-torketrommel","tittel":"Tørketrommel","husk":"Tørk innvendig, sjekk/vask filter, tøm vannbeholder og tørk utvendig"},{"id":"inventar-badekar","tittel":"Badekar","husk":"Oppi, under og bak"},{"id":"inventar-vask","tittel":"Vask","husk":"Oppi, under, blandebatteri og plugghull"},{"id":"inventar-skittentoyskurv","tittel":"Skittentøyskurv","husk":"Tørk og vask"},{"id":"inventar-vaskemidler-og-oppbevaring","tittel":"Vaskemidler og oppbevaring","husk":"Tørk, vask og påfyll"},{"id":"inventar-varmtvannstank","tittel":"Varmtvannstank","husk":"Tørk og vask"},{"id":"inventar-pynt","tittel":"Pynt"},{"id":"inventar-avfallskurv","tittel":"Avfallskurv"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-flekkfjerning","tittel":"Flekkfjerning"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-bilder-rammer-og-hyller-med-pynt","tittel":"Bilder, rammer og hyller med pynt"},{"id":"vegger-ventilasjon","tittel":"Ventilasjon"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-gulvlister","tittel":"Gulvlister"},{"id":"gulv-overflate","tittel":"Overflate","husk":"Støvsuging og vask"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]},{"id":"garderoberom","navn":"Garderoberom","ikon":"klesskap","seksjoner":[{"id":"inventar","navn":"Inventar","punkter":[{"id":"inventar-klesskap","tittel":"Klesskap","husk":"Organisering, støvsuging og fronter"},{"id":"inventar-kommoder","tittel":"Kommoder","husk":"Organisering og fronter"},{"id":"inventar-pynt","tittel":"Pynt"}]},{"id":"vegger","navn":"Vegger","punkter":[{"id":"vegger-flekkfjerning","tittel":"Flekkfjerning"},{"id":"vegger-vinduer","tittel":"Vinduer"},{"id":"vegger-persienner-gardiner","tittel":"Persienner/gardiner"},{"id":"vegger-bilder-rammer-og-pynt","tittel":"Bilder, rammer og pynt"},{"id":"vegger-speil","tittel":"Speil"},{"id":"vegger-ventilasjon","tittel":"Ventilasjon"},{"id":"vegger-vegglamper","tittel":"Vegglamper"},{"id":"vegger-stikkontakter","tittel":"Stikkontakter"},{"id":"vegger-brytere","tittel":"Brytere"},{"id":"vegger-dor-med-karm","tittel":"Dør med karm"}]},{"id":"gulv","navn":"Gulv","punkter":[{"id":"gulv-gulvlister","tittel":"Gulvlister"},{"id":"gulv-overflate","tittel":"Overflate","husk":"Støvsuging og vask"},{"id":"gulv-gulvmatter-og-tepper","tittel":"Gulvmatter og tepper"}]},{"id":"tak","navn":"Tak","punkter":[{"id":"tak-flekkfjerning","tittel":"Flekkfjerning"},{"id":"tak-taklister","tittel":"Taklister"},{"id":"tak-hengt-belysning","tittel":"Hengt belysning"}]}]}],"rutiner":[{"id":"dusj-skrape","tittel":"Skrap dusjglasset etter dusjing","ikon":"bad","minutter":1,"intervall":"daglig","type":"vane","tips":"Trekk vannet av glasset med en vindusnal og tørk med mikrofiberklut. Luft godt på badet.","barn":true},{"id":"dusj-ukevask","tittel":"Hurtigvask av dusjglass","ikon":"bad","minutter":10,"intervall":"ukentlig","tips":"Spray med hverdagsflasken, skrubb 1–2 min med hvitsvamp, skyll, trekk av med nal og tørk."},{"id":"dusj-beskytt","tittel":"Beskyttelsesbehandling av dusjglass","ikon":"bad","minutter":20,"intervall":"halvårlig","tips":"De fleste midler varer minst et halvt år."},{"id":"seng-lufte","tittel":"La sengen lufte før du reier den","ikon":"seng","minutter":0,"intervall":"daglig","type":"vane","tips":"Minst 30 minutter om morgenen, så fukten forsvinner og midd trives dårligere. Re opp etterpå.","barn":true},{"id":"seng-sengetoy","tittel":"Skift sengetøy","ikon":"seng","minutter":10,"intervall":"ukentlig","tips":"Putevar, laken og dynetrekk. Vask på 60 °C eller mer (sjekk vaskelappen), mildt vaskemiddel, eddik i stedet for tøymykner. Ha to sett per seng.","barn":true},{"id":"seng-beskytter","tittel":"Vask madrassbeskytteren","ikon":"seng","minutter":5,"intervall":"hver 6. uke","tips":"Vask eller bytt hver 4.–8. uke."},{"id":"seng-snu","tittel":"Snu og roter madrassen","ikon":"seng","minutter":5,"intervall":"kvartalsvis","tips":"Fire ganger i året, så slitasjen fordeles."},{"id":"seng-bunn","tittel":"Støvsug sengebunn, lameller og ramme grundig","ikon":"stovsuger","minutter":15,"intervall":"kvartalsvis","tips":"Tørk over med fuktig klut etterpå. La det være plass under sengen så den er lett å vaske."},{"id":"seng-dyprens","tittel":"Dyprens madrassen","ikon":"seng","minutter":20,"intervall":"kvartalsvis","tips":"Støvsug, dryss natron jevnt, la virke minst en time (gjerne over natten), støvsug igjen, og tørk lett over med mikrofiberklut fuktet med hverdagsflasken. La tørke helt."},{"id":"seng-dyne","tittel":"Vask dyne og puter","ikon":"vask","minutter":15,"intervall":"halvårlig","tips":"1–2 ganger i året, oftere ved allergi. Tørk grundig."}]}/*SJEKKLISTER:SLUTT*/;
+  const ROM = VASK.rom, UKEPLAN = VASK.ukeplan;
+  const RUTINER = VASK.rutiner.concat([{ id: 'hverdagsflaske', tittel: 'Lag ny hverdagsflaske', ikon: 'klut', minutter: 2, intervall: 'annenhver uke', barn: true,
+    tips: 'Fyll en 500 ml sprayflaske med vann.\nHa i én dråpe oppvaskmiddel. Mer gir skum som må skylles bort.\nRist lett.\nBytt blandingen når den lukter dårlig, vanligvis etter 1–2 uker.' }]);
+  const BESTEMT = { kjokken: 'kjøkkenet', baderom: 'badet', stue: 'stua', barnerom: 'barnerommet', inngang: 'inngangspartiet', soverom: 'soverommet', vaskerom: 'vaskerommet', garderoberom: 'garderoberommet' };
+  const MIN_PUNKT = 2.5; /* anslag per punkt, brukt til «ca. … min» og til «Hvem gjør mest?» */
+  const FLASKE = /vindu|benkeplate|flis|koketopp|flekkfjerning/i;
+  /* Startsvanene kobles til eksisterende daglige vaner der de finnes, i samme rekkefølge som UKEPLAN.startsvaner. */
+  const SVANE_TREFF = [/^re opp/i, /på plass med en gang|rydde etter/i, /tørke søl/i, /kveldsrydd|gulv.*fri/i, /klesvask/i];
+  state.sjekk = {}; state.valg = null; state.rom = null; state.rutineValg = null; state.planKlar = false;
+
+  const idag = () => iso(naa());
+  const stor = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const mnd = day => day.slice(0, 7);
+  const valg = () => state.valg || {};
+  const romValg = id => (valg().rom || {})[id] || {};
+  const stdDag = id => Number(Object.keys(UKEPLAN.dager).find(k => UKEPLAN.dager[k].includes(id))) || 1;
+  const romDag = id => Number(romValg(id).dag) || stdDag(id);
+  const romPaa = id => romValg(id).paa === true;
+  function lagreValg(patch) { state.valg = Object.assign({}, valg(), patch); render(); write(store.set('planvalg', 'valg', state.valg)); }
+  function settRom(id, patch, ekstra) { const alle = Object.assign({}, valg().rom); alle[id] = Object.assign({}, alle[id], patch); lagreValg(Object.assign({ rom: alle }, ekstra)); }
+  function lagreSjekk(id, dok) { state.sjekk[id] = dok; render(); write(store.set('sjekk', id, dok)); }
+
+  const sjekkDok = (romId, day) => state.sjekk[romId + '-' + mnd(day)] || {};
+  const ferdig = e => !!e && (e.status === 'vasket' || e.status === 'fint');
+  const ukeIMnd = day => Math.min(5, Math.ceil(Number(day.slice(8)) / 7)); /* uke 1 = dag 1–7 … «uke 5» = dag 29–31 */
+  const seksjon = (r, id) => (r.seksjoner.find(s => s.id === id) || { punkter: [] }).punkter;
+  const takMnd = day => [3, 9].includes(Number(day.slice(5, 7)));
+  /* Punktene som teller i månedens fremdrift. Tak er holdt utenfor, unntatt i mars og september. */
+  const maanedspunkter = (r, day) => r.seksjoner.filter(s => s.id !== 'tak' || takMnd(day)).flatMap(s => s.punkter);
+  const fokusUker = sid => Object.keys(UKEPLAN.ukeIMaaned).filter(k => UKEPLAN.ukeIMaaned[k].includes(sid));
+  /* Dagens punkter i et rom: ukas fokusområde. Et område som står i flere uker (inventar) deles likt mellom dem.
+     Dag 29–31: alt som ikke er krysset av denne måneden («Ta igjen»), pluss det som ble krysset av i dag. */
+  function dagensPunkter(r, day) {
+    const u = ukeIMnd(day), dok = sjekkDok(r.id, day);
+    if (u === 5) return r.seksjoner.filter(s => s.id !== 'tak').flatMap(s => s.punkter).filter(p => !ferdig(dok[p.id]) || dok[p.id].dato === day);
+    return (UKEPLAN.ukeIMaaned[u] || []).flatMap(sid => {
+      const p = seksjon(r, sid), uker = fokusUker(sid);
+      if (uker.length < 2) return p;
+      const i = uker.indexOf(String(u)), del = Math.ceil(p.length / uker.length);
+      return p.slice(i * del, i === uker.length - 1 ? undefined : (i + 1) * del);
+    });
+  }
+  function fokusNavn(day) {
+    const u = ukeIMnd(day);
+    if (u === 5) return 'Ta igjen';
+    return (UKEPLAN.ukeIMaaned[u] || []).map(sid => {
+      const uker = fokusUker(sid), navn = (ROM[0].seksjoner.find(s => s.id === sid) || {}).navn || sid;
+      return uker.length > 1 ? navn + ' (del ' + (uker.indexOf(String(u)) + 1) + ' av ' + uker.length + ')' : navn;
+    }).join(' og ');
+  }
+  /* Rommene som står på planen en gitt dag. Helg: ingen. Dag 29–31: alle påslåtte rom som har noe igjen, dagens rom først. */
+  function dagensRom(day) {
+    const d = wd(parse(day));
+    if (d > 5) return [];
+    const paa = ROM.filter(r => romPaa(r.id));
+    if (ukeIMnd(day) === 5) return paa.filter(r => dagensPunkter(r, day).length).sort((a, b) => (romDag(b.id) === d) - (romDag(a.id) === d));
+    return paa.filter(r => romDag(r.id) === d);
+  }
+  const tid = n => 'ca. ' + Math.min(UKEPLAN.minutterPerDag, Math.max(5, Math.round(n * MIN_PUNKT / 5) * 5)) + ' min';
+
+  function settPunkt(r, p, day, ny) {
+    const id = r.id + '-' + mnd(day), dok = Object.assign({}, state.sjekk[id]);
+    if (ny) dok[p.id] = ny; else delete dok[p.id];
+    lagreSjekk(id, dok);
+  }
+  /* status: 'vasket', 'fint' eller null (angre). Den som har tatt punktet, beholder det. */
+  function merkPunkt(r, p, day, status) {
+    const e = sjekkDok(r.id, day)[p.id], av = e && member(e.av) ? e.av : null;
+    settPunkt(r, p, day, status ? { status, av, dato: day } : av ? { status: 'tatt', av, dato: day } : null);
+  }
+  function taPunkt(r, p, day, hvem) {
+    const e = sjekkDok(r.id, day)[p.id];
+    if (ferdig(e)) settPunkt(r, p, day, Object.assign({}, e, { av: hvem || null }));
+    else settPunkt(r, p, day, hvem ? { status: 'tatt', av: hvem, dato: day } : null);
+  }
+  /* Punkter fra planen som er krysset av i perioden (til «Hvem gjør mest?» og stjerner). */
+  function punkterGjort(fra, til, fn) {
+    for (const id in state.sjekk) {
+      if (id.startsWith('startsvaner-')) continue;
+      const dok = state.sjekk[id];
+      for (const pid in dok) { const e = dok[pid]; if (ferdig(e) && e.dato >= fra && e.dato <= til) fn(e); }
+    }
+  }
+
+  function neonKort(under) {
+    return h('div', { class: 'neon', role: 'status' },
+      h('div', { class: 'neonring', 'aria-hidden': 'true' }),
+      h('div', { class: 'neontekst' }, h('span', { class: 'neonord', text: 'Glitrende!' }), h('span', { class: 'neonunder', text: under })),
+      h('span', { class: 'ico neonglitter', innerHTML: NEONGLITTER }));
+  }
+
+  /* Hverdagsflasken: tips-kort som åpnes fra punktene der flasken passer, og fra sjekklistene. */
+  const flaske = h('dialog', { class: 'dialog', id: 'flaske', 'aria-labelledby': 'flaske-t' },
+    h('div', { class: 'romhode' }, h('img', { src: 'assets/illustrasjoner/klut.png', alt: '', width: 64, height: 64, decoding: 'async' }), h('h2', { id: 'flaske-t', text: 'Hverdagsflasken' })),
+    h('p', { text: 'Én hjemmelaget sprayflaske til det meste av hverdagsvasken.' }),
+    h('ol', null, ['Fyll en 500 ml sprayflaske med vann.', 'Ha i én dråpe oppvaskmiddel. Mer gir skum som må skylles bort.',
+      'Valgfritt: noen dråper eterisk olje. Sitron på kjøkkenet, eukalyptus på badet, lavendel i stue og soverom.', 'Rist lett.'].map(t => h('li', { text: t }))),
+    h('p', { text: 'Brukes til vinduer, benkeplater, bad, laminat, fliser og koketopp.' }),
+    h('p', { text: 'Litt og ofte: Tørk søl, fingeravtrykk og flekker med en gang. Da trengs det sjelden sterkere midler.' }),
+    h('p', { class: 'muted small', text: 'Merk flasken «Hverdagsflaske – vann + 1 dråpe oppvaskmiddel», og oppbevar den slik dere oppbevarer annet vaskemiddel. Bytt blandingen når den lukter dårlig, vanligvis etter 1–2 uker.' }),
+    h('button', { type: 'button', id: 'flaske-lukk', class: 'btn primary', onclick: () => { if (flaske.close) flaske.close(); else flaske.removeAttribute('open'); } }, 'Lukk'));
+  document.body.append(flaske);
+  const visFlaske = () => { if (flaske.showModal) flaske.showModal(); else flaske.setAttribute('open', ''); };
+
+  function aapneRom(id, modus) { state.rom = { id, modus, day: state.sel }; render(); gaaTil('rom'); }
+
+  /* Romkort: bilde, navn, undertekst og fremdrift. Hele kortet er en knapp. */
+  function romKort(r, id, under, n, total, onclick) {
+    const pct = total ? Math.round(100 * n / total) : 0;
+    return h('button', { type: 'button', id, class: 'plankort' + (total && n === total ? ' done' : ''), 'aria-label': r.navn + ', ' + under + ', ' + n + ' av ' + total + ' punkter ferdig', onclick },
+      h('img', { src: 'assets/illustrasjoner/' + r.ikon + '.png', alt: '', width: 84, height: 84, loading: 'lazy', decoding: 'async' }),
+      h('span', { class: 'kbody' },
+        h('span', { class: 'plantittel', text: r.navn }),
+        h('span', { class: 'kmeta', text: under }),
+        h('span', { class: 'bar', 'aria-hidden': 'true' }, h('span', Object.assign({ style: 'width:' + pct + '%' }, pct === 0 || pct === 100 ? { 'data-zero': '' } : {})))),
+      h('span', { class: 'plantall', text: n + '/' + total }));
+  }
+
+  /* Én rad per punkt: «Vasket» (avkrysningen) og «Ser fint ut» teller begge som ferdig. */
+  function punktRad(r, p, day) {
+    const e = sjekkDok(r.id, day)[p.id], done = ferdig(e), hvem = e && member(e.av) ? e.av : '', m = member(hvem), pid = r.id + '-' + p.id;
+    const lang = p.husk && p.husk.length > 100;
+    return h('li', { class: 'task' + (done ? ' done' : '') },
+      h('input', { type: 'checkbox', class: 'cb', id: 'pk-' + pid, checked: done, 'aria-label': 'Vasket: ' + p.tittel, onchange: ev => merkPunkt(r, p, day, ev.target.checked ? 'vasket' : null) }),
+      h('div', { class: 'tekst' }, h('div', { class: 'linjer' },
+        h('label', { class: 'title', htmlFor: 'pk-' + pid, text: p.tittel }),
+        done && h('span', { class: 'meta', text: e.status === 'fint' ? 'Ser fint ut' : 'Vasket' }),
+        p.husk && !lang && h('span', { class: 'meta', text: 'Husk: ' + p.husk }))),
+      h('div', { class: 'hoyre' },
+        done && h('span', { class: 'ico', innerHTML: GLITTER }),
+        h('select', { class: 'who' + (m ? (m.child ? ' kid' : ' adult') : ' free'), id: 'pw-' + pid, 'aria-label': 'Hvem tar den: ' + p.tittel, onchange: ev => taPunkt(r, p, day, ev.target.value) },
+          h('option', { value: '', text: 'Ledig' }), state.members.map(x => h('option', { value: x.id, text: x.name, selected: x.id === hvem })))),
+      h('div', { class: 'ctl punktvalg' },
+        h('button', { type: 'button', id: 'pf-' + pid, class: 'btn liten', 'aria-pressed': String(done && e.status === 'fint'), onclick: () => merkPunkt(r, p, day, done && e.status === 'fint' ? null : 'fint') }, 'Ser fint ut'),
+        FLASKE.test(p.tittel) && h('button', { type: 'button', id: 'ph-' + pid, class: 'del', onclick: visFlaske }, 'Husk: bruk hverdagsflasken')),
+      lang && h('details', { class: 'tips', id: 'pt-' + pid, open: state.openTips.has(pid), ontoggle: ev => { if (ev.target.open) state.openTips.add(pid); else state.openTips.delete(pid); } },
+        h('summary', { text: 'Husk: slik gjør du det' }), h('p', { text: p.husk })));
+  }
+
+  const startsvaner = () => UKEPLAN.startsvaner.map((navn, i) => ({ i, navn, task: state.tasks.find(t => t.kind === 'vane' && SVANE_TREFF[i] && SVANE_TREFF[i].test(t.title)) || null }));
+  function svaneRad(s, day) {
+    const id = 'startsvaner-' + mnd(day), nokkel = day.slice(8) + '-' + s.i, paa = !!(state.sjekk[id] || {})[nokkel];
+    return h('li', { class: 'task' + (paa ? ' done' : '') },
+      h('input', { type: 'checkbox', class: 'cb', id: 'sv-' + s.i, checked: paa, onchange: e => {
+        const dok = Object.assign({}, state.sjekk[id]);
+        if (e.target.checked) dok[nokkel] = { status: 'vasket', av: null, dato: day }; else delete dok[nokkel];
+        lagreSjekk(id, dok);
+      } }),
+      h('div', { class: 'tekst' }, h('span', { class: 'miniikon tom', 'aria-hidden': 'true' }, glitterIkon(20)),
+        h('div', { class: 'linjer' }, h('label', { class: 'title', htmlFor: 'sv-' + s.i, text: s.navn }), h('span', { class: 'meta', text: '1–5 min · hver dag' }))),
+      h('div', { class: 'hoyre' }, paa && h('span', { class: 'ico', innerHTML: GLITTER })));
+  }
+
+  /* Faste rutiner (dusjglass, seng og hverdagsflasken) blir vanlige oppgaver med id «rutine-<id>». */
+  const rutineFinnes = r => state.tasks.some(t => t.id === 'rutine-' + r.id);
+  function lagRutiner(ids) {
+    const reOpp = state.tasks.find(t => /^re opp seng/i.test(t.title)), naatid = Date.now(), utsatt = Object.assign({}, valg().utsatt);
+    let uker = 0;
+    RUTINER.forEach((r, i) => {
+      if (!ids.has(r.id) || rutineFinnes(r)) return;
+      const hver = { 'hver 6. uke': 6, kvartalsvis: 13, 'halvårlig': 26 }[r.intervall] || null;
+      const romId = r.id.startsWith('dusj') ? 'baderom' : 'soverom';
+      /* De sjeldne rutinene spres utover, så ikke alle dukker opp samtidig: første om to uker, neste om fire, osv. */
+      if (hver) { uker += 2; const d = naa(); d.setDate(d.getDate() + uker * 7); utsatt['rutine-' + r.id] = iso(monday(d)); }
+      write(store.set('tasks', 'rutine-' + r.id, {
+        title: r.tittel, minutes: r.minutter, kind: hver ? 'stor' : r.type === 'vane' ? 'vane' : 'oppgave',
+        days: r.intervall === 'ukentlig' ? [romDag(romId)] : r.intervall === 'annenhver uke' ? [1] : [], rot: r.intervall === 'annenhver uke' ? [1, 3] : [],
+        date: null, child: !!r.barn, assignee: null, tips: r.tips || '', ikon: r.ikon || null, every: hver,
+        /* «La sengen lufte» skal stå rett før «Re opp sengen» blant vanene. */
+        created: r.id === 'seng-lufte' && reOpp ? (reOpp.created || 0) - 0.5 : naatid + i, order: naatid + i
+      }));
+    });
+    if (ids.has('seng-lufte') && reOpp && !/^la den lufte/i.test(reOpp.tips || '')) {
+      const resten = String(reOpp.tips || '').split('\n').filter(l => l.trim() && !/luft/i.test(l));
+      saveTask(reOpp, { tips: ['La den lufte en halvtime først.'].concat(resten).join('\n') });
+    }
+    state.rutineValg = null;
+    lagreValg({ rutinerSpurt: true, utsatt });
+    toast('Rutinene er lagt til.');
+  }
+  function rutineSpm() {
+    if (!state.rutineValg) state.rutineValg = new Set(RUTINER.filter(r => r.intervall === 'daglig' || r.id === 'hverdagsflaske').map(r => r.id));
+    const sett = state.rutineValg;
+    return h('div', { class: 'planboks' },
+      h('h3', { text: 'Vil dere legge til faste rutiner for dusj og seng?' }),
+      h('p', { class: 'muted small', text: 'Velg de dere vil ha. De blir vanlige oppgaver som kan endres og slettes. De sjeldne dukker opp under «Uka» når det er tid for dem.' }),
+      h('ul', { class: 'romvalg' }, RUTINER.map(r => h('li', null, h('label', { class: 'check' },
+        h('input', { type: 'checkbox', class: 'cb', id: 'rt-' + r.id, checked: rutineFinnes(r) || sett.has(r.id), disabled: rutineFinnes(r), onchange: e => { if (e.target.checked) sett.add(r.id); else sett.delete(r.id); } }),
+        h('span', null, r.tittel, h('span', { class: 'muted small', text: ' · ' + r.intervall + (rutineFinnes(r) ? ' · lagt til' : '') })))))),
+      h('div', { class: 'ctl' },
+        h('button', { type: 'button', id: 'rt-ok', class: 'btn primary', onclick: () => lagRutiner(sett) }, 'Legg til valgte'),
+        h('button', { type: 'button', id: 'rt-nei', class: 'btn', onclick: () => { state.rutineValg = null; lagreValg({ rutinerSpurt: true }); } }, 'Ikke nå')));
+  }
+
+  /* Ett lite steg: etter en uke foreslås neste rom som verken er slått på eller valgt bort. */
+  function nesteRom() {
+    const v = valg();
+    if (!v.sistSteg || Math.round((parse(idag()) - parse(v.sistSteg)) / 864e5) < 7) return null;
+    return ROM.find(r => romValg(r.id).paa === undefined) || null;
+  }
+  function takIgjen(day) {
+    if (!takMnd(day)) return 0;
+    return ROM.filter(r => romPaa(r.id)).reduce((n, r) => { const dok = sjekkDok(r.id, day); return n + seksjon(r, 'tak').filter(p => !ferdig(dok[p.id])).length; }, 0);
+  }
+  const takBoks = (day, id) => {
+    const n = takIgjen(day);
+    return n ? h('div', { class: 'planboks' },
+      h('h3', { text: 'Takmåned' }),
+      h('p', { text: 'Mars og september er tid for takene: taklister, lamper og flekker. Ta dem når det passer. ' + n + (n === 1 ? ' punkt' : ' punkter') + ' står igjen.' }),
+      h('button', { type: 'button', id, class: 'btn', onclick: () => gaaTil('sjekklister') }, 'Åpne sjekklistene')) : null;
+  };
+
+  /* Alt planen legger øverst på «I dag»: velkomst, forslag, «Dagens 30 minutter» og startsvanene (Chillax i helgen). */
+  function planBlokk(day) {
+    if (!state.ready || !state.planKlar) return [];
+    const ut = [], v = valg();
+    if (!v.startet) {
+      return [h('div', { class: 'planboks rosa' },
+        h('h3', { text: 'Vaskeplanen: litt og ofte' }),
+        h('p', { text: 'En halvtime om dagen fra mandag til fredag, og fri i helgen. Det er lettere å holde det rent enn å gjøre rent.' }),
+        h('p', { text: 'Dere starter med bare fem små startsvaner den første uka. Etterpå slår dere på ett rom om gangen. Det som ikke blir gjort, hoper seg ikke opp.' }),
+        h('button', { type: 'button', id: 'plan-start', class: 'btn primary', onclick: () => lagreValg({ startet: idag(), sistSteg: idag() }) }, 'Ta første lille steg'))];
+    }
+    if (!v.rutinerSpurt) ut.push(rutineSpm());
+    const forslag = nesteRom();
+    if (forslag) ut.push(h('div', { class: 'planboks rosa' },
+      h('h3', { text: 'Klar for ' + BESTEMT[forslag.id] + '?' }),
+      h('p', { text: stor(BESTEMT[forslag.id]) + ' får sin egen dag: ' + DAYS_LONG[romDag(forslag.id) - 1] + '. Dere ser over rommet og vasker bare det som trenger det.' }),
+      h('div', { class: 'ctl' },
+        h('button', { type: 'button', id: 'steg-ja', class: 'btn primary', onclick: () => settRom(forslag.id, { paa: true }, { sistSteg: idag() }) }, 'Ja, slå på'),
+        h('button', { type: 'button', id: 'steg-vent', class: 'btn', onclick: () => lagreValg({ sistSteg: idag() }) }, 'Ikke ennå'),
+        h('button', { type: 'button', id: 'steg-nei', class: 'del', onclick: () => settRom(forslag.id, { paa: false }) }, 'Har vi ikke'))));
+    const tak = takBoks(day, 'tak-idag');
+    if (tak) ut.push(tak);
+
+    const rom = dagensRom(day), igjenUke = ukeIMnd(day) === 5;
+    if (rom.length) {
+      const alle = rom.flatMap(r => dagensPunkter(r, day).map(p => ferdig(sjekkDok(r.id, day)[p.id])));
+      const total = alle.length, gjort = alle.filter(Boolean).length;
+      ut.push(h('div', { class: 'group' },
+        h('h3', { text: igjenUke ? 'Ta igjen · velg det dere har lyst til' : 'Dagens 30 minutter · ' + (gjort === total ? 'gjort' : tid(total - gjort)) }),
+        h('p', { class: 'muted small', text: igjenUke ? 'Dette står igjen fra måneden. Ingenting haster. Neste måned starter med blanke ark.' : 'Se over rommet og vask det som trenger det. Godt nok er godt nok.' }),
+        h('div', { class: 'kcards' }, rom.map(r => {
+          const pk = dagensPunkter(r, day), dok = sjekkDok(r.id, day), n = pk.filter(p => ferdig(dok[p.id])).length;
+          return romKort(r, 'plan-' + r.id, fokusNavn(day) + ' · ' + (n === pk.length ? 'ferdig' : tid(pk.length - n)), n, pk.length, () => aapneRom(r.id, 'idag'));
+        })),
+        total > 0 && gjort === total && neonKort('Dagens 30 minutter er gjort')));
+    }
+
+    const rader = startsvaner().map(s => s.task ? (appliesOn(s.task, day) && visible(s.task) ? taskRow(s.task) : null)
+      : (state.filter === 'all' && !state.childOnly ? svaneRad(s, day) : null)).filter(Boolean);
+    if (rader.length) {
+      if (wd(parse(day)) > 5) ut.push(h('div', { class: 'group' },
+        h('div', { class: 'planboks rosa' },
+          h('h3', { text: 'Chillax' }),
+          h('p', { text: 'Helg. Bare de fem startsvanene i dag, og mer bare hvis dere har lyst.' }),
+          h('button', { type: 'button', id: 'chillax-mer', class: 'btn liten', onclick: () => gaaTil('sjekklister') }, 'Kryss av mer fra månedslistene')),
+        h('ul', { class: 'tasks' }, rader)));
+      else ut.push(h('div', { class: 'group' }, h('h3', { text: 'Startsvaner' }), h('ul', { class: 'tasks' }, rader)));
+    }
+    return ut;
+  }
+
+  /* «Uka»: vaskeplanen for uka, rutiner som forfaller, og lenken til sjekklistene. */
+  function renderUkaPlan() {
+    const ut = [], v = valg();
+    if (state.ready && state.planKlar && v.startet) {
+      const rader = [];
+      for (let i = 0; i < 5; i++) {
+        const d = new Date(state.weekStart); d.setDate(d.getDate() + i);
+        const day = iso(d), rom = dagensRom(day);
+        const pk = rom.flatMap(r => dagensPunkter(r, day).map(p => ferdig(sjekkDok(r.id, day)[p.id])));
+        rader.push(h('li', { class: 'ukeli' }, h('button', { type: 'button', id: 'ukeplan-' + i, class: 'ukeknapp', disabled: !rom.length,
+          onclick: () => { state.sel = day; if (rom.length === 1) aapneRom(rom[0].id, 'idag'); else { render(); gaaTil('idag'); } } },
+          h('span', { class: 'ukedag', text: DAYS[i] + ' ' + d.getDate() + '.' }),
+          h('span', { class: 'linjer' },
+            h('span', { class: 'title', text: rom.length ? rom.map(r => r.navn).join(', ') : 'Ingen rom ennå' }),
+            h('span', { class: 'meta', text: rom.length ? fokusNavn(day) : 'Bare startsvanene' })),
+          h('span', { class: 'plantall', text: pk.length ? pk.filter(Boolean).length + '/' + pk.length : '' }))));
+      }
+      ut.push(h('section', { class: 'panel' },
+        h('h2', { text: 'Vaskeplanen denne uka' }),
+        h('ul', { class: 'tasks' }, rader),
+        h('p', { class: 'muted small', text: 'Lørdag og søndag: Chillax med startsvanene.' }),
+        h('button', { type: 'button', id: 'til-sjekklister', class: 'btn primary', onclick: () => gaaTil('sjekklister') }, 'Sjekklister')));
+
+      const sondag = new Date(state.weekStart); sondag.setDate(sondag.getDate() + 6);
+      const neste = new Date(state.weekStart); neste.setDate(neste.getDate() + 7);
+      const til = iso(sondag), utsatt = v.utsatt || {};
+      const tur = state.tasks.filter(t => t.kind === 'stor' && t.id.startsWith('rutine-') && isDue(t, til) && !(utsatt[t.id] > til) && !tasksOn(til).includes(t));
+      if (tur.length) ut.push(h('section', { class: 'panel' },
+        h('h2', { text: 'Tid for denne uka' }),
+        h('p', { class: 'muted small', text: 'Sjeldne rutiner som er på tur. Velg navn på oppgaven under «Større ryddeoppgaver» på «I dag» når dere tar den. Passer det ikke, flytt den til neste uke.' }),
+        h('ul', { class: 'tasks' }, tur.map(t => h('li', { class: 'task' },
+          miniIkon(t),
+          h('div', { class: 'linjer' }, h('span', { class: 'title', text: t.title }), h('span', { class: 'meta', text: (t.minutes ? t.minutes + ' min · ' : '') + 'hver ' + (Number(t.every) || 8) + '. uke' })),
+          h('button', { type: 'button', id: 'utsett-' + t.id, class: 'btn liten', 'aria-label': 'Flytt til neste uke: ' + t.title, onclick: () => { const u = Object.assign({}, valg().utsatt); u[t.id] = iso(neste); lagreValg({ utsatt: u }); } }, 'Neste uke'))))));
+      const tak = takBoks(iso(state.weekStart), 'tak-uka');
+      if (tak) ut.push(tak);
+    } else if (state.ready && state.planKlar) {
+      ut.push(h('section', { class: 'panel' },
+        h('h2', { text: 'Vaskeplanen' }),
+        h('p', { text: 'Planen er ikke slått på ennå. Den starter med «Ta første lille steg» på «I dag». Sjekklistene kan brukes fritt allerede nå.' }),
+        h('button', { type: 'button', id: 'til-sjekklister', class: 'btn primary', onclick: () => gaaTil('sjekklister') }, 'Sjekklister')));
+    }
+    $('ukaPlan').replaceChildren(...ut);
+  }
+
+  /* «Sjekklister»: alle rom med fremdrift for måneden. Her kan man krysse av fritt. */
+  function renderSjekklister() {
+    const day = idag(), d = parse(day);
+    $('sek-sjekklister').replaceChildren(
+      h('button', { type: 'button', id: 'sj-tilbake', class: 'del tilbake', onclick: () => gaaTil('uka') }, '‹ Uka'),
+      h('h2', { text: 'Sjekklister for ' + MONTHS[d.getMonth()] }),
+      h('p', { class: 'muted', text: UKEPLAN.bruk }),
+      h('div', { class: 'kcards' }, ROM.map(r => {
+        const pk = maanedspunkter(r, day), dok = sjekkDok(r.id, day), n = pk.filter(p => ferdig(dok[p.id])).length;
+        return romKort(r, 'liste-' + r.id, romPaa(r.id) ? DAYS_LONG[romDag(r.id) - 1] + 'er' : 'ikke i ukeplanen', n, pk.length, () => aapneRom(r.id, 'alle'));
+      })),
+      h('button', { type: 'button', id: 'sj-flaske', class: 'btn', style: 'align-self:flex-start', onclick: visFlaske }, 'Hverdagsflasken: oppskrift'),
+      h('p', { class: 'muted small', text: 'Etter VaskMedMeg' }));
+  }
+
+  /* Romskjermen: dagens punkter (fra «I dag») eller hele månedslista (fra «Sjekklister»). */
+  function renderRom() {
+    const s = state.rom, r = s && ROM.find(x => x.id === s.id), boks = $('sek-rom');
+    if (!r) { boks.replaceChildren(); return; }
+    const dagens = s.modus === 'idag', day = dagens ? s.day : idag(), dok = sjekkDok(r.id, day), d = parse(day);
+    const grupper = dagens ? [{ navn: fokusNavn(day), punkter: dagensPunkter(r, day) }]
+      : r.seksjoner.map(x => ({ navn: x.navn + (x.id === 'tak' ? ' · 1–2 ganger i året' : ''), punkter: x.punkter }));
+    const teller = dagens ? grupper[0].punkter : maanedspunkter(r, day);
+    const n = teller.filter(p => ferdig(dok[p.id])).length, total = teller.length, pct = total ? Math.round(100 * n / total) : 0;
+    const altGjort = dagens && (() => { const alle = dagensRom(day).flatMap(x => dagensPunkter(x, day).map(p => ferdig(sjekkDok(x.id, day)[p.id]))); return alle.length > 0 && alle.every(Boolean); })();
+    boks.replaceChildren(...[
+      h('button', { type: 'button', id: 'rom-tilbake', class: 'del tilbake', onclick: () => gaaTil(dagens ? 'idag' : 'sjekklister') }, dagens ? '‹ I dag' : '‹ Sjekklister'),
+      h('div', { class: 'planboks' },
+        h('div', { class: 'romhode' },
+          h('img', { src: 'assets/illustrasjoner/' + r.ikon + '.png', alt: '', width: 84, height: 84, decoding: 'async' }),
+          h('div', { class: 'kbody' },
+            h('h2', { text: r.navn }),
+            h('p', { class: 'kmeta', text: dagens ? DAYS_LONG[wd(d) - 1] + ' ' + d.getDate() + '. ' + MONTHS[d.getMonth()].slice(0, 3) + ' · ' + (n === total ? 'ferdig' : tid(total - n))
+              : MONTHS[d.getMonth()] + ' · hele lista' }))),
+        h('div', { class: 'starrow', style: 'align-self:stretch' }, h('span', { text: dagens ? fokusNavn(day) : 'Denne måneden' }), h('span', { text: n + '/' + total })),
+        h('div', { class: 'bar', style: 'align-self:stretch', role: 'img', 'aria-label': n + ' av ' + total + ' punkter ferdig' }, h('span', Object.assign({ style: 'width:' + pct + '%' }, pct === 0 || pct === 100 ? { 'data-zero': '' } : {}))),
+        h('p', { class: 'small', text: 'Se over rommet. Kryss av det dere vasker, og trykk «Ser fint ut» på resten. Begge deler teller.' })),
+      ...grupper.map(g => h('div', { class: 'group' }, h('h3', { text: g.navn }),
+        g.punkter.length ? h('ul', { class: 'tasks' }, g.punkter.map(p => punktRad(r, p, day))) : h('p', { class: 'empty', text: 'Ingenting står igjen her denne måneden.' }))),
+      altGjort ? neonKort('Dagens 30 minutter er gjort') : null,
+      h('p', { class: 'muted small', text: 'Etter VaskMedMeg' })].filter(Boolean));
+  }
+
+  /* «Familien»: rom av/på og ukedag per rom. */
+  function renderPlanInnst() {
+    const v = valg(), boks = $('planInnst');
+    if (!state.ready || !state.planKlar) { boks.replaceChildren(); return; }
+    boks.replaceChildren(h('h2', { text: 'Vaskeplanen' }), ...(!v.startet ? [
+      h('p', { class: 'muted small', text: 'Planen er ikke slått på ennå. Den starter med fem små startsvaner, og så ett rom om gangen.' }),
+      h('button', { type: 'button', id: 'innst-start', class: 'btn primary', style: 'align-self:flex-start', onclick: () => lagreValg({ startet: idag(), sistSteg: idag() }) }, 'Ta første lille steg')
+    ] : [
+      h('p', { class: 'muted small', text: 'Slå på rommene dere har, og velg ukedag for hvert rom. Ett rom om gangen er nok.' }),
+      h('ul', { class: 'romvalg' }, ROM.map(r => h('li', null,
+        h('label', { class: 'check' }, h('input', { type: 'checkbox', class: 'cb', id: 'rv-' + r.id, checked: romPaa(r.id), onchange: e => settRom(r.id, { paa: e.target.checked }) }), r.navn),
+        h('select', { class: 'who', id: 'rd-' + r.id, 'aria-label': 'Ukedag for ' + r.navn, onchange: e => settRom(r.id, { dag: Number(e.target.value) }) },
+          [1, 2, 3, 4, 5].map(n => h('option', { value: String(n), text: DAYS_LONG[n - 1], selected: romDag(r.id) === n })))))),
+      h('button', { type: 'button', id: 'rv-rutiner', class: 'btn', style: 'align-self:flex-start', onclick: () => { state.rutineValg = null; lagreValg({ rutinerSpurt: false }); gaaTil('idag'); } }, 'Faste rutiner for dusj og seng')
+    ]));
+  }
+
+  /* Barnevisningen: punkter barnet har tatt (eller gjort i dag), og ledige punkter fra dagens plan. */
+  function kidPunkter(kid, day) {
+    const egne = [], ledige = [];
+    ROM.forEach(r => { const dok = sjekkDok(r.id, day); r.seksjoner.forEach(s => s.punkter.forEach(p => {
+      const e = dok[p.id]; if (e && e.av === kid.id && (e.status === 'tatt' || e.dato === day)) egne.push({ r, p, e });
+    })); });
+    dagensRom(day).forEach(r => { const dok = sjekkDok(r.id, day); dagensPunkter(r, day).forEach(p => { if (!dok[p.id]) ledige.push({ r, p }); }); });
+    return { egne, ledige: ledige.slice(0, 4) };
+  }
+  function kidPunktKort(x, day, kid) {
+    const done = ferdig(x.e), pid = x.r.id + '-' + x.p.id, tittel = x.r.navn + ': ' + x.p.tittel;
+    return h('article', { class: 'kcard' + (done ? ' done' : '') },
+      bilde({ ikon: x.r.ikon }, done),
+      h('div', { class: 'kbody' },
+        h('h3', { text: tittel }),
+        h('p', { class: 'kmeta', text: done ? (x.e.status === 'fint' ? 'Ser fint ut' : 'Vasket') + ' · +' + starWord(1) : starWord(1) }),
+        !done && x.p.husk && x.p.husk.length <= 100 && h('p', { class: 'kmeta', text: 'Husk: ' + x.p.husk }),
+        !done && h('div', { class: 'ctl' },
+          h('button', { type: 'button', id: 'kpf-' + pid, class: 'btn liten', onclick: () => { state.lastDone = null; settPunkt(x.r, x.p, day, { status: 'fint', av: kid.id, dato: day }); } }, 'Ser fint ut'),
+          h('button', { type: 'button', id: 'kpr-' + pid, class: 'del', onclick: () => settPunkt(x.r, x.p, day, null) }, 'Legg tilbake'))),
+      h('button', { type: 'button', id: 'kpd-' + pid, class: 'kcheck', 'aria-pressed': String(done), 'aria-label': (done ? 'Angre: ' : 'Vasket: ') + tittel,
+        onclick: () => { state.lastDone = null; settPunkt(x.r, x.p, day, done ? { status: 'tatt', av: kid.id, dato: day } : { status: 'vasket', av: kid.id, dato: day }); } }, done && h('span', { class: 'ico', innerHTML: CHECK })));
+  }
+  function kidLedigPunkt(x, day, kid) {
+    const tittel = x.r.navn + ': ' + x.p.tittel;
+    return h('article', { class: 'kcard ledig' },
+      bilde({ ikon: x.r.ikon }, false),
+      h('div', { class: 'kbody' }, h('h3', { text: tittel }), h('p', { class: 'kmeta', text: starWord(1) })),
+      h('button', { type: 'button', id: 'kpt-' + x.r.id + '-' + x.p.id, class: 'btn primary', 'aria-label': 'Ta den: ' + tittel, onclick: () => settPunkt(x.r, x.p, day, { status: 'tatt', av: kid.id, dato: day }) }, 'Ta den'));
   }
 
   function render() {
     const a = document.activeElement, fid = a && a.id && !a.closest('form') ? a.id : null;
     const vm = member(state.view), kid = vm && vm.child ? vm : null;
-    $('adultView').hidden = !!kid; $('adultTop').hidden = !!kid; $('bunnmeny').hidden = !!kid; $('nyKnapp').hidden = !!kid || state.tab === 'ny'; $('topChecker').hidden = !!kid; $('kidView').hidden = !kid;
+    $('adultView').hidden = !!kid; $('adultTop').hidden = !!kid; $('bunnmeny').hidden = !!kid; $('nyKnapp').hidden = !!kid || UTEN_NY.includes(state.tab); $('topChecker').hidden = !!kid; $('kidView').hidden = !kid;
     if (kid) renderKid(kid); else $('kidView').replaceChildren();
     renderKidLinks(); renderGoal();
     renderWeek(); renderFilters(); renderDay(); renderCompare(); renderMembers();
+    renderUkaPlan(); renderSjekklister(); renderRom(); renderPlanInnst();
     if (fid && $(fid) && document.activeElement !== $(fid)) $(fid).focus();
   }
 
@@ -949,19 +1417,21 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   $('prevWeek').addEventListener('click', () => shiftWeek(-1));
   $('nextWeek').addEventListener('click', () => shiftWeek(1));
   /* Faner: hver fane er en egen skjerm. «ny» er skjemaet bak plussknappen. */
-  const FANER = ['idag', 'uka', 'ny', 'familien'];
   function visFane(valgt) {
     state.tab = FANER.includes(valgt) ? valgt : 'idag';
+    if (state.tab === 'rom' && !state.rom) state.tab = 'sjekklister';
+    /* Sjekklistene hører til «Uka». Et rom hører til der det ble åpnet fra. */
+    const merket = state.tab === 'sjekklister' ? 'uka' : state.tab === 'rom' ? (state.rom.modus === 'idag' ? 'idag' : 'uka') : state.tab;
     FANER.forEach(k => { $('sek-' + k).hidden = k !== state.tab; });
     ['idag', 'uka', 'familien'].forEach(k => {
-      const aktiv = k === state.tab;
+      const aktiv = k === merket;
       if (aktiv) $('fane-' + k).setAttribute('aria-current', 'true'); else $('fane-' + k).removeAttribute('aria-current');
       $('ikon-' + k).src = 'assets/nav/' + k + (aktiv ? '-aktiv' : '') + '.png';
     });
-    const utenUke = state.tab === 'ny' || state.tab === 'familien';
+    const utenUke = state.tab !== 'idag' && state.tab !== 'uka';
     $('weekLabel').hidden = utenUke;
     $('ukeknapper').hidden = utenUke;
-    $('nyKnapp').hidden = state.tab === 'ny' || $('adultView').hidden;
+    $('nyKnapp').hidden = UTEN_NY.includes(state.tab) || $('adultView').hidden;
   }
   function gaaTil(fane) {
     visFane(fane);
@@ -970,7 +1440,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
   }
   window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (h !== state.tab) visFane(h); });
   $('fane-idag').addEventListener('click', () => {
-    const t = new Date(); state.sel = iso(t); state.weekStart = monday(t); render();
+    const t = naa(); state.sel = iso(t); state.weekStart = monday(t); render();
     gaaTil('idag');
   });
   $('fane-uka').addEventListener('click', () => gaaTil('uka'));
