@@ -1,0 +1,90 @@
+{
+  "kilde": "VaskMedMeg – artiklene om dusjglass og seng",
+  "rutiner": [
+    {
+      "id": "dusj-skrape",
+      "tittel": "Skrap dusjglasset etter dusjing",
+      "ikon": "bad",
+      "minutter": 1,
+      "intervall": "daglig",
+      "type": "vane",
+      "tips": "Trekk vannet av glasset med en vindusnal og tørk med mikrofiberklut. Luft godt på badet.",
+      "barn": true
+    },
+    {
+      "id": "dusj-ukevask",
+      "tittel": "Hurtigvask av dusjglass",
+      "ikon": "bad",
+      "minutter": 10,
+      "intervall": "ukentlig",
+      "tips": "Spray med hverdagsflasken, skrubb 1–2 min med hvitsvamp, skyll, trekk av med nal og tørk."
+    },
+    {
+      "id": "dusj-beskytt",
+      "tittel": "Beskyttelsesbehandling av dusjglass",
+      "ikon": "bad",
+      "minutter": 20,
+      "intervall": "halvårlig",
+      "tips": "De fleste midler varer minst et halvt år."
+    },
+    {
+      "id": "seng-lufte",
+      "tittel": "La sengen lufte før du reier den",
+      "ikon": "seng",
+      "minutter": 0,
+      "intervall": "daglig",
+      "type": "vane",
+      "tips": "Minst 30 minutter om morgenen, så fukten forsvinner og midd trives dårligere. Re opp etterpå.",
+      "barn": true
+    },
+    {
+      "id": "seng-sengetoy",
+      "tittel": "Skift sengetøy",
+      "ikon": "seng",
+      "minutter": 10,
+      "intervall": "ukentlig",
+      "tips": "Putevar, laken og dynetrekk. Vask på 60 °C eller mer (sjekk vaskelappen), mildt vaskemiddel, eddik i stedet for tøymykner. Ha to sett per seng.",
+      "barn": true
+    },
+    {
+      "id": "seng-beskytter",
+      "tittel": "Vask madrassbeskytteren",
+      "ikon": "seng",
+      "minutter": 5,
+      "intervall": "hver 6. uke",
+      "tips": "Vask eller bytt hver 4.–8. uke."
+    },
+    {
+      "id": "seng-snu",
+      "tittel": "Snu og roter madrassen",
+      "ikon": "seng",
+      "minutter": 5,
+      "intervall": "kvartalsvis",
+      "tips": "Fire ganger i året, så slitasjen fordeles."
+    },
+    {
+      "id": "seng-bunn",
+      "tittel": "Støvsug sengebunn, lameller og ramme grundig",
+      "ikon": "stovsuger",
+      "minutter": 15,
+      "intervall": "kvartalsvis",
+      "tips": "Tørk over med fuktig klut etterpå. La det være plass under sengen så den er lett å vaske."
+    },
+    {
+      "id": "seng-dyprens",
+      "tittel": "Dyprens madrassen",
+      "ikon": "seng",
+      "minutter": 20,
+      "intervall": "kvartalsvis",
+      "tips": "Støvsug, dryss natron jevnt, la virke minst en time (gjerne over natten), støvsug igjen, og tørk lett over med mikrofiberklut fuktet med hverdagsflasken. La tørke helt."
+    },
+    {
+      "id": "seng-dyne",
+      "tittel": "Vask dyne og puter",
+      "ikon": "vask",
+      "minutter": 15,
+      "intervall": "halvårlig",
+      "tips": "1–2 ganger i året, oftere ved allergi. Tørk grundig."
+    }
+  ]
+}

@@ -17,6 +17,8 @@ Appen er publisert som en Claude-artifact: https://claude.ai/artifact/WqsyM4joBe
 | `docs/oppgaver.md` | Implementeringsplanen i 16 steg, med avkrysning. |
 | `docs/illustrasjoner.md` | Motivliste, nøkkelord og prompt for nye bilder. |
 | `design/tokens.css`, `design/mockups/`, `design/referanser/` | Tokens, mockups fra Claude Design og inspirasjonsbilder. |
+| `data/sjekklister/*.json` | VaskMedMeg-planen: ukeplan, månedlige sjekklister for 8 rom og faste rutiner. Bygges inn i appen med `node verktoy/bygg-sjekklister.js`. |
+| `docs/vaskeplan.md` | Spesifikasjonen for vaskeplanen (30 minutter om dagen). |
 | `verktoy/fargejuster.py`, `verktoy/vektoriser.py` | Justerer nye AI-bilder til paletten og lager SVG. |
 
 `husorden.html` er skrevet for Claude-artifacter. Den har ingen `<html>`/`<head>`/`<body>`, fordi de legges på ved publisering.
@@ -27,7 +29,7 @@ Appen er publisert som en Claude-artifact: https://claude.ai/artifact/WqsyM4joBe
 node verktoy/server.js . 8765
 ```
 
-Åpne deretter http://localhost:8765. `forhandsvis.html` legger på det samme skallet som artifacten får. Lokalt lagres alt i nettleserens `localStorage`, og lista er tom til du legger inn oppgaver selv.
+Åpne deretter http://localhost:8765. Legg til `?dato=ÅÅÅÅ-MM-DD` for å teste en annen dag, f.eks. `/forhandsvis.html?dato=2026-11-30`. `forhandsvis.html` legger på det samme skallet som artifacten får. Lokalt lagres alt i nettleserens `localStorage`, og lista er tom til du legger inn oppgaver selv.
 
 ## Design: vaskerom-retningen
 
@@ -75,6 +77,9 @@ Tre samlinger i artifactens `db`:
 - `oppgave`: vanlig oppgave
 - `plan`: steg i «Dagens halvtime», sortert på `order`
 - `stor`: større ryddeoppgave som gjentas hver `every` uke
+
+- `sjekk/<rom>-<ÅÅÅÅ-MM>`: `{ <punktId>: { status, av, dato } }`. `status` er `vasket`, `fint` eller `tatt` (tatt av noen, ikke gjort ennå). `sjekk/startsvaner-<ÅÅÅÅ-MM>` holder startsvaner uten egen oppgave.
+- `planvalg/valg`: `startet`, `sistSteg`, `rutinerSpurt`, `rom` (`paa` og `dag` per rom) og `utsatt` (rutiner flyttet til en senere uke).
 
 `ikon` er valgfritt: filnavnet til et oppgavebilde uten `.png`. Uten `ikon` gjetter appen bilde fra tittelen (se `docs/illustrasjoner.md`).
 
