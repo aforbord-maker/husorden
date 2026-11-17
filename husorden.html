@@ -854,17 +854,17 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     ['lampe', ['lampe', 'belysning', 'lysarmatur']],
     ['sofa', ['sofa', 'lenestol']],
     ['skuffer', ['skuffer', 'rotskuff', 'baderomsskap', 'kjøkkenskap', 'skap innvendig']],
-    ['vask', ['sette på vask', 'vaske pledd', 'gardiner', 'putetrekk']],
+    ['vask', ['sette på vask', 'vaske pledd', 'gardiner', 'putetrekk', 'klesvask']],
     ['oppvaskmaskin', ['oppvaskmaskin', 'oppvask']],
     ['dekke-bordet', ['rydde kjøkkenet etter middag', 'dekke bordet']],
     ['brette', ['brette', 'tørkestativ', 'tørre klær', 'rent tøy']],
     /* Spesialtilfeller flyttet opp: «sortere leker» skal ikke gi søppelbøtte, og «sko … på plass» skal gi sko. */
     ['leker', ['leker', 'spill']],
     ['sko', ['sko', 'jakker', 'ytterklær']],
-    ['kurv', ['kveldsrydd', 'skittentøy', 'på plass', 'rydde flater', 'ryddeoppgave']],
+    ['kurv', ['kveldsrydd', 'skittentøy', 'på plass', 'rydde flater', 'ryddeoppgave', 'rydde etter deg', 'fri for rot']],
     ['sokker', ['sokker', 'pare']],
-    ['seng', ['re opp', 'madrass', 'seng']],
-    ['stovsuger', ['støvsuge']],
+    ['seng', ['re opp', 'madrass', /\bseng(en)?\b/]],
+    ['stovsuger', ['støvsug']],
     ['mopp', ['vaske gulv', 'gulvene']],
     ['kjokkenbenk', ['benker', 'benkene', 'vasken', 'komfyr', 'kran']],
     ['bad', ['bad', 'dusj', 'toalett', 'sluk', 'fliser']],
@@ -1122,7 +1122,7 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
         if (e.target.checked) dok[nokkel] = { status: 'vasket', av: null, dato: day }; else delete dok[nokkel];
         lagreSjekk(id, dok);
       } }),
-      h('div', { class: 'tekst' }, h('span', { class: 'miniikon tom', 'aria-hidden': 'true' }, glitterIkon(20)),
+      h('div', { class: 'tekst' }, miniIkon({ title: s.navn }),
         h('div', { class: 'linjer' }, h('label', { class: 'title', htmlFor: 'sv-' + s.i, text: s.navn }), h('span', { class: 'meta', text: '1–5 min · hver dag' }))),
       h('div', { class: 'hoyre' }, paa && h('span', { class: 'ico', innerHTML: GLITTER })));
   }
@@ -1228,9 +1228,9 @@ legend { font-size: .85rem; font-weight: 600; color: var(--krom); padding: 0; ma
     if (rader.length) {
       if (wd(parse(day)) > 5) ut.push(h('div', { class: 'group' },
         h('div', { class: 'planboks rosa' },
-          h('img', { src: 'assets/illustrasjoner/chillax.png', alt: '', width: 64, height: 64, decoding: 'async', style: 'float:right;margin:-4px -4px 4px 8px' }),
-          h('h3', { text: 'Chillax' }),
-          h('p', { text: 'Helg. Bare de fem startsvanene i dag, og mer bare hvis dere har lyst.' }),
+          h('div', { class: 'romhode' },
+            h('div', { class: 'kbody' }, h('h3', { text: 'Chillax' }), h('p', { text: 'Helg. Bare de fem startsvanene i dag, og mer bare hvis dere har lyst.' })),
+            h('img', { src: 'assets/illustrasjoner/chillax.png', alt: '', width: 64, height: 64, decoding: 'async' })),
           h('button', { type: 'button', id: 'chillax-mer', class: 'btn liten', onclick: () => gaaTil('sjekklister') }, 'Kryss av mer fra månedslistene')),
         h('ul', { class: 'tasks' }, rader)));
       else ut.push(h('div', { class: 'group' }, h('h3', { text: 'Startsvaner' }), h('ul', { class: 'tasks' }, rader)));

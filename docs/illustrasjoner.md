@@ -21,14 +21,14 @@ Hvert motiv finnes som `.svg` (vektor, masterfil – store filer, 400–700 KB) 
 | `lampe` | ✅ | lampe, belysning, lysarmatur |
 | `sofa` | ✅ | sofa, lenestol |
 | `skuffer` | ✅ | skuffer, rotskuff, baderomsskap, kjøkkenskap, skap innvendig |
-| `vask` | ✅ | sette på vask, vaske pledd, gardiner, putetrekk |
+| `vask` | ✅ | sette på vask, vaske pledd, gardiner, putetrekk, klesvask |
 | `oppvaskmaskin` | ✅ (tallerkener) | oppvaskmaskin, oppvask |
 | `dekke-bordet` | ✅ | rydde kjøkkenet etter middag, dekke bordet |
 | `brette` | ✅ | brette, tørkestativ, tørre klær, rent tøy |
-| `kurv` | ✅ (kurv med tøy) | kveldsrydd, skittentøy, på plass, rydde flater, ryddeoppgave |
+| `kurv` | ✅ (kurv med tøy) | kveldsrydd, skittentøy, på plass, rydde flater, ryddeoppgave, rydde etter deg, fri for rot |
 | `sokker` | ✅ | sokker, pare |
-| `seng` | ✅ | re opp, sengetøy, madrass |
-| `stovsuger` | ✅ | støvsuge, sofa |
+| `seng` | ✅ | re opp, madrass, seng/sengen som eget ord (ikke «sengene» eller «sengetøy») |
+| `stovsuger` | ✅ | støvsug |
 | `mopp` | ✅ | vaske gulv, gulvene |
 | `bad` | ✅ | bad, dusj, toalett, sluk, fliser |
 | `kjokkenbenk` | ✅ | benker, benkene, vasken, komfyr, kran |
