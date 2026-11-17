@@ -8,7 +8,7 @@
       "minutter": 1,
       "intervall": "daglig",
       "type": "vane",
-      "tips": "Nalsk vannet av med vindusnal og tørk med mikrofiberklut. Luft godt på badet.",
+      "tips": "Trekk vannet av glasset med en vindusnal og tørk med mikrofiberklut. Luft godt på badet.",
       "barn": true
     },
     {
@@ -17,7 +17,7 @@
       "ikon": "bad",
       "minutter": 10,
       "intervall": "ukentlig",
-      "tips": "Spray med hverdagsflasken, skrubb 1–2 min med hvitsvamp, skyll, nalsk og tørk."
+      "tips": "Spray med hverdagsflasken, skrubb 1–2 min med hvitsvamp, skyll, trekk av med nal og tørk."
     },
     {
       "id": "dusj-beskytt",
